@@ -1,2 +1,2 @@
 include ':com.aware.plugin.howareyou'
-//, ':com.aware.plugin.template.lib'
+//, ':com.aware.plugin.howareyou.lib'

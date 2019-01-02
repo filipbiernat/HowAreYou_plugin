@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">AWARE: Plugin Howareyou</string>
     <string name="plugin_template">Plugin: Howareyou</string>
+
+    <!-- Please refer to https://azure.microsoft.com/en-us/services/cognitive-services/face/ to get your subscription key -->
+    <!-- If you have subscription key with its corresponding endpoint, you can add them here to use the service -->
+    <string name="subscription_key">d9b091f42ea145d79d17c5d22f9e8f24</string>
+    <string name="endpoint">https://westeurope.api.cognitive.microsoft.com/face/v1.0</string>
 </resources>

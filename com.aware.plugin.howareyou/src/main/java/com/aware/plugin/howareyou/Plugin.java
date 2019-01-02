@@ -1,5 +1,6 @@
 package com.aware.plugin.howareyou;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.Screen;
+import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
@@ -40,8 +42,9 @@ public class Plugin extends Aware_Plugin {
 
         //Add permissions you need (Android M+).
         //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-        //REQUIRED_PERMISSIONS.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        REQUIRED_PERMISSIONS.add(Manifest.permission.INTERNET);
+        REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
+        REQUIRED_PERMISSIONS.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     /**
@@ -102,7 +105,8 @@ public class Plugin extends Aware_Plugin {
 
                 @Override
                 public void onScreenUnlocked() {
-                    PackageManager pkgManager = getApplicationContext().getPackageManager();
+                    Log.d("AWARE FILIP", "Phone unlocked");
+                    /*PackageManager pkgManager = getApplicationContext().getPackageManager();
                     try {
                         PackageInfo bundle = pkgManager.getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_SERVICES);
                         if (bundle.services == null) return;
@@ -115,7 +119,11 @@ public class Plugin extends Aware_Plugin {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
+
+
+                    Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
+                    startService(serviceIntent);
                 }
             });
 

@@ -5,7 +5,7 @@ android {
     buildToolsVersion build_tools
 
     defaultConfig {
-        applicationId "com.aware.plugin.template" //EDIT ME
+        applicationId "com.aware.plugin.howareyou" //EDIT ME
         minSdkVersion minimum_sdk
         targetSdkVersion target_sdk
         versionCode version_code
@@ -56,5 +56,11 @@ dependencies {
 
     api "com.github.denzilferreira:aware-client:$aware_libs"
     //implementation project(':aware-core')
+
+    //Android Face Detection
+    implementation 'com.google.android.gms:play-services-vision:11.8.0'
+
+    // Use the following line to include client library for Face API from Maven Central Repository
+    implementation 'com.microsoft.projectoxford:face:1.4.3'
 
 }

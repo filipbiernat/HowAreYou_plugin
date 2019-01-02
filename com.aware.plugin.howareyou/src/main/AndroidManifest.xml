@@ -4,6 +4,10 @@
     package="com.aware.plugin.howareyou">
 
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -37,6 +41,11 @@
             </intent-filter>
             <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/sync_template" />
         </service>
+
+        <service
+            android:name=".photo.EmotionRecognitionService"
+            android:enabled="true"
+            android:exported="true"></service>
 
     </application>
 </manifest>
