@@ -22,21 +22,21 @@ import java.util.HashMap;
 
 public class Provider extends ContentProvider {
 
-    public static String AUTHORITY = "com.aware.plugin.howareyou.provider.xxx"; //change to package.provider.your_plugin_name
+    public static String AUTHORITY = "com.aware.plugin.howareyou.provider.howareyou"; //change to package.provider.your_plugin_name
 
-    public static final int DATABASE_VERSION = 1; //increase this if you make changes to the database structure, i.e., rename columns, etc.
-    public static final String DATABASE_NAME = "plugin_template.db"; //the database filename, use plugin_xxx for plugins.
+    public static final int DATABASE_VERSION = 5; //increase this if you make changes to the database structure, i.e., rename columns, etc.
+    public static final String DATABASE_NAME = "plugin_howareyou.db"; //the database filename, use plugin_xxx for plugins.
 
     //Add here your database table names, as many as you need
-    public static final String DB_TBL_TEMPLATE = "table_one";
+    public static final String DB_TBL_HOWAREYOU_PHOTO = "photo_data";
 
     //For each table, add two indexes: DIR and ITEM. The index needs to always increment. Next one is 3, and so on.
-    private static final int TABLE_ONE_DIR = 1;
-    private static final int TABLE_ONE_ITEM = 2;
+    private static final int PHOTO_DATA_DIR = 1;
+    private static final int PHOTO_DATA_ITEM = 2;
 
     //Put tables names in this array so AWARE knows what you have on the database
     public static final String[] DATABASE_TABLES = {
-        DB_TBL_TEMPLATE
+        DB_TBL_HOWAREYOU_PHOTO
     };
 
     //These are columns that we need to sync data, don't change this!
@@ -50,31 +50,41 @@ public class Provider extends ContentProvider {
      * Create one of these per database table
      * In this example, we are adding example columns
      */
-    public static final class TableOne_Data implements AWAREColumns {
-        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + DB_TBL_TEMPLATE);
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.table_one"; //modify me
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.table_one"; //modify me
+    public static final class Table_Photo_Data implements AWAREColumns {
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + DB_TBL_HOWAREYOU_PHOTO);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.photo_data"; //modify me
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.photo_data"; //modify me
 
         //Note: integers and strings don't need a type prefix_
-        public static final String NAME = "name";
-        public static final String BIG_NUMBER = "double_big_number"; //a double_ prefix makes a MySQL DOUBLE column
-        public static final String PICTURE = "blob_picture"; //a blob_ prefix makes a MySQL BLOB column
+        public static final String ANGER     = "double_anger";
+        public static final String CONTEMPT  = "double_contempt";
+        public static final String DISGUST   = "double_disgust";
+        public static final String FEAR      = "double_fear";
+        public static final String HAPPINESS = "double_happiness";
+        public static final String NEUTRAL   = "double_neutral";
+        public static final String SADNESS   = "double_sadness";
+        public static final String SURPRISE  = "double_surprise";
     }
 
     //Define each database table fields
-    private static final String DB_TBL_TEMPLATE_FIELDS =
-        TableOne_Data._ID + " integer primary key autoincrement," +
-        TableOne_Data.TIMESTAMP + " real default 0," +
-        TableOne_Data.DEVICE_ID + " text default ''," +
-        TableOne_Data.NAME + " text default ''," +
-        TableOne_Data.BIG_NUMBER + " real default 0," +
-        TableOne_Data.PICTURE + " blob default null";
+    private static final String DB_TBL_HOWAREYOU_PHOTO_FIELDS =
+        Table_Photo_Data._ID + " integer primary key autoincrement," +
+        Table_Photo_Data.TIMESTAMP + " real default 0," +
+        Table_Photo_Data.DEVICE_ID + " text default ''," +
+        Table_Photo_Data.ANGER + " real default 0," +
+        Table_Photo_Data.CONTEMPT + " real default 0," +
+        Table_Photo_Data.DISGUST + " real default 0," +
+        Table_Photo_Data.FEAR + " real default 0," +
+        Table_Photo_Data.HAPPINESS + " real default 0," +
+        Table_Photo_Data.NEUTRAL + " real default 0," +
+        Table_Photo_Data.SADNESS + " real default 0," +
+        Table_Photo_Data.SURPRISE + " real default 0";
 
     /**
      * Share the fields with AWARE so we can replicate the table schema on the server
      */
     public static final String[] TABLES_FIELDS = {
-            DB_TBL_TEMPLATE_FIELDS
+            DB_TBL_HOWAREYOU_PHOTO_FIELDS
     };
 
     //Helper variables for ContentProvider - DO NOT CHANGE
@@ -97,7 +107,7 @@ public class Provider extends ContentProvider {
      * @return
      */
     public static String getAuthority(Context context) {
-        AUTHORITY = context.getPackageName() + ".provider.xxx";
+        AUTHORITY = context.getPackageName() + ".provider.howareyou";
         return AUTHORITY;
     }
 
@@ -109,17 +119,24 @@ public class Provider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         //For each table, add indexes DIR and ITEM
-        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0], TABLE_ONE_DIR);
-        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0] + "/#", TABLE_ONE_ITEM);
+        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0], PHOTO_DATA_DIR);
+        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0] + "/#", PHOTO_DATA_ITEM);
 
         //Create each table hashmap so Android knows how to insert data to the database. Put ALL table fields.
         tableOneHash = new HashMap<>();
-        tableOneHash.put(TableOne_Data._ID, TableOne_Data._ID);
-        tableOneHash.put(TableOne_Data.TIMESTAMP, TableOne_Data.TIMESTAMP);
-        tableOneHash.put(TableOne_Data.DEVICE_ID, TableOne_Data.DEVICE_ID);
-        tableOneHash.put(TableOne_Data.NAME, TableOne_Data.NAME);
-        tableOneHash.put(TableOne_Data.BIG_NUMBER, TableOne_Data.BIG_NUMBER);
-        tableOneHash.put(TableOne_Data.PICTURE, TableOne_Data.PICTURE);
+        tableOneHash.put(Table_Photo_Data._ID, Table_Photo_Data._ID);
+        tableOneHash.put(Table_Photo_Data.TIMESTAMP, Table_Photo_Data.TIMESTAMP);
+        tableOneHash.put(Table_Photo_Data.DEVICE_ID, Table_Photo_Data.DEVICE_ID);
+
+        tableOneHash.put(Table_Photo_Data.ANGER, Table_Photo_Data.ANGER);
+        tableOneHash.put(Table_Photo_Data.CONTEMPT, Table_Photo_Data.CONTEMPT);
+        tableOneHash.put(Table_Photo_Data.DISGUST, Table_Photo_Data.DISGUST);
+        tableOneHash.put(Table_Photo_Data.FEAR, Table_Photo_Data.FEAR);
+        tableOneHash.put(Table_Photo_Data.HAPPINESS, Table_Photo_Data.HAPPINESS);
+        tableOneHash.put(Table_Photo_Data.NEUTRAL, Table_Photo_Data.NEUTRAL);
+        tableOneHash.put(Table_Photo_Data.SADNESS, Table_Photo_Data.SADNESS);
+        tableOneHash.put(Table_Photo_Data.SURPRISE, Table_Photo_Data.SURPRISE);
+
 
         return true;
     }
@@ -134,7 +151,7 @@ public class Provider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             //Add each table DIR case, increasing the index accordingly
-            case TABLE_ONE_DIR:
+            case PHOTO_DATA_DIR:
                 count = database.delete(DATABASE_TABLES[0], selection, selectionArgs);
                 break;
 
@@ -154,6 +171,7 @@ public class Provider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues initialValues) {
 
+        Log.d("AWARE::HowAreYou", "FILIP Insert");
         initialiseDatabase();
 
         ContentValues values = (initialValues != null) ? new ContentValues(initialValues) : new ContentValues();
@@ -163,12 +181,12 @@ public class Provider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             //Add each table DIR case
-            case TABLE_ONE_DIR:
-                long _id = database.insert(DATABASE_TABLES[0], TableOne_Data.DEVICE_ID, values);
+            case PHOTO_DATA_DIR:
+                long _id = database.insert(DATABASE_TABLES[0], Table_Photo_Data.DEVICE_ID, values);
                 database.setTransactionSuccessful();
                 database.endTransaction();
                 if (_id > 0) {
-                    Uri dataUri = ContentUris.withAppendedId(TableOne_Data.CONTENT_URI, _id);
+                    Uri dataUri = ContentUris.withAppendedId(Table_Photo_Data.CONTENT_URI, _id);
                     getContext().getContentResolver().notifyChange(dataUri, null);
                     return dataUri;
                 }
@@ -190,7 +208,7 @@ public class Provider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             //Add all tables' DIR entries, with the right table index
-            case TABLE_ONE_DIR:
+            case PHOTO_DATA_DIR:
                 qb.setTables(DATABASE_TABLES[0]);
                 qb.setProjectionMap(tableOneHash); //the hashmap of the table
                 break;
@@ -218,10 +236,10 @@ public class Provider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             //Add each table indexes DIR and ITEM
-            case TABLE_ONE_DIR:
-                return TableOne_Data.CONTENT_TYPE;
-            case TABLE_ONE_ITEM:
-                return TableOne_Data.CONTENT_ITEM_TYPE;
+            case PHOTO_DATA_DIR:
+                return Table_Photo_Data.CONTENT_TYPE;
+            case PHOTO_DATA_ITEM:
+                return Table_Photo_Data.CONTENT_ITEM_TYPE;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -239,7 +257,7 @@ public class Provider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             //Add each table DIR case
-            case TABLE_ONE_DIR:
+            case PHOTO_DATA_DIR:
                 count = database.update(DATABASE_TABLES[0], values, selection, selectionArgs);
                 break;
 

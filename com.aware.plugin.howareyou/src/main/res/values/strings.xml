@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">AWARE: Plugin Howareyou</string>
-    <string name="plugin_template">Plugin: Howareyou</string>
+    <string name="app_name">AWARE: Plugin HowAreYou</string>
+    <string name="plugin_howareyou">Plugin: HowAreYou</string>
 
     <!-- Please refer to https://azure.microsoft.com/en-us/services/cognitive-services/face/ to get your subscription key -->
     <!-- If you have subscription key with its corresponding endpoint, you can add them here to use the service -->

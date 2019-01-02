@@ -5,16 +5,16 @@ This plugin measures ...
 
 # Settings
 Parameters adjustable on the dashboard and client:
-- **status_plugin_template**: (boolean) activate/deactivate plugin
+- **status_plugin_howareyou**: (boolean) activate/deactivate plugin
 
 # Broadcasts
-**ACTION_AWARE_PLUGIN_TEMPLATE**
+**ACTION_AWARE_PLUGIN_HOWAREYOU**
 Broadcast ..., with the following extras:
 - **value_1**: (double) amount of time turned off (milliseconds)
 
 # Providers
 ##  Template Data
-> content://com.aware.plugin.howareyou.provider.xxx/plugin_template
+> content://com.aware.plugin.howareyou.provider.howareyou/plugin_howareyou
 
 Field | Type | Description
 ----- | ---- | -----------

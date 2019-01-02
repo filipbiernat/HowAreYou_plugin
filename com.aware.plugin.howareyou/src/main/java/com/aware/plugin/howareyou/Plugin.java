@@ -72,7 +72,7 @@ public class Plugin extends Aware_Plugin {
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
 ;
             //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.STATUS_PLUGIN_TEMPLATE, true);
+            Aware.setSetting(this, Settings.STATUS_PLUGIN_HOWAREYOU, true);
 
             /**
              * Example of how to enable accelerometer sensing and how to access the data in real-time for your app.
@@ -106,21 +106,6 @@ public class Plugin extends Aware_Plugin {
                 @Override
                 public void onScreenUnlocked() {
                     Log.d("AWARE FILIP", "Phone unlocked");
-                    /*PackageManager pkgManager = getApplicationContext().getPackageManager();
-                    try {
-                        PackageInfo bundle = pkgManager.getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_SERVICES);
-                        if (bundle.services == null) return;
-
-                        StringBuilder pluginsPackagesInstalled = new StringBuilder();
-                        pluginsPackagesInstalled.append("(");
-
-                        for(ServiceInfo serviceInfo : bundle.services) {
-                            Log.d(Aware.TAG, "FILIP plugin service " + serviceInfo.name);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
-
 
                     Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
                     startService(serviceIntent);
@@ -158,7 +143,7 @@ public class Plugin extends Aware_Plugin {
             );
         }
 
-        Aware.setSetting(this, Settings.STATUS_PLUGIN_TEMPLATE, false);
+        Aware.setSetting(this, Settings.STATUS_PLUGIN_HOWAREYOU, false);
 
         //Stop AWARE instance in plugin
         Aware.stopAWARE(this);

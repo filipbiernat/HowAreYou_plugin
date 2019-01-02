@@ -24,12 +24,12 @@
             android:name="com.aware.plugin.howareyou.Settings"
             android:exported="true" />
 
-        <!-- Keep the ${applicationId} so there are no conflicts when merging this plugin as a library for reuse. Update the plugin_template string in values -->
+        <!-- Keep the ${applicationId} so there are no conflicts when merging this plugin as a library for reuse. Update the plugin_howareyou string in values -->
         <provider
             android:name="com.aware.plugin.howareyou.Provider"
-            android:authorities="${applicationId}.provider.xxx"
+            android:authorities="${applicationId}.provider.howareyou"
             android:exported="true"
-            android:label="@string/plugin_template"
+            android:label="@string/plugin_howareyou"
             android:readPermission="com.aware.READ_CONTEXT_DATA"
             android:writePermission="com.aware.WRITE_CONTEXT_DATA" />
 

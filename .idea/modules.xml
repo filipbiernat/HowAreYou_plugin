@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/aware-plugin-template.iml" filepath="$PROJECT_DIR$/aware-plugin-template.iml" />
-      <module fileurl="file://C:\Users\ferre\StudioProjects\aware-plugin-template\com.aware.plugin.template\com.aware.plugin.template.iml" filepath="C:\Users\ferre\StudioProjects\aware-plugin-template\com.aware.plugin.template\com.aware.plugin.template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aware-plugin-howareyou.iml" filepath="$PROJECT_DIR$/aware-plugin-howareyou.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.aware.plugin.howareyou/com.aware.plugin.howareyou.iml" filepath="$PROJECT_DIR$/com.aware.plugin.howareyou/com.aware.plugin.howareyou.iml" />
     </modules>
   </component>
 </project>

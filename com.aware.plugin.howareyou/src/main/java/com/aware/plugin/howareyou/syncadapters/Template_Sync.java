@@ -27,7 +27,7 @@ public class Template_Sync extends Service {
                 sSyncAdapter.init(
                         Provider.DATABASE_TABLES, Provider.TABLES_FIELDS,
                         new Uri[]{
-                                Provider.TableOne_Data.CONTENT_URI
+                                Provider.Table_Photo_Data.CONTENT_URI
                         }
                 );
             }

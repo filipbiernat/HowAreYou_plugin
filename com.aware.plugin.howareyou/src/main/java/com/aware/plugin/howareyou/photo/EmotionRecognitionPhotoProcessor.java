@@ -1,12 +1,16 @@
 package com.aware.plugin.howareyou.photo;
 
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.Build;
 import android.os.Environment;
 import android.util.SparseArray;
 
+import com.aware.Aware;
+import com.aware.Aware_Preferences;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -19,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+
+import static com.aware.plugin.howareyou.Provider.*;
+import static java.lang.Double.max;
 
 class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableListener {
     private final EmotionRecognitionService emotionRecognitionService;
@@ -92,6 +99,7 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         emotionRecognitionService.logDebug("Emotion recognition succeeded.");
         emotionRecognitionService.logDebug("Detected emotions: " + getEmotionsString(emotions));
         //FIXME FB TODO broadcast the results
+        insertTheAnswers(emotions);
         emotionRecognitionService.stopSelf();
     }
 
@@ -112,5 +120,23 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         sb.append(" Sadness: ").append(emotions.sadness);
         sb.append(" Surprise: ").append(emotions.surprise);
         return sb.toString();
+    }
+
+    private void insertTheAnswers(Emotion emotions){
+        ContentValues answer = new ContentValues();
+        answer.put(Table_Photo_Data.DEVICE_ID, Aware.getSetting(emotionRecognitionService.getApplicationContext(),
+                Aware_Preferences.DEVICE_ID));
+        answer.put(Table_Photo_Data.TIMESTAMP, System.currentTimeMillis());
+
+        answer.put(Table_Photo_Data.ANGER, emotions.anger);
+        answer.put(Table_Photo_Data.CONTEMPT, emotions.contempt);
+        answer.put(Table_Photo_Data.DISGUST, emotions.disgust);
+        answer.put(Table_Photo_Data.FEAR, emotions.fear);
+        answer.put(Table_Photo_Data.HAPPINESS, emotions.happiness);
+        answer.put(Table_Photo_Data.NEUTRAL, emotions.neutral);
+        answer.put(Table_Photo_Data.SADNESS, emotions.sadness);
+        answer.put(Table_Photo_Data.SURPRISE, emotions.surprise);
+
+        emotionRecognitionService.getContentResolver().insert(Table_Photo_Data.CONTENT_URI, answer);
     }
 }
