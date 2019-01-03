@@ -3,10 +3,33 @@
     android:key="plugin_howareyou"
     android:title="@string/app_name">
 
-    <CheckBoxPreference
-        android:key="status_plugin_howareyou"
-        android:defaultValue="false"
-        android:persistent="true"
-        android:summary="Activate/deactivate plugin" />
+    <PreferenceCategory android:title="Ustawienia">
+
+        <CheckBoxPreference
+            android:key="status_plugin_howareyou"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Uruchom skanowanie nastroju." />
+
+        <CheckBoxPreference
+            android:key="status_photo"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Wykrywaj nastrój z użyciem kamery." />
+
+        <CheckBoxPreference
+            android:key="status_response"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Pytaj o nastrój z użyciem przycisków." />
+
+        <CheckBoxPreference
+            android:key="status_color"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Pytaj o nastrój z użyciem palety kolorów." />
+
+        <!-- TODO KALIBRACJA -->
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -202,8 +202,6 @@ public class Provider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues initialValues) {
-
-        Log.d("AWARE::HowAreYou", "FILIP Insert");
         initialiseDatabase();
 
         ContentValues values = (initialValues != null) ? new ContentValues(initialValues) : new ContentValues();
