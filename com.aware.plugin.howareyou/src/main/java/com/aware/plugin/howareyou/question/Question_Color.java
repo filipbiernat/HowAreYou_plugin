@@ -1,11 +1,15 @@
 package com.aware.plugin.howareyou.question;
 
+import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.aware.Aware;
+import com.aware.Aware_Preferences;
+import com.aware.plugin.howareyou.Provider;
 import com.aware.plugin.howareyou.R;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
@@ -92,7 +96,9 @@ public class Question_Color extends AppCompatActivity {
             savedResponse = true;
             logDebug("Save response: Selected color: " + Integer.toHexString(getSelectedColor()));
 
-            //FIXME FB use selected color
+            insertTheAnswers();
+            //FIXME FB TODO broadcast the results
+
             closeDialog();
 
         } else {
@@ -115,6 +121,24 @@ public class Question_Color extends AppCompatActivity {
         {
             userResponseTimeoutMonitor.setDisplayTimestamp(System.currentTimeMillis());
         }
+    }
+
+    private void insertTheAnswers() {
+        final int MASK = 0xFF;
+        int colorRed   = (selectedColor >> 16) & MASK;
+        int colorGreen = (selectedColor >>  8) & MASK;
+        int colorBlue  = (selectedColor      ) & MASK;
+
+        ContentValues answer = new ContentValues();
+        answer.put(Provider.Table_Color_Data.DEVICE_ID, Aware.getSetting(getApplicationContext(),
+                Aware_Preferences.DEVICE_ID));
+        answer.put(Provider.Table_Color_Data.TIMESTAMP, System.currentTimeMillis());
+
+        answer.put(Provider.Table_Color_Data.COLOR_RED,   colorRed);
+        answer.put(Provider.Table_Color_Data.COLOR_GREEN, colorGreen);
+        answer.put(Provider.Table_Color_Data.COLOR_BLUE,  colorBlue);
+
+        getContentResolver().insert(Provider.Table_Color_Data.CONTENT_URI, answer);
     }
 
     class TimeoutMonitor extends AsyncTask<Void, Void, Void> {
