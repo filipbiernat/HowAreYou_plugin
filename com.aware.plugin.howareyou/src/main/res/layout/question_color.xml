@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/question_color_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:text="@string/question_color_title_text"/>
+
+    <TextView
+        android:id="@+id/question_color_instructions"
+        android:layout_below="@id/question_color_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/question_color_instructions_text"/>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/RelativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        >
+        <com.flask.colorpicker.ColorPickerView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/color_picker_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            app:alphaSlider="false"
+            app:density="12"
+            app:lightnessSlider="true"
+            app:lightnessSliderView="@+id/v_lightness_slider"
+            app:wheelType="FLOWER"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+
+        <com.flask.colorpicker.slider.LightnessSlider
+            android:id="@+id/v_lightness_slider"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/color_picker_view"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/question_color_cancel"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/question_color_cancel_text" />
+
+        <Button
+            android:id="@+id/question_color_submit"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/question_color_submit_text" />
+    </LinearLayout>
+
+</RelativeLayout>

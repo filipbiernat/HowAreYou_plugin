@@ -4,9 +4,6 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,7 +11,7 @@ import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.Screen;
-import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
+import com.aware.plugin.howareyou.question.Question_Color;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
@@ -106,9 +103,14 @@ public class Plugin extends Aware_Plugin {
                 @Override
                 public void onScreenUnlocked() {
                     Log.d("AWARE FILIP", "Phone unlocked");
+                    //FIXME FB
+                    //Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
+                    //startService(serviceIntent);
 
-                    Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
-                    startService(serviceIntent);
+                    Log.d("AWARE FILIP", "startActivity(survey)");
+                    Intent survey = new Intent(Plugin.this, Question_Color.class);
+                    survey.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Plugin.this.startActivity(survey);
                 }
             });
 

@@ -63,4 +63,6 @@ dependencies {
     // Use the following line to include client library for Face API from Maven Central Repository
     implementation 'com.microsoft.projectoxford:face:1.4.3'
 
+    implementation 'com.github.QuadFlask:colorpicker:0.0.13'
+
 }
