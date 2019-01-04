@@ -3,7 +3,7 @@
     android:key="plugin_howareyou"
     android:title="@string/app_name">
 
-    <PreferenceCategory android:title="Ustawienia">
+    <PreferenceCategory android:title="Działanie pluginu">
 
         <CheckBoxPreference
             android:key="status_plugin_howareyou"
@@ -11,6 +11,9 @@
             android:persistent="true"
             android:summary="Uruchom skanowanie nastroju." />
 
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Ustawienia szczegółowe">
         <CheckBoxPreference
             android:key="status_photo"
             android:defaultValue="false"

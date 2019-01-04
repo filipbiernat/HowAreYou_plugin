@@ -59,5 +59,14 @@
             android:excludeFromRecents="true">
         </activity>
 
+        <receiver android:name="com.aware.plugin.howareyou.PluginManager">
+            <intent-filter>
+                <action android:name="ACTION_START_QUESTION_COLOR" />
+                <action android:name="ACTION_ON_FINISHED_QUESTION_COLOR" />
+                <action android:name="ACTION_START_PHOTO_EMOTION_RECOGNITION" />
+                <action android:name="ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>

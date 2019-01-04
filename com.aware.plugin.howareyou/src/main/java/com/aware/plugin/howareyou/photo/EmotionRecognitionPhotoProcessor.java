@@ -1,16 +1,17 @@
 package com.aware.plugin.howareyou.photo;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.media.ImageReader;
-import android.os.Build;
 import android.os.Environment;
 import android.util.SparseArray;
 
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
+import com.aware.plugin.howareyou.PluginActions;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -24,8 +25,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
+import static com.aware.plugin.howareyou.PluginActions.ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION;
 import static com.aware.plugin.howareyou.Provider.*;
-import static java.lang.Double.max;
 
 class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableListener {
     private final EmotionRecognitionService emotionRecognitionService;
@@ -98,7 +99,10 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
     public void onSuccessfulEmotionDetection(Emotion emotions) {
         emotionRecognitionService.logDebug("Emotion recognition succeeded.");
         emotionRecognitionService.logDebug("Detected emotions: " + getEmotionsString(emotions));
-        //FIXME FB TODO broadcast the results
+
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION);
+        emotionRecognitionService.sendBroadcast(broadcastIntent);
+
         insertTheAnswers(emotions);
         emotionRecognitionService.stopSelf();
     }

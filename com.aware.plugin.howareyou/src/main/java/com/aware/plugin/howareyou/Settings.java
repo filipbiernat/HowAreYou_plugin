@@ -30,7 +30,6 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("AWARE FILIP" , "onResume");
 
         status = (CheckBoxPreference) findPreference(STATUS_PLUGIN_HOWAREYOU);
         if( Aware.getSetting(this, STATUS_PLUGIN_HOWAREYOU).length() == 0 ) {

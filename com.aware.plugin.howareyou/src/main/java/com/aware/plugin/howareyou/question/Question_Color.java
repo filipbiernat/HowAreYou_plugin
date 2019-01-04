@@ -1,6 +1,7 @@
 package com.aware.plugin.howareyou.question;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.Provider;
+import com.aware.plugin.howareyou.PluginActions;
 import com.aware.plugin.howareyou.R;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
@@ -97,7 +99,9 @@ public class Question_Color extends AppCompatActivity {
             logDebug("Save response: Selected color: " + Integer.toHexString(getSelectedColor()));
 
             insertTheAnswers();
-            //FIXME FB TODO broadcast the results
+
+            Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_COLOR);
+            sendBroadcast(broadcastIntent);
 
             closeDialog();
 

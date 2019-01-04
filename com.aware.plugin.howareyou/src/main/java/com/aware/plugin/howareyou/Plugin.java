@@ -1,8 +1,10 @@
 package com.aware.plugin.howareyou;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +13,13 @@ import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.Screen;
+import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
 import com.aware.plugin.howareyou.question.Question_Color;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
+
+    public static final String TAG = "AWARE::HowAreYou";
 
     @Override
     public void onCreate() {
@@ -22,8 +27,6 @@ public class Plugin extends Aware_Plugin {
 
         //This allows plugin data to be synced on demand from broadcast Aware#ACTION_AWARE_SYNC_DATA
         AUTHORITY = Provider.getAuthority(this);
-
-        TAG = "AWARE::"+getResources().getString(R.string.app_name);
 
         /**
          * Plugins share their current status, i.e., context using this method.
@@ -102,15 +105,13 @@ public class Plugin extends Aware_Plugin {
 
                 @Override
                 public void onScreenUnlocked() {
-                    Log.d("AWARE FILIP", "Phone unlocked");
+                    Log.d(TAG, "Phone unlocked");
                     //FIXME FB
                     //Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
                     //startService(serviceIntent);
 
-                    Log.d("AWARE FILIP", "startActivity(survey)");
-                    Intent survey = new Intent(Plugin.this, Question_Color.class);
-                    survey.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Plugin.this.startActivity(survey);
+                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
+                    sendBroadcast(broadcastIntent);
                 }
             });
 
@@ -150,4 +151,5 @@ public class Plugin extends Aware_Plugin {
         //Stop AWARE instance in plugin
         Aware.stopAWARE(this);
     }
+
 }
