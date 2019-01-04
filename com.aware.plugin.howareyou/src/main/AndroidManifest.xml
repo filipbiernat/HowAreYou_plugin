@@ -49,6 +49,11 @@
             android:enabled="true"
             android:exported="true"></service>
 
+        <service
+            android:name=".photo.PhotoNotificationDisplayService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".question.Question_Color"
             android:exported="true"

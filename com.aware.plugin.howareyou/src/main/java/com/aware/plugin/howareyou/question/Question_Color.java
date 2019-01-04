@@ -99,10 +99,6 @@ public class Question_Color extends AppCompatActivity {
             logDebug("Save response: Selected color: " + Integer.toHexString(getSelectedColor()));
 
             insertTheAnswers();
-
-            Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_COLOR);
-            sendBroadcast(broadcastIntent);
-
             closeDialog();
 
         } else {
@@ -111,6 +107,9 @@ public class Question_Color extends AppCompatActivity {
     }
 
     private void closeDialog() {
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_COLOR);
+        sendBroadcast(broadcastIntent);
+
         userResponseTimeoutMonitor = null;
         finish();
         moveTaskToBack(true);

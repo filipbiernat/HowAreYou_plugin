@@ -13,12 +13,24 @@
 
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia szczegółowe">
+    <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia kamery">
         <CheckBoxPreference
             android:key="@string/status_photo_key"
             android:defaultValue="false"
             android:persistent="true"
-            android:summary="Wykrywaj nastrój z użyciem kamery." />
+            android:summary="Wykrywaj nastrój z wykorzystaniem kamery." />
+
+        <CheckBoxPreference
+            android:key="@string/status_photo_notification_key"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Wyświetlaj przypomnienie, gdy kamera jest aktywna." />
+
+        <!-- TODO KALIBRACJA -->
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia użytkownika">
 
         <CheckBoxPreference
             android:key="@string/status_question_emoji_key"
@@ -31,8 +43,6 @@
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
-
-        <!-- TODO KALIBRACJA -->
     </PreferenceCategory>
 
 </PreferenceScreen>

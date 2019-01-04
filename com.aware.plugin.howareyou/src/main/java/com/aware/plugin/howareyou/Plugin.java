@@ -1,10 +1,8 @@
 package com.aware.plugin.howareyou;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +11,7 @@ import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.Screen;
-import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
-import com.aware.plugin.howareyou.question.Question_Color;
+import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
@@ -125,6 +122,10 @@ public class Plugin extends Aware_Plugin {
 
             //Initialise AWARE instance in plugin
             Aware.startAWARE(this);
+
+            //Launch photo notification if necessary
+            Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
+            startService(serviceIntent);
         }
 
         return START_STICKY;
@@ -148,5 +149,4 @@ public class Plugin extends Aware_Plugin {
         //Stop AWARE instance in plugin
         Aware.stopAWARE(this);
     }
-
 }

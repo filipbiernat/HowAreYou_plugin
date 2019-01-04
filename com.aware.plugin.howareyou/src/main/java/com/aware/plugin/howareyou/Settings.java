@@ -1,14 +1,15 @@
 package com.aware.plugin.howareyou;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.aware.Aware;
+import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -17,6 +18,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     public static final String STATUS_PHOTO = "status_photo";
     public static final String STATUS_QUESTION_EMOJI = "status_question_emoji";
     public static final String STATUS_QUESTION_COLOR = "status_question_color";
+    public static final String STATUS_PHOTO_NOTIFICATION = "status_photo_notification";
     //Pro tip: Don't forget to add also to the preferences.xml!
 
     //Plugin settings UI elements
@@ -33,12 +35,11 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     protected void onResume() {
         super.onResume();
-
-        Log.d("AWARE FILIP", "DEBUG onResume");
         resumeCheckBoxPreference(STATUS_PLUGIN_HOWAREYOU, true);
         resumeCheckBoxPreference(STATUS_PHOTO, true);
         resumeCheckBoxPreference(STATUS_QUESTION_EMOJI, true);
         resumeCheckBoxPreference(STATUS_QUESTION_COLOR, true);
+        resumeCheckBoxPreference(STATUS_PHOTO_NOTIFICATION, true);
     }
 
     private void resumeCheckBoxPreference(String preference, boolean defValue) {
@@ -52,12 +53,8 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference setting = findPreference(key);
-        Log.d("AWARE FILIP", "DEBUG onSharedPreferenceChanged");
-
 
         if( setting.getKey().equals(STATUS_PLUGIN_HOWAREYOU) ) {
-            Log.d("AWARE FILIP", "DEBUG onSharedPreferenceChanged. Setting: " +
-                    STATUS_PLUGIN_HOWAREYOU + ", val: " + sharedPreferences.getBoolean(key, false));
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
         }
         if (Aware.getSetting(this, STATUS_PLUGIN_HOWAREYOU).equals("true")) {
@@ -68,6 +65,10 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
 
         if( setting.getKey().equals(STATUS_PHOTO) ) {
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+
+            //Launch photo notification if necessary
+            Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
+            startService(serviceIntent);
         }
 
         if( setting.getKey().equals(STATUS_QUESTION_EMOJI) ) {
@@ -78,6 +79,12 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
         }
 
+        if( setting.getKey().equals(STATUS_PHOTO_NOTIFICATION) ) {
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
 
+            //Launch photo notification if necessary
+            Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
+            startService(serviceIntent);
+        }
     }
 }
