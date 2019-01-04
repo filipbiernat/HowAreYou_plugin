@@ -3,7 +3,7 @@
     android:key="plugin_howareyou"
     android:title="@string/app_name">
 
-    <PreferenceCategory android:title="Działanie pluginu">
+    <PreferenceCategory android:title="Plugin HowAreYou: Działanie">
 
         <CheckBoxPreference
             android:key="@string/status_plugin_howareyou_key"
@@ -13,7 +13,7 @@
 
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Ustawienia szczegółowe">
+    <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia szczegółowe">
         <CheckBoxPreference
             android:key="@string/status_photo_key"
             android:defaultValue="false"
@@ -32,7 +32,6 @@
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
 
-        <!-- TODO PLEC -->
         <!-- TODO KALIBRACJA -->
     </PreferenceCategory>
 

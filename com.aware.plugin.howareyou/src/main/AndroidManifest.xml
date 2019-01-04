@@ -23,6 +23,7 @@
         <activity
             android:name="com.aware.plugin.howareyou.Settings"
             android:exported="true"
+            android:theme="@style/Theme.AppCompat"
             android:label="HowAreYou Settings"/>
 
         <!-- Keep the ${applicationId} so there are no conflicts when merging this plugin as a library for reuse. Update the plugin_howareyou string in values -->
@@ -54,7 +55,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar.FullScreen"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true">
         </activity>
@@ -65,7 +66,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar.FullScreen"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true">
         </activity>
