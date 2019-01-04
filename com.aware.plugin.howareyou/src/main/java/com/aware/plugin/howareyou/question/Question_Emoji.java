@@ -28,8 +28,8 @@ public class Question_Emoji extends AppCompatActivity {
     private int selectedColor = COLOR_WHITE;
     private boolean inProgress = true;
     private boolean savedResponse = false;
-    private TimeoutMonitor activityTimeoutMonitor;
-    private TimeoutMonitor userResponseTimeoutMonitor;
+   // private TimeoutMonitor activityTimeoutMonitor;
+   // private TimeoutMonitor userResponseTimeoutMonitor;
 
     @Override
     protected void onResume() {
@@ -37,16 +37,17 @@ public class Question_Emoji extends AppCompatActivity {
         inProgress = true;
         savedResponse = false;
 
-        setContentView(R.layout.question_color);
+        setContentView(R.layout.question_emoji);
+        /*
         configureColorPicker();
         configureViewButtons();
 
         activityTimeoutMonitor = new TimeoutMonitor(System.currentTimeMillis(), ACTIVITY_TIMEOUT_SECONDS);
         activityTimeoutMonitor.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        userResponseTimeoutMonitor = null;
+        userResponseTimeoutMonitor = null;*/
     }
-
+/*
     private void configureViewButtons() {
         Button cancel = (Button) findViewById(R.id.question_color_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -174,5 +175,5 @@ public class Question_Emoji extends AppCompatActivity {
         if (DEBUG) {
             Log.d(TAG, debugString);
         }
-    }
+    }*/
 }

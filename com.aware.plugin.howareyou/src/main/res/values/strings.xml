@@ -6,8 +6,9 @@
     <!-- If you have subscription key with its corresponding endpoint, you can add them here to use the service -->
     <string name="subscription_key">d9b091f42ea145d79d17c5d22f9e8f24</string>
     <string name="endpoint">https://westeurope.api.cognitive.microsoft.com/face/v1.0</string>
-    <string name="question_color_title_text">Jak się dziś czujesz?</string>
+    <string name="question_title_text">Jak się dziś czujesz?</string>
     <string name="question_color_instructions_text">Wybierz odpowiedni kolor.</string>
+    <string name="question_emoji_instructions_text">Wybierz emoji, które najbardziej odpowiada Twojemu nastrojowi.</string>
     <string name="question_color_cancel_text">Anuluj</string>
     <string name="question_color_submit_text">Wybierz</string>
     <string name="status_photo_key">status_photo</string>

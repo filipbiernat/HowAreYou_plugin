@@ -11,7 +11,7 @@
         android:padding="16dp"
         android:textSize="18sp"
         android:textStyle="normal|bold"
-        android:text="@string/question_color_title_text"/>
+        android:text="@string/question_title_text"/>
 
     <TextView
         android:id="@+id/question_color_instructions"

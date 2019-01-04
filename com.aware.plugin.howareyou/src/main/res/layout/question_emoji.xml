@@ -11,7 +11,7 @@
         android:padding="16dp"
         android:textSize="18sp"
         android:textStyle="normal|bold"
-        android:text="@string/question_color_title_text"/>
+        android:text="@string/question_title_text"/>
 
     <TextView
         android:id="@+id/question_color_instructions"
@@ -19,63 +19,161 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="@string/question_color_instructions_text"/>
+        android:text="@string/question_emoji_instructions_text"/>
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/RelativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:padding="25dp"
+        android:layout_below="@id/question_color_instructions"
         >
-        <com.flask.colorpicker.ColorPickerView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/color_picker_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            app:alphaSlider="false"
-            app:density="12"
-            app:lightnessSlider="true"
-            app:lightnessSliderView="@+id/v_lightness_slider"
-            app:wheelType="FLOWER"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
 
-        <com.flask.colorpicker.slider.LightnessSlider
-            android:id="@+id/v_lightness_slider"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_below="@+id/color_picker_view"
+        <ImageView
+            android:id="@+id/button_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_happy"
             />
+        <TextView
+            android:id="@+id/text_happy"
+            android:layout_below="@id/button_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Szczęśliwa/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/button_excited"
+            android:layout_toEndOf="@id/button_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_excited"
+            />
+        <TextView
+            android:id="@+id/text_excited"
+            android:layout_below="@id/button_excited"
+            android:layout_toEndOf="@id/button_tender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Podekscytowana/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/button_tender"
+            android:layout_below="@id/text_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_tender"
+            />
+        <TextView
+            android:id="@+id/text_tender"
+            android:layout_below="@id/button_tender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Rozczulona/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/button_scared"
+            android:layout_toEndOf="@id/button_tender"
+            android:layout_below="@id/text_excited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_scared"
+            />
+        <TextView
+            android:id="@+id/text_scared"
+            android:layout_below="@id/button_scared"
+            android:layout_toEndOf="@id/button_tender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Przestraszona/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/button_angry"
+            android:layout_below="@id/text_tender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_angry"
+            />
+        <TextView
+            android:id="@+id/text_angry"
+            android:layout_below="@id/button_angry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Zła/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/button_sad"
+            android:layout_toEndOf="@id/button_angry"
+            android:layout_below="@id/text_scared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="110dp"
+            android:maxHeight="110dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/emotion_sad"
+            />
+        <TextView
+            android:id="@+id/text_sad"
+            android:layout_below="@id/button_sad"
+            android:layout_toEndOf="@id/button_angry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:width="110dp"
+            android:text="Smutna/y"
+            android:textSize="11dp"
+            android:paddingBottom="10dp"/>
+
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <Button
-            android:id="@+id/question_color_cancel"
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/question_color_cancel_text" />
-
-        <Button
-            android:id="@+id/question_color_submit"
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/question_color_submit_text" />
-    </LinearLayout>
 
 </RelativeLayout>
