@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Environment;
@@ -18,6 +20,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 import com.microsoft.projectoxford.face.contract.Emotion;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -51,13 +54,18 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
             buffer.get(bytes);
             saveImage(bytes);
 
-            if (faceDetected(bytes)) {
+            Bitmap bitmap = faceDetected(bytes);
+            if (bitmap != null) {
                 emotionRecognitionService.logDebug("Face detected.");
                 if (image != null) {
                     image.close();
                 }
 
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                byte[] bitmapData = bos.toByteArray();
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(bitmapData);
+
                 new EmotionRecognitionTask(this, emotionRecognitionService).execute(inputStream);
             } else {
                 emotionRecognitionService.logDebug("Face not detected. Retrying...");
@@ -89,11 +97,26 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         }
     }
 
-    private boolean faceDetected(byte[] bytes) {
+    private Bitmap faceDetected(byte[] bytes) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-        SparseArray<Face> faces = faceDetector.detect(frame);
-        return faces.size() == 1;
+
+        for (int i = 0; i < 4; ++i) {
+            bitmap = rotateImage(bitmap, 90 * i);
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+
+            SparseArray<Face> faces = faceDetector.detect(frame);
+            if (faces.size() == 1){
+                return bitmap;
+            }
+        }
+        return null;
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 
     public void onSuccessfulEmotionDetection(Emotion emotions) {

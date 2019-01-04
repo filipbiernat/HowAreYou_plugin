@@ -107,9 +107,7 @@ public class EmotionRecognitionService extends Service {
                 .setLandmarkType(FaceDetector.ALL_LANDMARKS)
                 .build();
 
-        //TODO for below consider:
-        // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        rotationSetting = 2;
+        rotationSetting = 0;
         rearCameraId = 1;
     }
 

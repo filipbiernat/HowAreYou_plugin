@@ -36,7 +36,6 @@ public class PhotoNotificationDisplayService extends Service {
         boolean photoNotificationEnabled = sharedPreferences.getBoolean(STATUS_PHOTO_NOTIFICATION, true);
 
         boolean launchNotification = cameraUsageEnabled && photoNotificationEnabled;
-        Log.d("AWARE FILIP DEBUG", "launchNotification: " + launchNotification);
         showPhotoNotification(launchNotification);
         return START_NOT_STICKY;
     }
