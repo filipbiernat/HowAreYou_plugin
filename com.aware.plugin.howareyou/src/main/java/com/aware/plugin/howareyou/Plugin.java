@@ -106,11 +106,8 @@ public class Plugin extends Aware_Plugin {
                 @Override
                 public void onScreenUnlocked() {
                     Log.d(TAG, "Phone unlocked");
-                    //FIXME FB
-                    //Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
-                    //startService(serviceIntent);
 
-                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
+                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
                     sendBroadcast(broadcastIntent);
                 }
             });

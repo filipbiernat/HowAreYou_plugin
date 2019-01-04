@@ -51,13 +51,12 @@ public class PluginManager extends BroadcastReceiver {
             question_ColorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(question_ColorIntent);
         } else {
-            Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
-            context.sendBroadcast(broadcastIntent);
+            onFinishedQuestion_Color(context);
         }
     }
 
     private void onFinishedQuestion_Color(Context context) {
-        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
         context.sendBroadcast(broadcastIntent);
     }
 
@@ -67,20 +66,21 @@ public class PluginManager extends BroadcastReceiver {
             question_EmojiIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(question_EmojiIntent);
         } else {
-            Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
-            context.sendBroadcast(broadcastIntent);
+            onFinishedQuestion_Emoji(context);
         }
     }
 
     private void onFinishedQuestion_Emoji(Context context) {
-        //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
-        //context.sendBroadcast(broadcastIntent);
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+        context.sendBroadcast(broadcastIntent);
     }
 
     private void startPhotoEmotionRecognition(Context context) {
         if (Aware.getSetting(context, STATUS_PHOTO).equals("true")) {
             Intent serviceIntent = new Intent(context, EmotionRecognitionService.class);
             context.startService(serviceIntent);
+        } else {
+            onFinishedPhotoEmotionRecognition(context);
         }
     }
 
