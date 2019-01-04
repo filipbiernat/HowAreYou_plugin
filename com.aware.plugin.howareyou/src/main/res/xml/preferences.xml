@@ -21,10 +21,10 @@
             android:summary="Wykrywaj nastrój z użyciem kamery." />
 
         <CheckBoxPreference
-            android:key="@string/status_question_buttons_key"
+            android:key="@string/status_question_emoji_key"
             android:defaultValue="false"
             android:persistent="true"
-            android:summary="Pytaj o nastrój z użyciem przycisków." />
+            android:summary="Pytaj o nastrój z użyciem emotinkon." />
 
         <CheckBoxPreference
             android:key="@string/status_question_color_key"
@@ -32,6 +32,7 @@
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
 
+        <!-- TODO PLEC -->
         <!-- TODO KALIBRACJA -->
     </PreferenceCategory>
 

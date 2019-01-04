@@ -8,8 +8,10 @@ import android.util.Log;
 import com.aware.Aware;
 import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
 import com.aware.plugin.howareyou.question.Question_Color;
+import com.aware.plugin.howareyou.question.Question_Emoji;
 
 import static com.aware.plugin.howareyou.Settings.STATUS_PHOTO;
+import static com.aware.plugin.howareyou.Settings.STATUS_QUESTION_EMOJI;
 import static com.aware.plugin.howareyou.Settings.STATUS_QUESTION_COLOR;
 
 public class PluginManager extends BroadcastReceiver {
@@ -25,6 +27,12 @@ public class PluginManager extends BroadcastReceiver {
             case PluginActions.ACTION_ON_FINISHED_QUESTION_COLOR:
                 onFinishedQuestion_Color(context);
                 break;
+            case PluginActions.ACTION_START_QUESTION_EMOJI:
+                startQuestion_Emoji(context);
+                break;
+            case PluginActions.ACTION_ON_FINISHED_QUESTION_EMOJI:
+                onFinishedQuestion_Emoji(context);
+                break;
             case PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION:
                 startPhotoEmotionRecognition(context);
                 break;
@@ -36,7 +44,6 @@ public class PluginManager extends BroadcastReceiver {
                 throw new IllegalArgumentException("Invalid action: " + action);
         }
     }
-
 
     private void startQuestion_Color(Context context) {
         if (Aware.getSetting(context, STATUS_QUESTION_COLOR).equals("true")) {
@@ -52,6 +59,22 @@ public class PluginManager extends BroadcastReceiver {
     private void onFinishedQuestion_Color(Context context) {
         Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
         context.sendBroadcast(broadcastIntent);
+    }
+
+    private void startQuestion_Emoji(Context context) {
+        if (Aware.getSetting(context, STATUS_QUESTION_EMOJI).equals("true")) {
+            Intent question_EmojiIntent = new Intent(context, Question_Emoji.class);
+            question_EmojiIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(question_EmojiIntent);
+        } else {
+            Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+            context.sendBroadcast(broadcastIntent);
+        }
+    }
+
+    private void onFinishedQuestion_Emoji(Context context) {
+        //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+        //context.sendBroadcast(broadcastIntent);
     }
 
     private void startPhotoEmotionRecognition(Context context) {

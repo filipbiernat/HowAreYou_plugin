@@ -12,6 +12,6 @@
     <string name="question_color_submit_text">Wybierz</string>
     <string name="status_photo_key">status_photo</string>
     <string name="status_question_color_key">status_question_color</string>
-    <string name="status_question_buttons_key">status_question_buttons</string>
+    <string name="status_question_emoji_key">status_question_emoji</string>
     <string name="status_plugin_howareyou_key">status_plugin_howareyou</string>
 </resources>

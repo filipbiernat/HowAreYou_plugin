@@ -15,7 +15,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     //Plugin settings in XML @xml/preferences
     public static final String STATUS_PLUGIN_HOWAREYOU = "status_plugin_howareyou";
     public static final String STATUS_PHOTO = "status_photo";
-    public static final String STATUS_QUESTION_BUTTONS = "status_question_buttons";
+    public static final String STATUS_QUESTION_EMOJI = "status_question_emoji";
     public static final String STATUS_QUESTION_COLOR = "status_question_color";
     //Pro tip: Don't forget to add also to the preferences.xml!
 
@@ -36,7 +36,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
 
         resumeCheckBoxPreference(STATUS_PLUGIN_HOWAREYOU, true);
         resumeCheckBoxPreference(STATUS_PHOTO, true);
-        resumeCheckBoxPreference(STATUS_QUESTION_BUTTONS, true);
+        resumeCheckBoxPreference(STATUS_QUESTION_EMOJI, true);
         resumeCheckBoxPreference(STATUS_QUESTION_COLOR, true);
     }
 
@@ -52,7 +52,10 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference setting = findPreference(key);
 
+
         if( setting.getKey().equals(STATUS_PLUGIN_HOWAREYOU) ) {
+            Log.d("AWARE FILIP", "onSharedPreferenceChanged. Setting: " +
+                    STATUS_PLUGIN_HOWAREYOU + ", val: " + sharedPreferences.getBoolean(key, false));
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
             status.setChecked(sharedPreferences.getBoolean(key, false));
         }
@@ -63,16 +66,22 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         }
 
         if( setting.getKey().equals(STATUS_PHOTO) ) {
+            Log.d("AWARE FILIP", "onSharedPreferenceChanged. Setting: " +
+                    STATUS_PHOTO + ", val: " + sharedPreferences.getBoolean(key, false));
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
             status.setChecked(sharedPreferences.getBoolean(key, false));
         }
 
-        if( setting.getKey().equals(STATUS_QUESTION_BUTTONS) ) {
+        if( setting.getKey().equals(STATUS_QUESTION_EMOJI) ) {
+            Log.d("AWARE FILIP", "onSharedPreferenceChanged. Setting: " +
+                    STATUS_QUESTION_EMOJI + ", val: " + sharedPreferences.getBoolean(key, false));
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
             status.setChecked(sharedPreferences.getBoolean(key, false));
         }
 
         if( setting.getKey().equals(STATUS_QUESTION_COLOR) ) {
+            Log.d("AWARE FILIP", "onSharedPreferenceChanged. Setting: " +
+                    STATUS_QUESTION_COLOR + ", val: " + sharedPreferences.getBoolean(key, false));
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
             status.setChecked(sharedPreferences.getBoolean(key, false));
         }

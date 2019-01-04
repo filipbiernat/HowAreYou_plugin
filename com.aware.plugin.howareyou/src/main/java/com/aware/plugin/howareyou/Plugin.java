@@ -110,7 +110,7 @@ public class Plugin extends Aware_Plugin {
                     //Intent serviceIntent = new Intent(Plugin.this, EmotionRecognitionService.class);
                     //startService(serviceIntent);
 
-                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
+                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
                     sendBroadcast(broadcastIntent);
                 }
             });
