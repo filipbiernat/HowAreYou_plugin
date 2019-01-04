@@ -1,35 +1,30 @@
 package com.aware.plugin.howareyou.question;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-
-import com.aware.Aware;
-import com.aware.Aware_Preferences;
+import android.widget.ImageView;
 import com.aware.plugin.howareyou.PluginActions;
-import com.aware.plugin.howareyou.Provider;
 import com.aware.plugin.howareyou.R;
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorChangedListener;
-import com.flask.colorpicker.OnColorSelectedListener;
 
 public class Question_Emoji extends AppCompatActivity {
 
     protected static final String TAG = "AWARE::HowAreYou::Qstn";
     protected static final Boolean DEBUG = true;
-    private static final int COLOR_WHITE = 0xFFFFFF;
     public static final int ACTIVITY_TIMEOUT_SECONDS = 10;
-    public static final int USER_RESPONSE_TIMEOUT_SECONDS = 3;
 
-    private int selectedColor = COLOR_WHITE;
+    private static final String EMOTION_HAPPY   = "happy";
+    private static final String EMOTION_EXCITED = "excited";
+    private static final String EMOTION_TENDER  = "tender";
+    private static final String EMOTION_SCARED  = "scared";
+    private static final String EMOTION_ANGRY   = "angry";
+    private static final String EMOTION_SAD     = "sad";
+
     private boolean inProgress = true;
     private boolean savedResponse = false;
-   // private TimeoutMonitor activityTimeoutMonitor;
-   // private TimeoutMonitor userResponseTimeoutMonitor;
+    private TimeoutMonitor activityTimeoutMonitor;
 
     @Override
     protected void onResume() {
@@ -38,68 +33,41 @@ public class Question_Emoji extends AppCompatActivity {
         savedResponse = false;
 
         setContentView(R.layout.question_emoji);
-        /*
-        configureColorPicker();
+
         configureViewButtons();
 
         activityTimeoutMonitor = new TimeoutMonitor(System.currentTimeMillis(), ACTIVITY_TIMEOUT_SECONDS);
-        activityTimeoutMonitor.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        userResponseTimeoutMonitor = null;*/
+        activityTimeoutMonitor.execute();
     }
-/*
     private void configureViewButtons() {
-        Button cancel = (Button) findViewById(R.id.question_color_cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        configureViewButton(R.id.button_happy,   EMOTION_HAPPY);
+        configureViewButton(R.id.button_excited, EMOTION_EXCITED);
+        configureViewButton(R.id.button_tender,  EMOTION_TENDER);
+        configureViewButton(R.id.button_scared,  EMOTION_SCARED);
+        configureViewButton(R.id.button_angry,   EMOTION_ANGRY);
+        configureViewButton(R.id.button_sad,     EMOTION_SAD);
+    }
+
+    private void configureViewButton(int buttonId, final String emotion) {
+        ImageView button = (ImageView) findViewById(buttonId);
+        button.setClickable(true);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 inProgress = false;
                 closeDialog();
-            }
-        });
-        Button submit = (Button) findViewById(R.id.question_color_submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inProgress = false;
-                saveResponse();
+                saveResponse(emotion);
             }
         });
     }
 
-    private void configureColorPicker() {
-        ColorPickerView colorPickerView = (ColorPickerView) findViewById(R.id.color_picker_view);
-        colorPickerView.addOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int selectedColor) {
-                setSelectedColor(selectedColor);
-            }
-        });
-        colorPickerView.addOnColorSelectedListener(new OnColorSelectedListener() {
-            @Override
-            public void onColorSelected(int selectedColor) {
-                setSelectedColor(selectedColor);
-            }
-        });
-    }
 
-    private void setSelectedColor(int selectedColor)
-    {
-        this.selectedColor = selectedColor & COLOR_WHITE;
-        resetUserResponseTimeoutMonitor();
-    }
-
-    private int getSelectedColor()
-    {
-        return selectedColor & COLOR_WHITE;
-    }
-
-    private void saveResponse() {
+    private void saveResponse(String emotion) {
         if (!savedResponse) {
             savedResponse = true;
-            logDebug("Save response: Selected color: " + Integer.toHexString(getSelectedColor()));
+            logDebug("Save response: Selected emotion: " + emotion + ".");
 
-            insertTheAnswers();
+            //insertTheAnswers();
 
             Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_EMOJI);
             sendBroadcast(broadcastIntent);
@@ -112,22 +80,10 @@ public class Question_Emoji extends AppCompatActivity {
     }
 
     private void closeDialog() {
-        userResponseTimeoutMonitor = null;
         finish();
         moveTaskToBack(true);
     }
-
-    private void resetUserResponseTimeoutMonitor() {
-        if (userResponseTimeoutMonitor == null) {
-            userResponseTimeoutMonitor = new TimeoutMonitor(System.currentTimeMillis(), USER_RESPONSE_TIMEOUT_SECONDS);
-            userResponseTimeoutMonitor.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        else
-        {
-            userResponseTimeoutMonitor.setDisplayTimestamp(System.currentTimeMillis());
-        }
-    }
-
+/*
     private void insertTheAnswers() {
         final int MASK = 0xFF;
         int colorRed   = (selectedColor >> 16) & MASK;
@@ -145,7 +101,7 @@ public class Question_Emoji extends AppCompatActivity {
 
         getContentResolver().insert(Provider.Table_Color_Data.CONTENT_URI, answer);
     }
-
+*/
     class TimeoutMonitor extends AsyncTask<Void, Void, Void> {
         private long displayTimestamp = 0;
         private int expiresInSeconds = 0;
@@ -162,12 +118,12 @@ public class Question_Emoji extends AppCompatActivity {
                 }
             }
             logDebug("Activity timer has expired. Timeout: " + expiresInSeconds + " sec.");
-            saveResponse();
-            return null;
-        }
 
-        public void setDisplayTimestamp(long displayTimestamp) {
-            this.displayTimestamp = displayTimestamp;
+            Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_EMOJI);
+            sendBroadcast(broadcastIntent);
+
+            closeDialog();
+            return null;
         }
     }
 
@@ -175,5 +131,5 @@ public class Question_Emoji extends AppCompatActivity {
         if (DEBUG) {
             Log.d(TAG, debugString);
         }
-    }*/
+    }
 }
