@@ -14,7 +14,7 @@ import com.aware.syncadapters.AwareSyncAdapter;
  *
  * This class tells what data is synched to the server. The Uri[] needs to be in the same order as the database tables and tables fields (due to the index in the array).
  */
-public class Template_Sync extends Service {
+public class HowAreYou_Sync extends Service {
     private AwareSyncAdapter sSyncAdapter = null;
     private static final Object sSyncAdapterLock = new Object();
 
@@ -27,7 +27,9 @@ public class Template_Sync extends Service {
                 sSyncAdapter.init(
                         Provider.DATABASE_TABLES, Provider.TABLES_FIELDS,
                         new Uri[]{
-                                Provider.Table_Photo_Data.CONTENT_URI
+                                Provider.Table_Photo_Data.CONTENT_URI,
+                                Provider.Table_Color_Data.CONTENT_URI,
+                                Provider.Table_Emotion_Data.CONTENT_URI
                         }
                 );
             }

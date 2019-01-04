@@ -1,12 +1,17 @@
 package com.aware.plugin.howareyou.question;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.aware.Aware;
+import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.PluginActions;
+import com.aware.plugin.howareyou.Provider;
 import com.aware.plugin.howareyou.R;
 
 public class Question_Emoji extends AppCompatActivity {
@@ -67,7 +72,7 @@ public class Question_Emoji extends AppCompatActivity {
             savedResponse = true;
             logDebug("Save response: Selected emotion: " + emotion + ".");
 
-            //insertTheAnswers();
+            insertTheAnswer(emotion);
 
             Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_QUESTION_EMOJI);
             sendBroadcast(broadcastIntent);
@@ -83,25 +88,24 @@ public class Question_Emoji extends AppCompatActivity {
         finish();
         moveTaskToBack(true);
     }
-/*
-    private void insertTheAnswers() {
-        final int MASK = 0xFF;
-        int colorRed   = (selectedColor >> 16) & MASK;
-        int colorGreen = (selectedColor >>  8) & MASK;
-        int colorBlue  = (selectedColor      ) & MASK;
 
+    private void insertTheAnswer(String emotion) {
         ContentValues answer = new ContentValues();
-        answer.put(Provider.Table_Color_Data.DEVICE_ID, Aware.getSetting(getApplicationContext(),
+        answer.put(Provider.Table_Emotion_Data.DEVICE_ID, Aware.getSetting(getApplicationContext(),
                 Aware_Preferences.DEVICE_ID));
-        answer.put(Provider.Table_Color_Data.TIMESTAMP, System.currentTimeMillis());
+        answer.put(Provider.Table_Emotion_Data.TIMESTAMP, System.currentTimeMillis());
 
-        answer.put(Provider.Table_Color_Data.COLOR_RED,   colorRed);
-        answer.put(Provider.Table_Color_Data.COLOR_GREEN, colorGreen);
-        answer.put(Provider.Table_Color_Data.COLOR_BLUE,  colorBlue);
 
-        getContentResolver().insert(Provider.Table_Color_Data.CONTENT_URI, answer);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_HAPPY,   emotion.equals(EMOTION_HAPPY  ) ? 1 : 0);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_EXCITED, emotion.equals(EMOTION_EXCITED) ? 1 : 0);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_TENDER,  emotion.equals(EMOTION_TENDER ) ? 1 : 0);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_SCARED,  emotion.equals(EMOTION_SCARED ) ? 1 : 0);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_ANGRY,   emotion.equals(EMOTION_ANGRY  ) ? 1 : 0);
+        answer.put(Provider.Table_Emotion_Data.EMOTION_SAD,     emotion.equals(EMOTION_SAD    ) ? 1 : 0);
+
+        getContentResolver().insert(Provider.Table_Emotion_Data.CONTENT_URI, answer);
     }
-*/
+
     class TimeoutMonitor extends AsyncTask<Void, Void, Void> {
         private long displayTimestamp = 0;
         private int expiresInSeconds = 0;

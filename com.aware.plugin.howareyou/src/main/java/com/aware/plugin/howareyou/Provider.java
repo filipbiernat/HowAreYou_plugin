@@ -24,22 +24,25 @@ public class Provider extends ContentProvider {
 
     public static String AUTHORITY = "com.aware.plugin.howareyou.provider.howareyou"; //change to package.provider.your_plugin_name
 
-    public static final int DATABASE_VERSION = 6; //increase this if you make changes to the database structure, i.e., rename columns, etc.
+    public static final int DATABASE_VERSION = 7; //increase this if you make changes to the database structure, i.e., rename columns, etc.
     public static final String DATABASE_NAME = "plugin_howareyou.db"; //the database filename, use plugin_xxx for plugins.
 
     //Add here your database table names, as many as you need
     public static final String DB_TBL_HOWAREYOU_PHOTO = "photo_data";
     public static final String DB_TBL_HOWAREYOU_COLOR = "color_data";
+    public static final String DB_TBL_HOWAREYOU_EMOTION = "emotion_data";
 
     //For each table, add two indexes: DIR and ITEM. The index needs to always increment. Next one is 3, and so on.
     private static final int PHOTO_DATA_DIR = 1;
     private static final int PHOTO_DATA_ITEM = 2;
     private static final int COLOR_DATA_DIR = 3;
     private static final int COLOR_DATA_ITEM = 4;
+    private static final int EMOTION_DATA_DIR = 5;
+    private static final int EMOTION_DATA_ITEM = 6;
 
     //Put tables names in this array so AWARE knows what you have on the database
     public static final String[] DATABASE_TABLES = {
-        DB_TBL_HOWAREYOU_PHOTO, DB_TBL_HOWAREYOU_COLOR
+        DB_TBL_HOWAREYOU_PHOTO, DB_TBL_HOWAREYOU_COLOR, DB_TBL_HOWAREYOU_EMOTION
     };
 
     //These are columns that we need to sync data, don't change this!
@@ -78,6 +81,19 @@ public class Provider extends ContentProvider {
         public static final String COLOR_GREEN = "color_green";
         public static final String COLOR_BLUE  = "color_blue";
     }
+    public static final class Table_Emotion_Data implements AWAREColumns {
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + DB_TBL_HOWAREYOU_EMOTION);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.emotion_data"; //modify me
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.emotion_data"; //modify me
+
+        //Note: integers and strings don't need a type prefix_
+        public static final String EMOTION_HAPPY   = "emotion_happy";
+        public static final String EMOTION_EXCITED = "emotion_excited";
+        public static final String EMOTION_TENDER  = "emotion_tender";
+        public static final String EMOTION_SCARED  = "emotion_scared";
+        public static final String EMOTION_ANGRY   = "emotion_angry";
+        public static final String EMOTION_SAD     = "emotion_sad";
+    }
 
     //Define each database table fields
     private static final String DB_TBL_HOWAREYOU_PHOTO_FIELDS =
@@ -99,12 +115,23 @@ public class Provider extends ContentProvider {
                     Table_Color_Data.COLOR_RED + " integer default 0," +
                     Table_Color_Data.COLOR_GREEN + " integer default 0," +
                     Table_Color_Data.COLOR_BLUE + " integer default 0";
+    private static final String DB_TBL_HOWAREYOU_EMOTION_FIELDS =
+            Table_Emotion_Data._ID + " integer primary key autoincrement," +
+                    Table_Emotion_Data.TIMESTAMP + " real default 0," +
+                    Table_Emotion_Data.DEVICE_ID + " text default ''," +
+                    Table_Emotion_Data.EMOTION_HAPPY + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_EXCITED + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_TENDER + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_SCARED + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_ANGRY + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_SAD + " integer default 0";
+
 
     /**
      * Share the fields with AWARE so we can replicate the table schema on the server
      */
     public static final String[] TABLES_FIELDS = {
-            DB_TBL_HOWAREYOU_PHOTO_FIELDS, DB_TBL_HOWAREYOU_COLOR_FIELDS
+            DB_TBL_HOWAREYOU_PHOTO_FIELDS, DB_TBL_HOWAREYOU_COLOR_FIELDS, DB_TBL_HOWAREYOU_EMOTION_FIELDS
     };
 
     //Helper variables for ContentProvider - DO NOT CHANGE
@@ -120,7 +147,7 @@ public class Provider extends ContentProvider {
     //--
 
     //For each table, create a hashmap needed for database queries
-    private HashMap<String, String> tablePhotoHash, tableColorHash;
+    private HashMap<String, String> tablePhotoHash, tableColorHash, tableEmotionHash;
 
     /**
      * Returns the provider authority that is dynamic
@@ -141,8 +168,13 @@ public class Provider extends ContentProvider {
         //For each table, add indexes DIR and ITEM
         sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0], PHOTO_DATA_DIR);
         sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[0] + "/#", PHOTO_DATA_ITEM);
+
         sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[1], COLOR_DATA_DIR);
         sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[1] + "/#", COLOR_DATA_ITEM);
+
+        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[2], EMOTION_DATA_DIR);
+        sUriMatcher.addURI(AUTHORITY, DATABASE_TABLES[2] + "/#", EMOTION_DATA_ITEM);
+        ///Important above!!! Protip: Do not skip!!!
 
         //Create each table hashmap so Android knows how to insert data to the database. Put ALL table fields.
         tablePhotoHash = new HashMap<>();
@@ -166,6 +198,18 @@ public class Provider extends ContentProvider {
         tableColorHash.put(Table_Color_Data.COLOR_GREEN, Table_Color_Data.COLOR_GREEN);
         tableColorHash.put(Table_Color_Data.COLOR_BLUE, Table_Color_Data.COLOR_BLUE);
 
+
+        tableEmotionHash = new HashMap<>();
+        tableEmotionHash.put(Table_Emotion_Data._ID, Table_Emotion_Data._ID);
+        tableEmotionHash.put(Table_Emotion_Data.TIMESTAMP, Table_Emotion_Data.TIMESTAMP);
+        tableEmotionHash.put(Table_Emotion_Data.DEVICE_ID, Table_Emotion_Data.DEVICE_ID);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_HAPPY, Table_Emotion_Data.EMOTION_HAPPY);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_EXCITED, Table_Emotion_Data.EMOTION_EXCITED);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_TENDER, Table_Emotion_Data.EMOTION_TENDER);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SCARED, Table_Emotion_Data.EMOTION_SCARED);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_ANGRY, Table_Emotion_Data.EMOTION_ANGRY);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SAD, Table_Emotion_Data.EMOTION_SAD);
+
         return true;
     }
 
@@ -185,6 +229,10 @@ public class Provider extends ContentProvider {
 
             case COLOR_DATA_DIR:
                 count = database.delete(DATABASE_TABLES[1], selection, selectionArgs);
+                break;
+
+            case EMOTION_DATA_DIR:
+                count = database.delete(DATABASE_TABLES[2], selection, selectionArgs);
                 break;
 
             default:
@@ -235,6 +283,18 @@ public class Provider extends ContentProvider {
                 database.endTransaction();
                 throw new SQLException("Failed to insert row into " + uri);
             }
+            case EMOTION_DATA_DIR: {
+                long _id = database.insert(DATABASE_TABLES[2], Table_Color_Data.DEVICE_ID, values);
+                database.setTransactionSuccessful();
+                database.endTransaction();
+                if (_id > 0) {
+                    Uri dataUri = ContentUris.withAppendedId(Table_Color_Data.CONTENT_URI, _id);
+                    getContext().getContentResolver().notifyChange(dataUri, null);
+                    return dataUri;
+                }
+                database.endTransaction();
+                throw new SQLException("Failed to insert row into " + uri);
+            }
             default:
                 database.endTransaction();
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -259,6 +319,11 @@ public class Provider extends ContentProvider {
             case COLOR_DATA_DIR:
                 qb.setTables(DATABASE_TABLES[1]);
                 qb.setProjectionMap(tableColorHash); //the hashmap of the table
+                break;
+
+            case EMOTION_DATA_DIR:
+                qb.setTables(DATABASE_TABLES[2]);
+                qb.setProjectionMap(tableEmotionHash); //the hashmap of the table
                 break;
 
             default:
@@ -292,6 +357,10 @@ public class Provider extends ContentProvider {
                 return Table_Color_Data.CONTENT_TYPE;
             case COLOR_DATA_ITEM:
                 return Table_Color_Data.CONTENT_ITEM_TYPE;
+            case EMOTION_DATA_DIR:
+                return Table_Emotion_Data.CONTENT_TYPE;
+            case EMOTION_DATA_ITEM:
+                return Table_Emotion_Data.CONTENT_ITEM_TYPE;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -314,6 +383,9 @@ public class Provider extends ContentProvider {
                 break;
             case COLOR_DATA_DIR:
                 count = database.update(DATABASE_TABLES[1], values, selection, selectionArgs);
+                break;
+            case EMOTION_DATA_DIR:
+                count = database.update(DATABASE_TABLES[2], values, selection, selectionArgs);
                 break;
 
             default:

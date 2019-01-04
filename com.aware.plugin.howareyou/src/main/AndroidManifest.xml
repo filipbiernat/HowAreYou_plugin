@@ -35,7 +35,7 @@
             android:writePermission="com.aware.WRITE_CONTEXT_DATA" />
 
         <service
-            android:name="com.aware.plugin.howareyou.syncadapters.Template_Sync"
+            android:name="com.aware.plugin.howareyou.syncadapters.HowAreYou_Sync"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
