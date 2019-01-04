@@ -15,6 +15,9 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     //Plugin settings in XML @xml/preferences
     public static final String STATUS_PLUGIN_HOWAREYOU = "status_plugin_howareyou";
     public static final String STATUS_PHOTO = "status_photo";
+    public static final String STATUS_QUESTION_BUTTONS = "status_question_buttons";
+    public static final String STATUS_QUESTION_COLOR = "status_question_color";
+    //Pro tip: Don't forget to add also to the preferences.xml!
 
     //Plugin settings UI elements
     private static CheckBoxPreference status;
@@ -31,17 +34,18 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     protected void onResume() {
         super.onResume();
 
-        status = (CheckBoxPreference) findPreference(STATUS_PLUGIN_HOWAREYOU);
-        if( Aware.getSetting(this, STATUS_PLUGIN_HOWAREYOU).length() == 0 ) {
-            Aware.setSetting( this, STATUS_PLUGIN_HOWAREYOU, true ); //by default, the setting is true on install
-        }
-        status.setChecked(Aware.getSetting(getApplicationContext(), STATUS_PLUGIN_HOWAREYOU).equals("true"));
+        resumeCheckBoxPreference(STATUS_PLUGIN_HOWAREYOU, true);
+        resumeCheckBoxPreference(STATUS_PHOTO, true);
+        resumeCheckBoxPreference(STATUS_QUESTION_BUTTONS, true);
+        resumeCheckBoxPreference(STATUS_QUESTION_COLOR, true);
+    }
 
-        status = (CheckBoxPreference) findPreference(STATUS_PHOTO);
-        if( Aware.getSetting(this, STATUS_PHOTO).length() == 0 ) {
-            Aware.setSetting( this, STATUS_PHOTO, true ); //by default, the setting is true on install
+    private void resumeCheckBoxPreference(String preference, boolean defValue) {
+        status = (CheckBoxPreference) findPreference(preference);
+        if( Aware.getSetting(this, preference).length() == 0 ) {
+            Aware.setSetting( this, preference, defValue );
         }
-        status.setChecked(Aware.getSetting(getApplicationContext(), STATUS_PHOTO).equals("true"));
+        status.setChecked(Aware.getSetting(getApplicationContext(), preference).equals("true"));
     }
 
     @Override
@@ -62,13 +66,17 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
             status.setChecked(sharedPreferences.getBoolean(key, false));
         }
-        if (Aware.getSetting(this, STATUS_PHOTO).equals("true")) {
-            //Aware.startPlugin(getApplicationContext(), "com.aware.plugin.howareyou");
-            Log.d("AWARE FILIP" , "startPhoto");
 
-        } else {
-            //Aware.stopPlugin(getApplicationContext(), "com.aware.plugin.howareyou");
-            Log.d("AWARE FILIP" , "stopPhoto");
+        if( setting.getKey().equals(STATUS_QUESTION_BUTTONS) ) {
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            status.setChecked(sharedPreferences.getBoolean(key, false));
         }
+
+        if( setting.getKey().equals(STATUS_QUESTION_COLOR) ) {
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            status.setChecked(sharedPreferences.getBoolean(key, false));
+        }
+
+
     }
 }

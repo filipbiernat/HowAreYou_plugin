@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="Działanie pluginu">
 
         <CheckBoxPreference
-            android:key="status_plugin_howareyou"
+            android:key="@string/status_plugin_howareyou_key"
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Uruchom skanowanie nastroju." />
@@ -15,19 +15,19 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Ustawienia szczegółowe">
         <CheckBoxPreference
-            android:key="status_photo"
+            android:key="@string/status_photo_key"
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Wykrywaj nastrój z użyciem kamery." />
 
         <CheckBoxPreference
-            android:key="status_response"
+            android:key="@string/status_question_buttons_key"
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem przycisków." />
 
         <CheckBoxPreference
-            android:key="status_color"
+            android:key="@string/status_question_color_key"
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
