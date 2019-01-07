@@ -1,0 +1,28 @@
+diff --combined build.gradle
+index 7430e28,ec9f731..0000000
+--- a/build.gradle
++++ b/build.gradle
+@@@ -6,11 -6,11 +6,11 @@@ project.ext 
+      google_libs = (System.getenv("google_libs") ?: "11.2.0")
+      version_code = (System.getenv("aware_revision") as Integer ?: 700)
+      version_readable = "4.0." + version_code + "." + (System.getenv("aware_label") as String ?: "selfie")
+ -    compile_sdk = (System.getenv("compile_sdk") as Integer ?: 26)
+ +    compile_sdk = (System.getenv("compile_sdk") as Integer ?: 28) //Fixed
+      target_sdk = (System.getenv("target_sdk") as Integer ?: 25) //version 26 breaks system broadcasts like package installed used for detecting a plugin installed :-(
+ -    minimum_sdk = (System.getenv("minimum_sdk") as Integer ?: 14) //Android 4.0+
+ +    minimum_sdk = (System.getenv("minimum_sdk") as Integer ?: 22) //Fixed
+      build_tools = (System.getenv("build_tools") ?: "26.0.2")
+ -    aware_libs = (System.getenv("aware_libs") as String ?: "development-SNAPSHOT")
+ +    aware_libs = (System.getenv("aware_libs") as String ?: "master-SNAPSHOT") //Fixed
+  }
+  
+  buildscript {
+@@@ -23,7 -23,7 +23,7 @@@
+          mavenCentral()
+      }
+      dependencies {
+ -        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
+ +        classpath 'com.android.tools.build:gradle:3.0.1' //Fixed
+      }
+  }
+  
