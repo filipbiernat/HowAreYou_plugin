@@ -1,9 +1,5 @@
 package com.aware.plugin.howareyou;
 
-/**
- * Created by Filip on 04.01.2019.
- */
-
 public class PluginActions {
     public static final String ACTION_START_QUESTION_COLOR = "ACTION_START_QUESTION_COLOR";
     public static final String ACTION_ON_FINISHED_QUESTION_COLOR = "ACTION_ON_FINISHED_QUESTION_COLOR";

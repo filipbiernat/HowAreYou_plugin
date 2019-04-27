@@ -56,8 +56,8 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void onFinishedQuestion_Color(Context context) {
-        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
-        context.sendBroadcast(broadcastIntent);
+        //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
+        //context.sendBroadcast(broadcastIntent);
     }
 
     private void startQuestion_Emoji(Context context) {
@@ -71,8 +71,8 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void onFinishedQuestion_Emoji(Context context) {
-        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
-        context.sendBroadcast(broadcastIntent);
+        //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+        //context.sendBroadcast(broadcastIntent);
     }
 
     private void startPhotoEmotionRecognition(Context context) {

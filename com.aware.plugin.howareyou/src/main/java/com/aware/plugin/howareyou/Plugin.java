@@ -3,6 +3,7 @@ package com.aware.plugin.howareyou;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +15,17 @@ import com.aware.Screen;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.utils.Aware_Plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import agh.heart.callbacks.HeaRTCallback;
+import agh.heart.observers.Observer;
+
 public class Plugin extends Aware_Plugin {
 
     public static final String TAG = "AWARE::HowAreYou";
+
+    private HeaRTAwareObserverManager observerManager = new HeaRTAwareObserverManager();
 
     @Override
     public void onCreate() {
@@ -36,6 +45,9 @@ public class Plugin extends Aware_Plugin {
                 //Broadcast your context here
             }
         };
+
+        //heart-aware: Create and register observers
+        observerManager.create(getApplicationContext());
 
         //Add permissions you need (Android M+).
         //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -65,7 +77,7 @@ public class Plugin extends Aware_Plugin {
         super.onStartCommand(intent, flags, startId);
 
         if (PERMISSIONS_OK) {
-            Log.d(TAG, "FILIP plugin started");
+            Log.d(TAG, "Plugin started.");
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
 ;
             //Initialize our plugin's settings
@@ -102,10 +114,9 @@ public class Plugin extends Aware_Plugin {
 
                 @Override
                 public void onScreenUnlocked() {
-                    Log.d(TAG, "Phone unlocked");
-
-                    Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
-                    sendBroadcast(broadcastIntent);
+                    //Log.d(TAG, "Phone unlocked");
+                    //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
+                    //sendBroadcast(broadcastIntent);
                 }
             });
 
@@ -134,6 +145,8 @@ public class Plugin extends Aware_Plugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        observerManager.destroy(getApplicationContext());
 
         //Turn off the sync-adapter if part of a study
         if (Aware.isStudy(this) && (getApplicationContext().getPackageName().equalsIgnoreCase("com.aware.phone") || getApplicationContext().getResources().getBoolean(R.bool.standalone))) {

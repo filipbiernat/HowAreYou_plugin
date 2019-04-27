@@ -10,7 +10,7 @@ project.ext {
     target_sdk = (System.getenv("target_sdk") as Integer ?: 25) //version 26 breaks system broadcasts like package installed used for detecting a plugin installed :-(
     minimum_sdk = (System.getenv("minimum_sdk") as Integer ?: 22) //F
     build_tools = (System.getenv("build_tools") ?: "26.0.2")
-    aware_libs = (System.getenv("aware_libs") as String ?: "master-SNAPSHOT") //F
+    aware_libs = (System.getenv("aware_libs") as String ?: "4.0.710")//F
 }
 
 buildscript {
