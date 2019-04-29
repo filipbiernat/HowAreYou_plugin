@@ -17,7 +17,7 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 
-public class Question_Color extends AppCompatActivity {
+public class Question_Color extends SlidableActivity {
 
     protected static final String TAG = "AWARE::HowAreYou::Qstn";
     protected static final Boolean DEBUG = true;
@@ -26,6 +26,9 @@ public class Question_Color extends AppCompatActivity {
     public static final int USER_RESPONSE_TIMEOUT_SECONDS = 3;
 
     private int selectedColor = COLOR_WHITE;
+    private boolean canceled = false;
+    private boolean dropped = false;
+
     private boolean inProgress = true;
     private boolean savedResponse = false;
     private TimeoutMonitor activityTimeoutMonitor;
@@ -52,15 +55,14 @@ public class Question_Color extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inProgress = false;
-                closeDialog();
+                canceled = true;
+                saveResponse();
             }
         });
         Button submit = (Button) findViewById(R.id.question_color_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inProgress = false;
                 saveResponse();
             }
         });
@@ -94,9 +96,13 @@ public class Question_Color extends AppCompatActivity {
     }
 
     private void saveResponse() {
+        inProgress = false;
+
         if (!savedResponse) {
             savedResponse = true;
-            logDebug("Save response: Selected color: " + Integer.toHexString(getSelectedColor()));
+            String debugMsg = "Save response: Selected color: " + Integer.toHexString(getSelectedColor());
+            debugMsg += ", canceled: " + canceled + ", dropped: " + dropped;
+            logDebug(debugMsg);
 
             insertTheAnswers();
             closeDialog();
@@ -141,7 +147,14 @@ public class Question_Color extends AppCompatActivity {
         answer.put(Provider.Table_Color_Data.COLOR_GREEN, colorGreen);
         answer.put(Provider.Table_Color_Data.COLOR_BLUE,  colorBlue);
 
+        //FIXME FB canceled dropped
+
         getContentResolver().insert(Provider.Table_Color_Data.CONTENT_URI, answer);
+    }
+
+    protected void onSlide(){
+        dropped = true;
+        saveResponse();
     }
 
     class TimeoutMonitor extends AsyncTask<Void, Void, Void> {

@@ -14,7 +14,7 @@ import com.aware.plugin.howareyou.PluginActions;
 import com.aware.plugin.howareyou.Provider;
 import com.aware.plugin.howareyou.R;
 
-public class Question_Emoji extends AppCompatActivity {
+public class Question_Emoji extends SlidableActivity {
 
     protected static final String TAG = "AWARE::HowAreYou::Qstn";
     protected static final Boolean DEBUG = true;
@@ -26,6 +26,7 @@ public class Question_Emoji extends AppCompatActivity {
     private static final String EMOTION_SCARED  = "scared";
     private static final String EMOTION_ANGRY   = "angry";
     private static final String EMOTION_SAD     = "sad";
+    private static final String EMOTION_DROPPED = "dropped";
 
     private boolean inProgress = true;
     private boolean savedResponse = false;
@@ -103,7 +104,13 @@ public class Question_Emoji extends AppCompatActivity {
         answer.put(Provider.Table_Emotion_Data.EMOTION_ANGRY,   emotion.equals(EMOTION_ANGRY  ) ? 1 : 0);
         answer.put(Provider.Table_Emotion_Data.EMOTION_SAD,     emotion.equals(EMOTION_SAD    ) ? 1 : 0);
 
+        //FIXME FB EMOTION_DROPPED
+
         getContentResolver().insert(Provider.Table_Emotion_Data.CONTENT_URI, answer);
+    }
+
+    protected void onSlide(){
+        saveResponse(EMOTION_DROPPED);
     }
 
     class TimeoutMonitor extends AsyncTask<Void, Void, Void> {

@@ -56,8 +56,8 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void onFinishedQuestion_Color(Context context) {
-        //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
-        //context.sendBroadcast(broadcastIntent);
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_EMOJI);
+        context.sendBroadcast(broadcastIntent);
     }
 
     private void startQuestion_Emoji(Context context) {

@@ -73,4 +73,9 @@ dependencies {
 
     //Job dispatcher for heart-aware
     compile 'com.firebase:firebase-jobdispatcher-with-gcm-dep:0.5.2'
+
+
+    //Slidable actividy for closure on slide: https://github.com/r0adkll/Slidr
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
+
 }
