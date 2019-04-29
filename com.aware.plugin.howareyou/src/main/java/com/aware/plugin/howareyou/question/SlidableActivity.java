@@ -7,6 +7,7 @@ import android.util.Log;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 public abstract class SlidableActivity extends AppCompatActivity {
 

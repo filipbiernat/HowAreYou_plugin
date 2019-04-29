@@ -26,7 +26,6 @@ public class Question_Color extends SlidableActivity {
     public static final int USER_RESPONSE_TIMEOUT_SECONDS = 3;
 
     private int selectedColor = COLOR_WHITE;
-    private boolean canceled = false;
     private boolean dropped = false;
 
     private boolean inProgress = true;
@@ -55,7 +54,7 @@ public class Question_Color extends SlidableActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                canceled = true;
+                dropped = true;
                 saveResponse();
             }
         });
@@ -101,7 +100,7 @@ public class Question_Color extends SlidableActivity {
         if (!savedResponse) {
             savedResponse = true;
             String debugMsg = "Save response: Selected color: " + Integer.toHexString(getSelectedColor());
-            debugMsg += ", canceled: " + canceled + ", dropped: " + dropped;
+            debugMsg += ", dropped: " + dropped;
             logDebug(debugMsg);
 
             insertTheAnswers();
@@ -133,21 +132,21 @@ public class Question_Color extends SlidableActivity {
     }
 
     private void insertTheAnswers() {
-        final int MASK = 0xFF;
-        int colorRed   = (selectedColor >> 16) & MASK;
-        int colorGreen = (selectedColor >>  8) & MASK;
-        int colorBlue  = (selectedColor      ) & MASK;
+        final int MASK         = 0xFF;
+        final int colorRed     = (selectedColor >> 16) & MASK;
+        final int colorGreen   = (selectedColor >>  8) & MASK;
+        final int colorBlue    = (selectedColor      ) & MASK;
+        final int colorDropped = dropped ? 1 : 0;
 
         ContentValues answer = new ContentValues();
         answer.put(Provider.Table_Color_Data.DEVICE_ID, Aware.getSetting(getApplicationContext(),
                 Aware_Preferences.DEVICE_ID));
         answer.put(Provider.Table_Color_Data.TIMESTAMP, System.currentTimeMillis());
 
-        answer.put(Provider.Table_Color_Data.COLOR_RED,   colorRed);
-        answer.put(Provider.Table_Color_Data.COLOR_GREEN, colorGreen);
-        answer.put(Provider.Table_Color_Data.COLOR_BLUE,  colorBlue);
-
-        //FIXME FB canceled dropped
+        answer.put(Provider.Table_Color_Data.COLOR_RED,     colorRed);
+        answer.put(Provider.Table_Color_Data.COLOR_GREEN,   colorGreen);
+        answer.put(Provider.Table_Color_Data.COLOR_BLUE,    colorBlue);
+        answer.put(Provider.Table_Color_Data.COLOR_DROPPED, colorDropped);
 
         getContentResolver().insert(Provider.Table_Color_Data.CONTENT_URI, answer);
     }

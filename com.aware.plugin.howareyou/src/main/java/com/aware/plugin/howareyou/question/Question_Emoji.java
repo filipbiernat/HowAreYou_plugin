@@ -103,8 +103,7 @@ public class Question_Emoji extends SlidableActivity {
         answer.put(Provider.Table_Emotion_Data.EMOTION_SCARED,  emotion.equals(EMOTION_SCARED ) ? 1 : 0);
         answer.put(Provider.Table_Emotion_Data.EMOTION_ANGRY,   emotion.equals(EMOTION_ANGRY  ) ? 1 : 0);
         answer.put(Provider.Table_Emotion_Data.EMOTION_SAD,     emotion.equals(EMOTION_SAD    ) ? 1 : 0);
-
-        //FIXME FB EMOTION_DROPPED
+        answer.put(Provider.Table_Emotion_Data.EMOTION_DROPPED, emotion.equals(EMOTION_DROPPED) ? 1 : 0);
 
         getContentResolver().insert(Provider.Table_Emotion_Data.CONTENT_URI, answer);
     }

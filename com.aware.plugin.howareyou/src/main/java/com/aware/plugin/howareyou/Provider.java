@@ -24,7 +24,7 @@ public class Provider extends ContentProvider {
 
     public static String AUTHORITY = "com.aware.plugin.howareyou.provider.howareyou"; //change to package.provider.your_plugin_name
 
-    public static final int DATABASE_VERSION = 7; //increase this if you make changes to the database structure, i.e., rename columns, etc.
+    public static final int DATABASE_VERSION = 10; //increase this if you make changes to the database structure, i.e., rename columns, etc.
     public static final String DATABASE_NAME = "plugin_howareyou.db"; //the database filename, use plugin_xxx for plugins.
 
     //Add here your database table names, as many as you need
@@ -77,9 +77,10 @@ public class Provider extends ContentProvider {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.aware.plugin.howareyou.provider.color_data"; //modify me
 
         //Note: integers and strings don't need a type prefix_
-        public static final String COLOR_RED   = "color_red";
-        public static final String COLOR_GREEN = "color_green";
-        public static final String COLOR_BLUE  = "color_blue";
+        public static final String COLOR_RED      = "color_red";
+        public static final String COLOR_GREEN    = "color_green";
+        public static final String COLOR_BLUE     = "color_blue";
+        public static final String COLOR_DROPPED  = "color_dropped";
     }
     public static final class Table_Emotion_Data implements AWAREColumns {
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + DB_TBL_HOWAREYOU_EMOTION);
@@ -93,38 +94,41 @@ public class Provider extends ContentProvider {
         public static final String EMOTION_SCARED  = "emotion_scared";
         public static final String EMOTION_ANGRY   = "emotion_angry";
         public static final String EMOTION_SAD     = "emotion_sad";
+        public static final String EMOTION_DROPPED = "emotion_dropped";
     }
 
     //Define each database table fields
     private static final String DB_TBL_HOWAREYOU_PHOTO_FIELDS =
-            Table_Photo_Data._ID + " integer primary key autoincrement," +
+                    Table_Photo_Data._ID       + " integer primary key autoincrement," +
                     Table_Photo_Data.TIMESTAMP + " real default 0," +
                     Table_Photo_Data.DEVICE_ID + " text default ''," +
-                    Table_Photo_Data.ANGER + " real default 0," +
-                    Table_Photo_Data.CONTEMPT + " real default 0," +
-                    Table_Photo_Data.DISGUST + " real default 0," +
-                    Table_Photo_Data.FEAR + " real default 0," +
+                    Table_Photo_Data.ANGER     + " real default 0," +
+                    Table_Photo_Data.CONTEMPT  + " real default 0," +
+                    Table_Photo_Data.DISGUST   + " real default 0," +
+                    Table_Photo_Data.FEAR      + " real default 0," +
                     Table_Photo_Data.HAPPINESS + " real default 0," +
-                    Table_Photo_Data.NEUTRAL + " real default 0," +
-                    Table_Photo_Data.SADNESS + " real default 0," +
-                    Table_Photo_Data.SURPRISE + " real default 0";
+                    Table_Photo_Data.NEUTRAL   + " real default 0," +
+                    Table_Photo_Data.SADNESS   + " real default 0," +
+                    Table_Photo_Data.SURPRISE  + " real default 0";
     private static final String DB_TBL_HOWAREYOU_COLOR_FIELDS =
-            Table_Color_Data._ID + " integer primary key autoincrement," +
-                    Table_Color_Data.TIMESTAMP + " real default 0," +
-                    Table_Color_Data.DEVICE_ID + " text default ''," +
-                    Table_Color_Data.COLOR_RED + " integer default 0," +
-                    Table_Color_Data.COLOR_GREEN + " integer default 0," +
-                    Table_Color_Data.COLOR_BLUE + " integer default 0";
+                    Table_Color_Data._ID           + " integer primary key autoincrement," +
+                    Table_Color_Data.TIMESTAMP     + " real default 0," +
+                    Table_Color_Data.DEVICE_ID     + " text default ''," +
+                    Table_Color_Data.COLOR_RED     + " integer default 0," +
+                    Table_Color_Data.COLOR_GREEN   + " integer default 0," +
+                    Table_Color_Data.COLOR_BLUE    + " integer default 0," +
+                    Table_Color_Data.COLOR_DROPPED + " integer default 0";
     private static final String DB_TBL_HOWAREYOU_EMOTION_FIELDS =
-            Table_Emotion_Data._ID + " integer primary key autoincrement," +
-                    Table_Emotion_Data.TIMESTAMP + " real default 0," +
-                    Table_Emotion_Data.DEVICE_ID + " text default ''," +
-                    Table_Emotion_Data.EMOTION_HAPPY + " integer default 0," +
+                    Table_Emotion_Data._ID             + " integer primary key autoincrement," +
+                    Table_Emotion_Data.TIMESTAMP       + " real default 0," +
+                    Table_Emotion_Data.DEVICE_ID       + " text default ''," +
+                    Table_Emotion_Data.EMOTION_HAPPY   + " integer default 0," +
                     Table_Emotion_Data.EMOTION_EXCITED + " integer default 0," +
-                    Table_Emotion_Data.EMOTION_TENDER + " integer default 0," +
-                    Table_Emotion_Data.EMOTION_SCARED + " integer default 0," +
-                    Table_Emotion_Data.EMOTION_ANGRY + " integer default 0," +
-                    Table_Emotion_Data.EMOTION_SAD + " integer default 0";
+                    Table_Emotion_Data.EMOTION_TENDER  + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_SCARED  + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_ANGRY   + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_SAD     + " integer default 0," +
+                    Table_Emotion_Data.EMOTION_DROPPED + " integer default 0";
 
 
     /**
@@ -178,37 +182,39 @@ public class Provider extends ContentProvider {
 
         //Create each table hashmap so Android knows how to insert data to the database. Put ALL table fields.
         tablePhotoHash = new HashMap<>();
-        tablePhotoHash.put(Table_Photo_Data._ID, Table_Photo_Data._ID);
+        tablePhotoHash.put(Table_Photo_Data._ID,       Table_Photo_Data._ID);
         tablePhotoHash.put(Table_Photo_Data.TIMESTAMP, Table_Photo_Data.TIMESTAMP);
         tablePhotoHash.put(Table_Photo_Data.DEVICE_ID, Table_Photo_Data.DEVICE_ID);
-        tablePhotoHash.put(Table_Photo_Data.ANGER, Table_Photo_Data.ANGER);
-        tablePhotoHash.put(Table_Photo_Data.CONTEMPT, Table_Photo_Data.CONTEMPT);
-        tablePhotoHash.put(Table_Photo_Data.DISGUST, Table_Photo_Data.DISGUST);
-        tablePhotoHash.put(Table_Photo_Data.FEAR, Table_Photo_Data.FEAR);
+        tablePhotoHash.put(Table_Photo_Data.ANGER,     Table_Photo_Data.ANGER);
+        tablePhotoHash.put(Table_Photo_Data.CONTEMPT,  Table_Photo_Data.CONTEMPT);
+        tablePhotoHash.put(Table_Photo_Data.DISGUST,   Table_Photo_Data.DISGUST);
+        tablePhotoHash.put(Table_Photo_Data.FEAR,      Table_Photo_Data.FEAR);
         tablePhotoHash.put(Table_Photo_Data.HAPPINESS, Table_Photo_Data.HAPPINESS);
-        tablePhotoHash.put(Table_Photo_Data.NEUTRAL, Table_Photo_Data.NEUTRAL);
-        tablePhotoHash.put(Table_Photo_Data.SADNESS, Table_Photo_Data.SADNESS);
-        tablePhotoHash.put(Table_Photo_Data.SURPRISE, Table_Photo_Data.SURPRISE);
+        tablePhotoHash.put(Table_Photo_Data.NEUTRAL,   Table_Photo_Data.NEUTRAL);
+        tablePhotoHash.put(Table_Photo_Data.SADNESS,   Table_Photo_Data.SADNESS);
+        tablePhotoHash.put(Table_Photo_Data.SURPRISE,  Table_Photo_Data.SURPRISE);
 
         tableColorHash = new HashMap<>();
-        tableColorHash.put(Table_Color_Data._ID, Table_Color_Data._ID);
-        tableColorHash.put(Table_Color_Data.TIMESTAMP, Table_Color_Data.TIMESTAMP);
-        tableColorHash.put(Table_Color_Data.DEVICE_ID, Table_Color_Data.DEVICE_ID);
-        tableColorHash.put(Table_Color_Data.COLOR_RED, Table_Color_Data.COLOR_RED);
-        tableColorHash.put(Table_Color_Data.COLOR_GREEN, Table_Color_Data.COLOR_GREEN);
-        tableColorHash.put(Table_Color_Data.COLOR_BLUE, Table_Color_Data.COLOR_BLUE);
+        tableColorHash.put(Table_Color_Data._ID,           Table_Color_Data._ID);
+        tableColorHash.put(Table_Color_Data.TIMESTAMP,     Table_Color_Data.TIMESTAMP);
+        tableColorHash.put(Table_Color_Data.DEVICE_ID,     Table_Color_Data.DEVICE_ID);
+        tableColorHash.put(Table_Color_Data.COLOR_RED,     Table_Color_Data.COLOR_RED);
+        tableColorHash.put(Table_Color_Data.COLOR_GREEN,   Table_Color_Data.COLOR_GREEN);
+        tableColorHash.put(Table_Color_Data.COLOR_BLUE,    Table_Color_Data.COLOR_BLUE);
+        tableColorHash.put(Table_Color_Data.COLOR_DROPPED, Table_Color_Data.COLOR_DROPPED);
 
 
         tableEmotionHash = new HashMap<>();
-        tableEmotionHash.put(Table_Emotion_Data._ID, Table_Emotion_Data._ID);
-        tableEmotionHash.put(Table_Emotion_Data.TIMESTAMP, Table_Emotion_Data.TIMESTAMP);
-        tableEmotionHash.put(Table_Emotion_Data.DEVICE_ID, Table_Emotion_Data.DEVICE_ID);
-        tableEmotionHash.put(Table_Emotion_Data.EMOTION_HAPPY, Table_Emotion_Data.EMOTION_HAPPY);
+        tableEmotionHash.put(Table_Emotion_Data._ID,             Table_Emotion_Data._ID);
+        tableEmotionHash.put(Table_Emotion_Data.TIMESTAMP,       Table_Emotion_Data.TIMESTAMP);
+        tableEmotionHash.put(Table_Emotion_Data.DEVICE_ID,       Table_Emotion_Data.DEVICE_ID);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_HAPPY,   Table_Emotion_Data.EMOTION_HAPPY);
         tableEmotionHash.put(Table_Emotion_Data.EMOTION_EXCITED, Table_Emotion_Data.EMOTION_EXCITED);
-        tableEmotionHash.put(Table_Emotion_Data.EMOTION_TENDER, Table_Emotion_Data.EMOTION_TENDER);
-        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SCARED, Table_Emotion_Data.EMOTION_SCARED);
-        tableEmotionHash.put(Table_Emotion_Data.EMOTION_ANGRY, Table_Emotion_Data.EMOTION_ANGRY);
-        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SAD, Table_Emotion_Data.EMOTION_SAD);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_TENDER,  Table_Emotion_Data.EMOTION_TENDER);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SCARED,  Table_Emotion_Data.EMOTION_SCARED);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_ANGRY,   Table_Emotion_Data.EMOTION_ANGRY);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_SAD,     Table_Emotion_Data.EMOTION_SAD);
+        tableEmotionHash.put(Table_Emotion_Data.EMOTION_DROPPED, Table_Emotion_Data.EMOTION_DROPPED);
 
         return true;
     }
