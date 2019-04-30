@@ -1235,14 +1235,14 @@ xattr [name: howareyou_action,
 
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: 0,0
+%! Position: -100,13
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
-%! Position: 500,0
-xschm howareyouAction: [watching_screen,accelerometer_res_3] ==> [howareyou_action].
+%! Position: 589,65
+xschm wantsBlueTooth: [watching_screen,accelerometer_res_3] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-xrule 'WatchingScreen'/0:
+xrule 'WatchingScreen'/3:
     [
         screen_status in [on,unlocked]
     ]
@@ -1251,11 +1251,11 @@ xrule 'WatchingScreen'/0:
         watching_screen set true
     ]
     :[
-        howareyouAction
+        wantsBlueTooth
     ].
     #1
 
-xrule 'WatchingScreen'/1:
+xrule 'WatchingScreen'/4:
     [
         screen_status notin [on,unlocked]
     ]
@@ -1264,11 +1264,11 @@ xrule 'WatchingScreen'/1:
         watching_screen set false
     ]
     :[
-        howareyouAction
+        wantsBlueTooth
     ].
     #1
 
-xrule howareyouAction/0:
+xrule wantsBlueTooth/7:
     [
         watching_screen eq true,
         accelerometer_res_3 in [-5 to 5]
@@ -1282,7 +1282,7 @@ xrule howareyouAction/0:
         ].
     #1
 
-xrule howareyouAction/1:
+xrule wantsBlueTooth/9:
     [
         watching_screen eq true,
         accelerometer_res_3 notin [-5 to 5]
@@ -1296,7 +1296,7 @@ xrule howareyouAction/1:
         ].
     #1
 
-xrule howareyouAction/2:
+xrule wantsBlueTooth/12:
     [
         watching_screen eq false,
         accelerometer_res_3 eq any

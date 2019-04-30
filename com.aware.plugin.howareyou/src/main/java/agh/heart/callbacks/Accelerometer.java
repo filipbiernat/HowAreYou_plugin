@@ -1,7 +1,6 @@
 package agh.heart.callbacks;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.aware.providers.Accelerometer_Provider;
 

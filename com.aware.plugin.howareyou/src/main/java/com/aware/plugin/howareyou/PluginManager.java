@@ -18,7 +18,7 @@ public class PluginManager extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.d(Plugin.TAG, "OnReceive: " + action);
+        Log.d(Plugin.TAG, "PluginManager: " + action);
 
         switch (action) {
             case PluginActions.ACTION_START_QUESTION_COLOR:
