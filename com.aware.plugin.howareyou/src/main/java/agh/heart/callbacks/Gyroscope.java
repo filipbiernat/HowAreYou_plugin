@@ -1,10 +1,6 @@
 package agh.heart.callbacks;
 
 import android.database.Cursor;
-import android.util.Log;
-
-import com.aware.Accelerometer;
-import com.aware.providers.Accelerometer_Provider;
 import com.aware.providers.Gyroscope_Provider;
 
 import heart.Callback;
@@ -30,8 +26,6 @@ public class Gyroscope extends HeaRTCallback implements Callback {
         } catch (AttributeNotRegisteredException | NotInTheDomainException e) {
             e.printStackTrace();
         }
-
-        Log.d("FILIP", "x: " + gyroscope_x + ", y:" + gyroscope_y + ", z:" + gyroscope_z);
     }
 
     private void updateFields() {
@@ -58,9 +52,7 @@ public class Gyroscope extends HeaRTCallback implements Callback {
     }
 
     private Cursor getValues(String[] columns) {
-        //HACK. TODO create own callback for accelerometer
-        //return resolver.query(Gyroscope_Provider.Gyroscope_Data.CONTENT_URI, columns, null, null, "timestamp DESC");
-        return resolver.query(Accelerometer_Provider.Accelerometer_Data.CONTENT_URI, columns, null, null, "timestamp DESC");
+        return resolver.query(Gyroscope_Provider.Gyroscope_Data.CONTENT_URI, columns, null, null, "timestamp DESC");
     }
 
 }
