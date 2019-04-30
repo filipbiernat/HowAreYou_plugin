@@ -48,7 +48,7 @@ public class HeaRTService extends JobService {
     {
         try {
             StringBuilder sb = new StringBuilder();
-            InputStream is = getApplicationContext().getAssets().open("model.txt");
+            InputStream is = getApplicationContext().getAssets().open("model.hmr");
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String str;
             while ((str = br.readLine()) != null) {

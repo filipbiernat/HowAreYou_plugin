@@ -1218,11 +1218,11 @@ xattr [name: watching_screen,
 
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: 45,358
+%! Position: 202,334
 xschm 'InAGH': [longitude,latitude] ==> [inAGH].
-%! Position: -103,27
+%! Position: 91,133
 xschm 'WatchingScreen': [screen_status,gyroscope_res_x,gyroscope_res_z] ==> [watching_screen].
-%! Position: 917,363
+%! Position: 918,363
 xschm wantsBlueTooth: [watching_screen,inAGH] ==> [wants_bluetooth].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1286,8 +1286,8 @@ xrule 'InAGH'/6:
 xrule 'WatchingScreen'/3:
     [
         screen_status in [on,unlocked],
-        gyroscope_res_x eq any,
-        gyroscope_res_z in [- 5 to 5]
+        gyroscope_res_x in [-30.00 to 30.00],
+        gyroscope_res_z in [-90 to 0]
     ]
     ==>
     [
@@ -1301,8 +1301,23 @@ xrule 'WatchingScreen'/3:
 xrule 'WatchingScreen'/4:
     [
         screen_status in [on,unlocked],
+        gyroscope_res_x in [-60.0 to 60],
+        gyroscope_res_z in [-100 to 30]
+    ]
+    ==>
+    [
+        watching_screen set true
+    ]
+    :[
+        wantsBlueTooth
+    ].
+    #0.6
+
+xrule 'WatchingScreen'/5:
+    [
+        screen_status notin [on,unlocked],
         gyroscope_res_x eq any,
-        gyroscope_res_z notin [-5 to 5]
+        gyroscope_res_z eq any
     ]
     ==>
     [
@@ -1311,13 +1326,28 @@ xrule 'WatchingScreen'/4:
     :[
         wantsBlueTooth
     ].
-    #0.6
+    #1
+
+xrule 'WatchingScreen'/10:
+    [
+        screen_status eq any,
+        gyroscope_res_x notin [-60.0 to 60],
+        gyroscope_res_z eq any
+    ]
+    ==>
+    [
+        watching_screen set false
+    ]
+    :[
+        wantsBlueTooth
+    ].
+    #1
 
 xrule 'WatchingScreen'/11:
     [
         screen_status eq any,
         gyroscope_res_x eq any,
-        gyroscope_res_z eq any
+        gyroscope_res_z notin [-100 to 30]
     ]
     ==>
     [
@@ -1331,7 +1361,7 @@ xrule 'WatchingScreen'/11:
 xrule wantsBlueTooth/7:
     [
         watching_screen eq true,
-        inAGH eq any
+        inAGH eq true
     ]
     ==>
     [
@@ -1339,6 +1369,20 @@ xrule wantsBlueTooth/7:
     ]**>
         [
             'agh.heart.actions.HowAreYou_StartQuestionEmoji'
+        ].
+    #1
+
+xrule wantsBlueTooth/8:
+    [
+        watching_screen eq any,
+        inAGH eq false
+    ]
+    ==>
+    [
+        wants_bluetooth set false
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_StartQuestionColor'
         ].
     #1
 

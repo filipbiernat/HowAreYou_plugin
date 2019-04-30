@@ -1220,7 +1220,7 @@ xattr [name: watching_screen,
 
 %! Position: 45,358
 xschm 'InAGH': [longitude,latitude] ==> [inAGH].
-%! Position: -103,27
+%! Position: 143,-18
 xschm 'WatchingScreen': [screen_status,gyroscope_res_x,gyroscope_res_z] ==> [watching_screen].
 %! Position: 917,363
 xschm wantsBlueTooth: [watching_screen,inAGH] ==> [wants_bluetooth].
@@ -1287,7 +1287,7 @@ xrule 'WatchingScreen'/3:
     [
         screen_status in [on,unlocked],
         gyroscope_res_x eq any,
-        gyroscope_res_z in [- 5 to 5]
+        gyroscope_res_z in [-90 to 0]
     ]
     ==>
     [
@@ -1302,11 +1302,11 @@ xrule 'WatchingScreen'/4:
     [
         screen_status in [on,unlocked],
         gyroscope_res_x eq any,
-        gyroscope_res_z notin [-5 to 5]
+        gyroscope_res_z in [-100 to 30]
     ]
     ==>
     [
-        watching_screen set false
+        watching_screen set true
     ]
     :[
         wantsBlueTooth
