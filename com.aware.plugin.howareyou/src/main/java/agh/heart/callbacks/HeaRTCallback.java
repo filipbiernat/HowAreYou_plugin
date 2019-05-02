@@ -5,7 +5,7 @@ import android.content.ContentResolver;
 
 public class HeaRTCallback {
 
-    protected static final String TAG = "AWARE::HowAreYou::HeaRT";
+    protected static final String TAG = "AWARE::HowAreYou_Color::HeaRT";
 
     static ContentResolver resolver = null;
 

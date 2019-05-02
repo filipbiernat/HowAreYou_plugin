@@ -35,7 +35,7 @@ import java.util.List;
 
 public class EmotionRecognitionService extends Service {
 
-    protected static final String TAG = "AWARE::HowAreYou::Photo";
+    protected static final String TAG = "AWARE::HowAreYou_Color::Photo";
     protected static final Boolean DEBUG = true;
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();

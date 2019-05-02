@@ -23,7 +23,7 @@ import agh.heart.observers.Observer;
 
 public class Plugin extends Aware_Plugin {
 
-    public static final String TAG = "AWARE::HowAreYou";
+    public static final String TAG = "AWARE::HowAreYou_Color";
 
     private HeaRTAwareObserverManager observerManager = new HeaRTAwareObserverManager();
 

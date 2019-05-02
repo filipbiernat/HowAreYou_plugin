@@ -34,22 +34,22 @@ public class Accelerometer extends HeaRTCallback implements Callback {
             return;
         }
 
-        String accelerometer_x_column = "double_values_0";
-        String accelerometer_y_column = "double_values_1";
-        String accelerometer_z_column = "double_values_2";
+        String accelerometer_1_column = "double_values_0";
+        String accelerometer_2_column = "double_values_1";
+        String accelerometer_3_column = "double_values_2";
 
         Cursor values = getValues(new String[]{
-                accelerometer_x_column,
-                accelerometer_y_column,
-                accelerometer_z_column});
+                accelerometer_1_column,
+                accelerometer_2_column,
+                accelerometer_3_column});
         if (values.getCount() == 0) {
             return;
         }
         values.moveToFirst();
 
-        accelerometer_1 = values.getDouble(values.getColumnIndex(accelerometer_x_column));
-        accelerometer_2 = values.getDouble(values.getColumnIndex(accelerometer_y_column));
-        accelerometer_3 = values.getDouble(values.getColumnIndex(accelerometer_z_column));
+        accelerometer_1 = values.getDouble(values.getColumnIndex(accelerometer_1_column));
+        accelerometer_2 = values.getDouble(values.getColumnIndex(accelerometer_2_column));
+        accelerometer_3 = values.getDouble(values.getColumnIndex(accelerometer_3_column));
     }
 
     private Cursor getValues(String[] columns) {
