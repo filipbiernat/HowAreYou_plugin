@@ -23,6 +23,10 @@ public class HeaRTAwareObserverManager  {
 
     private void createObservers() {
         observers.add(new agh.heart.observers.Screen());
+        //TODO uncomment when model
+        //observers.add(new agh.heart.observers.HowAreYou());
+
+        //Add new observers here
     }
 
     private void registerObservers(Context context) {
