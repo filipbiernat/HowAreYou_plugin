@@ -11,11 +11,11 @@
     <string name="question_emoji_instructions_text">Wybierz emoji, które najbardziej odpowiada Twojemu nastrojowi.</string>
     <string name="question_color_cancel_text">Anuluj</string>
     <string name="question_color_submit_text">Wybierz</string>
-    <string name="status_photo_key">status_photo</string>
-    <string name="status_question_color_key">status_question_color</string>
-    <string name="status_question_emoji_key">status_question_emoji</string>
-    <string name="status_photo_notification_key">status_photo_notification</string>
-    <string name="status_plugin_howareyou_key">status_plugin_howareyou</string>
+    <string name="settings_photo_key">settings_photo</string>
+    <string name="settings_question_color_key">settings_question_color</string>
+    <string name="settings_question_emoji_key">settings_question_emoji</string>
+    <string name="settings_photo_notification_key">settings_photo_notification</string>
+    <string name="settings_plugin_howareyou_key">settings_plugin_howareyou</string>
     <string name="photo_notification_text_line1">HowAreYou: Aktywne gromadzenie danych</string>
     <string name="photo_notification_text_line2">z użyciem aparatu Twojego urządzenia</string>
     <string name="photo_notification_text_action">Wyłącz na 10 minut</string>

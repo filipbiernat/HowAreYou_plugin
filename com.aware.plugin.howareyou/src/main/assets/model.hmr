@@ -1409,12 +1409,52 @@ xattr [name: howareyou_photo_timeout,
     abbrev: hayptm
     ].
 
+xattr [name: howareyou_settings_plugin_howareyou,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Settings',
+    abbrev: hayspl
+    ].
+
+xattr [name: howareyou_settings_photo,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Settings',
+    abbrev: haysph
+    ].
+
+xattr [name: howareyou_settings_question_emoji,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Settings',
+    abbrev: haysem
+    ].
+
+xattr [name: howareyou_settings_question_color,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Settings',
+    abbrev: haysco
+    ].
+
+xattr [name: howareyou_settings_photo_notification,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Settings',
+    abbrev: haysno
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
 %! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
 %! Position: 500,0
-xschm howareyouAction: [watching_screen,howareyou_emotion_timeout] ==> [howareyou_action].
+xschm howareyouAction: [watching_screen,howareyou_settings_question_emoji] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1447,7 +1487,7 @@ xrule 'WatchingScreen'/1:
 xrule howareyouAction/0:
     [
         watching_screen eq true,
-        howareyou_emotion_timeout gte2
+        howareyou_settings_question_emoji eq true
     ]
     ==>
     [
@@ -1461,7 +1501,7 @@ xrule howareyouAction/0:
 xrule howareyouAction/1:
     [
         watching_screen eq true,
-        howareyou_emotion_timeout lt2
+        howareyou_settings_question_emoji eq any
     ]
     ==>
     [
@@ -1475,7 +1515,7 @@ xrule howareyouAction/1:
 xrule howareyouAction/2:
     [
         watching_screen eq false,
-        howareyou_emotion_timeout eq any
+        howareyou_settings_question_emoji eq any
     ]
     ==>
     [

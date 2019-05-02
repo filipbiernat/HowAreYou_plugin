@@ -80,7 +80,7 @@ xtype [name: int,
     ].
 
 xtype [name: double,
-    domain: [-100 to 100],
+    domain: [-1000 to 1000],
     scale: 0,
     desc: 'floating point number',
     base: numeric
@@ -1233,16 +1233,192 @@ xattr [name: howareyou_action,
     desc: 'Guess what HowAreYou action to run'
     ].
 
+xattr [name: howareyou_color_red,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: haycr
+    ].
+
+xattr [name: howareyou_color_green,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: haycg
+    ].
+
+xattr [name: howareyou_color_blue,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: haycb
+    ].
+
+xattr [name: howareyou_color_dropped,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: haycs
+    ].
+
+xattr [name: howareyou_color_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: hayct
+    ].
+
+xattr [name: howareyou_emotion_happy,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayeha
+    ].
+
+xattr [name: howareyou_emotion_excited,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayeex
+    ].
+
+xattr [name: howareyou_emotion_tender,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayete
+    ].
+
+xattr [name: howareyou_emotion_scared,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayesc
+    ].
+
+xattr [name: howareyou_emotion_angry,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayean
+    ].
+
+xattr [name: howareyou_emotion_sad,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayesa
+    ].
+
+xattr [name: howareyou_emotion_dropped,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayedr
+    ].
+
+xattr [name: howareyou_emotion_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayetm
+    ].
+
+xattr [name: howareyou_double_anger,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypan
+    ].
+
+xattr [name: howareyou_double_contempt,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypco
+    ].
+
+xattr [name: howareyou_double_disgust,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypdi
+    ].
+
+xattr [name: howareyou_double_fear,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypfe
+    ].
+
+xattr [name: howareyou_double_happiness,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypha
+    ].
+
+xattr [name: howareyou_double_neutral,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypne
+    ].
+
+xattr [name: howareyou_double_sadness,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypsa
+    ].
+
+xattr [name: howareyou_double_surprise,
+    type: double,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: haypsu
+    ].
+
+xattr [name: howareyou_photo_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: hayptm
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: -100,13
+%! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
-%! Position: 589,65
-xschm wantsBlueTooth: [watching_screen,accelerometer_res_3] ==> [howareyou_action].
+%! Position: 500,0
+xschm howareyouAction: [watching_screen,howareyou_emotion_timeout] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-xrule 'WatchingScreen'/3:
+xrule 'WatchingScreen'/0:
     [
         screen_status in [on,unlocked]
     ]
@@ -1251,11 +1427,11 @@ xrule 'WatchingScreen'/3:
         watching_screen set true
     ]
     :[
-        wantsBlueTooth
+        howareyouAction
     ].
     #1
 
-xrule 'WatchingScreen'/4:
+xrule 'WatchingScreen'/1:
     [
         screen_status notin [on,unlocked]
     ]
@@ -1264,14 +1440,14 @@ xrule 'WatchingScreen'/4:
         watching_screen set false
     ]
     :[
-        wantsBlueTooth
+        howareyouAction
     ].
     #1
 
-xrule wantsBlueTooth/7:
+xrule howareyouAction/0:
     [
         watching_screen eq true,
-        accelerometer_res_3 in [-5 to 5]
+        howareyou_emotion_timeout gte2
     ]
     ==>
     [
@@ -1282,10 +1458,10 @@ xrule wantsBlueTooth/7:
         ].
     #1
 
-xrule wantsBlueTooth/9:
+xrule howareyouAction/1:
     [
         watching_screen eq true,
-        accelerometer_res_3 notin [-5 to 5]
+        howareyou_emotion_timeout lt2
     ]
     ==>
     [
@@ -1296,10 +1472,10 @@ xrule wantsBlueTooth/9:
         ].
     #1
 
-xrule wantsBlueTooth/12:
+xrule howareyouAction/2:
     [
         watching_screen eq false,
-        accelerometer_res_3 eq any
+        howareyou_emotion_timeout eq any
     ]
     ==>
     [

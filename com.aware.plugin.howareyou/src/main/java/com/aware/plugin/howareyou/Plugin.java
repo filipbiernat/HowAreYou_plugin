@@ -3,7 +3,6 @@ package com.aware.plugin.howareyou;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +13,6 @@ import com.aware.Aware_Preferences;
 import com.aware.Screen;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.utils.Aware_Plugin;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import agh.heart.callbacks.HeaRTCallback;
-import agh.heart.observers.Observer;
 
 public class Plugin extends Aware_Plugin {
 
@@ -81,7 +74,7 @@ public class Plugin extends Aware_Plugin {
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
 ;
             //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.STATUS_PLUGIN_HOWAREYOU, true);
+            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU, true);
 
             /**
              * Example of how to enable accelerometer sensing and how to access the data in real-time for your app.
@@ -157,7 +150,7 @@ public class Plugin extends Aware_Plugin {
             );
         }
 
-        Aware.setSetting(this, Settings.STATUS_PLUGIN_HOWAREYOU, false);
+        Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU, false);
 
         //Stop AWARE instance in plugin
         Aware.stopAWARE(this);

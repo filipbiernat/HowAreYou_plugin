@@ -59,7 +59,6 @@ public abstract class GenericDbCallback extends HeaRTCallback implements Callbac
     private void fillWorkingMemory(WorkingMemory workingMemory, String attributeName, double value)
             throws AttributeNotRegisteredException, NotInTheDomainException {
         final String HOWAREYOU_PREFIX = "howareyou_";
-        Log.d("FILIP", "1:" + HOWAREYOU_PREFIX + attributeName + "; 2:" + value);
         workingMemory.setAttributeValue(HOWAREYOU_PREFIX + attributeName, new SimpleNumeric(value));
 }
 

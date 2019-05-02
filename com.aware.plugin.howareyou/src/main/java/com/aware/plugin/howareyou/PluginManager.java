@@ -10,9 +10,9 @@ import com.aware.plugin.howareyou.photo.EmotionRecognitionService;
 import com.aware.plugin.howareyou.question.Question_Color;
 import com.aware.plugin.howareyou.question.Question_Emoji;
 
-import static com.aware.plugin.howareyou.Settings.STATUS_PHOTO;
-import static com.aware.plugin.howareyou.Settings.STATUS_QUESTION_EMOJI;
-import static com.aware.plugin.howareyou.Settings.STATUS_QUESTION_COLOR;
+import static com.aware.plugin.howareyou.Settings.SETTINGS_PHOTO;
+import static com.aware.plugin.howareyou.Settings.SETTINGS_QUESTION_EMOJI;
+import static com.aware.plugin.howareyou.Settings.SETTINGS_QUESTION_COLOR;
 
 public class PluginManager extends BroadcastReceiver {
     @Override
@@ -46,7 +46,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void startQuestion_Color(Context context) {
-        if (Aware.getSetting(context, STATUS_QUESTION_COLOR).equals("true")) {
+        if (Aware.getSetting(context, SETTINGS_QUESTION_COLOR).equals("true")) {
             Intent question_ColorIntent = new Intent(context, Question_Color.class);
             question_ColorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(question_ColorIntent);
@@ -61,7 +61,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void startQuestion_Emoji(Context context) {
-        if (Aware.getSetting(context, STATUS_QUESTION_EMOJI).equals("true")) {
+        if (Aware.getSetting(context, SETTINGS_QUESTION_EMOJI).equals("true")) {
             Intent question_EmojiIntent = new Intent(context, Question_Emoji.class);
             question_EmojiIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(question_EmojiIntent);
@@ -76,7 +76,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void startPhotoEmotionRecognition(Context context) {
-        if (Aware.getSetting(context, STATUS_PHOTO).equals("true")) {
+        if (Aware.getSetting(context, SETTINGS_PHOTO).equals("true")) {
             Intent serviceIntent = new Intent(context, EmotionRecognitionService.class);
             context.startService(serviceIntent);
         } else {
