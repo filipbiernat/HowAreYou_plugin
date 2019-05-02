@@ -85,7 +85,6 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private void onFinishedPhotoEmotionRecognition(Context context) {
-        //TODO
     }
 
 

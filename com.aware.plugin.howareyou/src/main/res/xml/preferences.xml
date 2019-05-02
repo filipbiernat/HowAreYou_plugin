@@ -26,9 +26,6 @@
             android:persistent="true"
             android:summary="Wyświetlaj przypomnienie, gdy kamera jest aktywna." />
 
-        <!-- TODO KALIBRACJA -->
-
-
     </PreferenceCategory>
     <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia użytkownika">
 

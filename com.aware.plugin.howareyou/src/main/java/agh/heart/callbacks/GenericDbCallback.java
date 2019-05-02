@@ -14,21 +14,21 @@ import heart.exceptions.AttributeNotRegisteredException;
 import heart.exceptions.NotInTheDomainException;
 import heart.xtt.Attribute;
 
-public class GenericCallback extends HeaRTCallback implements Callback {
+public class GenericDbCallback extends HeaRTCallback implements Callback {
 
     private String[] dbColumns;
     private Uri dbUri;
     Map<String,Double> dbValues;
 
-    protected GenericCallback(String[] dbColumns, Uri dbUri){
+    protected GenericDbCallback(String[] dbColumns, Uri dbUri){
         this.dbColumns = dbColumns;
         this.dbUri = dbUri;
         dbValues = new HashMap<>();
     }
 
     //Protect from calling default constructor
-    private GenericCallback(){
-        Log.e("TAG", "private GenericCallback() - this should not be executed!");
+    private GenericDbCallback(){
+        Log.e("TAG", "private GenericDbCallback() - this should not be executed!");
     }
 
     @Override

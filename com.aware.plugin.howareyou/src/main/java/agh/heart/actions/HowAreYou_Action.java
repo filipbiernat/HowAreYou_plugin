@@ -11,7 +11,7 @@ import heart.State;
 
 public abstract class HowAreYou_Action implements Action {
 
-    private static final String TAG = "AWARE::HowAreYou_Color::HeaRT";
+    private static final String TAG = "AWARE::HowAreYou::HeaRT";
 
     @Override
     public void execute(State state) {

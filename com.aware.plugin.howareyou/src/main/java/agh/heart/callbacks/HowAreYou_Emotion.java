@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import heart.Callback;
 
-public class HowAreYou_Emotion extends GenericCallback implements Callback {
+public class HowAreYou_Emotion extends GenericDbCallback implements Callback {
 
     private static final String[] DB_COLUMNS = new String[]{
             com.aware.plugin.howareyou.Provider.Table_Emotion_Data.EMOTION_HAPPY,

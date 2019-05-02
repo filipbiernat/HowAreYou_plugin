@@ -2,7 +2,7 @@ package agh.heart.callbacks;
 import android.net.Uri;
 import heart.Callback;
 
-public class HowAreYou_Color extends GenericCallback implements Callback {
+public class HowAreYou_Color extends GenericDbCallback implements Callback {
 
     private static final String[] DB_COLUMNS = new String[]{
             com.aware.plugin.howareyou.Provider.Table_Color_Data.COLOR_RED,
