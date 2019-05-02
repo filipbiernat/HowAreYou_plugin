@@ -14,7 +14,7 @@ import heart.exceptions.AttributeNotRegisteredException;
 import heart.exceptions.NotInTheDomainException;
 import heart.xtt.Attribute;
 
-public class GenericDbCallback extends HeaRTCallback implements Callback {
+public abstract class GenericDbCallback extends HeaRTCallback implements Callback {
 
     private String[] dbColumns;
     private Uri dbUri;
@@ -38,7 +38,9 @@ public class GenericDbCallback extends HeaRTCallback implements Callback {
 
             //Fill working memory with updated fields
             for (Map.Entry<String, Double> entry : dbValues.entrySet()) {
-                fillWorkingMemory(workingMemory, entry.getKey(), entry.getValue());
+                String variableName = getVariableName(entry);
+                double variableValue = getVariableValue(entry);
+                fillWorkingMemory(workingMemory, variableName, variableValue);
             }
 
         } catch (AttributeNotRegisteredException | NotInTheDomainException e) {
@@ -46,11 +48,20 @@ public class GenericDbCallback extends HeaRTCallback implements Callback {
         }
     }
 
+    protected String getVariableName(Map.Entry<String, Double> entry) {
+        return entry.getKey();
+    }
+
+    protected double getVariableValue (Map.Entry<String, Double> entry) {
+        return entry.getValue();
+    }
+
     private void fillWorkingMemory(WorkingMemory workingMemory, String attributeName, double value)
             throws AttributeNotRegisteredException, NotInTheDomainException {
         final String HOWAREYOU_PREFIX = "howareyou_";
+        Log.d("FILIP", "1:" + HOWAREYOU_PREFIX + attributeName + "; 2:" + value);
         workingMemory.setAttributeValue(HOWAREYOU_PREFIX + attributeName, new SimpleNumeric(value));
-    }
+}
 
     private void updateFields() {
         if (resolver == null) {

@@ -1265,6 +1265,14 @@ xattr [name: howareyou_color_dropped,
     abbrev: haycs
     ].
 
+xattr [name: howareyou_color_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Color',
+    abbrev: hayct
+    ].
+
 xattr [name: howareyou_emotion_happy,
     type: bool,
     class: simple,
@@ -1319,6 +1327,14 @@ xattr [name: howareyou_emotion_dropped,
     comm: in,
     callback: 'agh.heart.callbacks.HowAreYou_Emotion',
     abbrev: hayedr
+    ].
+
+xattr [name: howareyou_emotion_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Emotion',
+    abbrev: hayetm
     ].
 
 xattr [name: howareyou_double_anger,
@@ -1385,12 +1401,20 @@ xattr [name: howareyou_double_surprise,
     abbrev: haypsu
     ].
 
+xattr [name: howareyou_photo_timeout,
+    type: int,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_Photo',
+    abbrev: hayptm
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
 %! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
 %! Position: 500,0
-xschm howareyouAction: [watching_screen,howareyou_double_neutral] ==> [howareyou_action].
+xschm howareyouAction: [watching_screen,howareyou_emotion_timeout] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1423,7 +1447,7 @@ xrule 'WatchingScreen'/1:
 xrule howareyouAction/0:
     [
         watching_screen eq true,
-        howareyou_double_neutral lt 0.8
+        howareyou_emotion_timeout gte2
     ]
     ==>
     [
@@ -1437,7 +1461,7 @@ xrule howareyouAction/0:
 xrule howareyouAction/1:
     [
         watching_screen eq true,
-        howareyou_double_neutral gte 0.8
+        howareyou_emotion_timeout lt2
     ]
     ==>
     [
@@ -1451,7 +1475,7 @@ xrule howareyouAction/1:
 xrule howareyouAction/2:
     [
         watching_screen eq false,
-        howareyou_double_neutral eq any
+        howareyou_emotion_timeout eq any
     ]
     ==>
     [
