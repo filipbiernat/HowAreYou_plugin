@@ -11,7 +11,7 @@ import agh.heart.observers.Observer;
 
 public class HeaRTAwareObserverManager  {
 
-    private static final String TAG = "AWARE::HowAreYou_Color::HeaRT";
+    private static final String TAG = "AWARE::HowAreYou::HeaRT";
 
     private List<Observer> observers = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class HeaRTAwareObserverManager  {
     private void createObservers() {
         observers.add(new agh.heart.observers.Screen());
         //TODO uncomment when model
-        //observers.add(new agh.heart.observers.HowAreYou_Color());
+        //observers.add(new agh.heart.observers.HowAreYou());
 
         //Add new observers here
     }

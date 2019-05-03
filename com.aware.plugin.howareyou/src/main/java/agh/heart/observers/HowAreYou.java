@@ -19,6 +19,6 @@ public class HowAreYou extends Observer {
     }
 
     public String getObserverName(){
-        return "HowAreYou_Color";
+        return "HowAreYou";
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,9 +17,10 @@ import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
 
-    public static final String TAG = "AWARE::HowAreYou_Color";
+    public static final String TAG = "AWARE::HowAreYou";
 
     private HeaRTAwareObserverManager observerManager = new HeaRTAwareObserverManager();
+    private SensorsManager sensorsManager = new SensorsManager();
 
     @Override
     public void onCreate() {
@@ -72,46 +74,11 @@ public class Plugin extends Aware_Plugin {
         if (PERMISSIONS_OK) {
             Log.d(TAG, "Plugin started.");
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
-;
+
             //Initialize our plugin's settings
             Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU, true);
 
-            /**
-             * Example of how to enable accelerometer sensing and how to access the data in real-time for your app.
-             * In this particular case, we are sending a broadcast that the ContextCard listens to and updates the UI in real-time.
-             */
-            Aware.startAccelerometer(this);
-            Accelerometer.setSensorObserver(new Accelerometer.AWARESensorObserver() {
-                @Override
-                public void onAccelerometerChanged(ContentValues contentValues) {
-                    sendBroadcast(new Intent("ACCELEROMETER_DATA").putExtra("data", contentValues));
-                }
-            });
-
-            Aware.startScreen(this);
-            Screen.setSensorObserver(new Screen.AWARESensorObserver() {
-                @Override
-                public void onScreenOn() {
-
-                }
-
-                @Override
-                public void onScreenOff() {
-
-                }
-
-                @Override
-                public void onScreenLocked() {
-
-                }
-
-                @Override
-                public void onScreenUnlocked() {
-                    //Log.d(TAG, "Phone unlocked");
-                    //Intent broadcastIntent = new Intent(PluginActions.ACTION_START_QUESTION_COLOR);
-                    //sendBroadcast(broadcastIntent);
-                }
-            });
+            sensorsManager.initialiseSensors(this);
 
             //Enable our plugin's sync-adapter to upload the data to the server if part of a study
             if (Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE).length() >= 0 && !Aware.isSyncEnabled(this, Provider.getAuthority(this)) && Aware.isStudy(this) && getApplicationContext().getPackageName().equalsIgnoreCase("com.aware.phone") || getApplicationContext().getResources().getBoolean(R.bool.standalone)) {

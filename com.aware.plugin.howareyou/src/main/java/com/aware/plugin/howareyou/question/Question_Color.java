@@ -19,7 +19,7 @@ import com.flask.colorpicker.OnColorSelectedListener;
 
 public class Question_Color extends SlidableActivity {
 
-    protected static final String TAG = "AWARE::HowAreYou_Color::Qstn";
+    protected static final String TAG = "AWARE::HowAreYou::Qstn";
     protected static final Boolean DEBUG = true;
     private static final int COLOR_WHITE = 0xFFFFFF;
     public static final int ACTIVITY_TIMEOUT_SECONDS = 10;
