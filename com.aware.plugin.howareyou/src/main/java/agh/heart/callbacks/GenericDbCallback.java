@@ -42,7 +42,6 @@ public abstract class GenericDbCallback extends HeaRTCallback implements Callbac
                 String variableName = getVariableName(entry);
                 double variableValue = getVariableValue(entry);
 
-                Log.d("FILIP", "1: " + variableName + ", 2:" + variableValue);
                 fillWorkingMemory(workingMemory, variableName, variableValue);
             }
 

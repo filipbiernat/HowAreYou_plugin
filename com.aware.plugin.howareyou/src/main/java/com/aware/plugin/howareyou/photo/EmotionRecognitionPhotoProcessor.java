@@ -132,6 +132,10 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
 
     public void onFailedEmotionRecognition() {
         emotionRecognitionService.logDebug("Emotion recognition failed.");
+
+        Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION);
+        emotionRecognitionService.sendBroadcast(broadcastIntent);
+
         emotionRecognitionService.stopSelf();
     }
 
