@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import heart.Callback;
 
-public class HowAreYou_Photo extends GenericDbCallbackWithTimeout implements Callback {
+public class HowAreYou_Photo extends HowAreYou_Generic implements Callback {
 
     private static final String[] DB_COLUMNS = new String[]{
             com.aware.plugin.howareyou.Provider.Table_Photo_Data.ANGER,

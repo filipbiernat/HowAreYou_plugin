@@ -33,7 +33,6 @@ public class HowAreYou_Settings extends HeaRTCallback implements Callback {
         final String HOWAREYOU_PREFIX = "howareyou_";
 
         double value = Aware.getSetting(context, attributeName).equals("true") ? 1.0 : 0.0;
-        Log.d("FILIP", "1: " + HOWAREYOU_PREFIX + attributeName + ", 2: " + value);
         workingMemory.setAttributeValue(HOWAREYOU_PREFIX + attributeName, new SimpleNumeric(value));
     }
 }

@@ -1,16 +1,17 @@
 package agh.heart.callbacks;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
 //Note! Timeout in minutes!
-public class GenericDbCallbackWithTimeout extends GenericDbCallback {
+public class HowAreYou_Generic extends GenericDbCallback {
 
     private String timestampDbColumn; //key of db Column that should be treated differently
     private String timeoutVariableName; //name of the heartdroid variable that should represent timeout
 
-    protected GenericDbCallbackWithTimeout(String[] dbColumns, Uri dbUri, String timestampDbColumn, String timeoutVariableName) {
+    protected HowAreYou_Generic(String[] dbColumns, Uri dbUri, String timestampDbColumn, String timeoutVariableName) {
         super(dbColumns, dbUri);
         this.timestampDbColumn = timestampDbColumn;
         this.timeoutVariableName = timeoutVariableName;
@@ -34,5 +35,10 @@ public class GenericDbCallbackWithTimeout extends GenericDbCallback {
         double timeDelta_ms = System.currentTimeMillis() - value;
         double timeDelta_min = timeDelta_ms/1000/60;
         return timeDelta_min;
+    }
+
+    @NonNull
+    protected String getCallbackPrefix() {
+        return "howareyou_";
     }
 }

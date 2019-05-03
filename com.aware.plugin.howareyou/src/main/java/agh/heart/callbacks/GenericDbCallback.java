@@ -2,6 +2,7 @@ package agh.heart.callbacks;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -56,11 +57,19 @@ public abstract class GenericDbCallback extends HeaRTCallback implements Callbac
         return entry.getValue();
     }
 
+    protected double getADoubleFromDb(Cursor values, String dbColumn) {
+        return values.getDouble(values.getColumnIndex(dbColumn));
+    }
+
     private void fillWorkingMemory(WorkingMemory workingMemory, String attributeName, double value)
             throws AttributeNotRegisteredException, NotInTheDomainException {
-        final String HOWAREYOU_PREFIX = "howareyou_";
-        workingMemory.setAttributeValue(HOWAREYOU_PREFIX + attributeName, new SimpleNumeric(value));
-}
+        workingMemory.setAttributeValue(getCallbackPrefix() + attributeName, new SimpleNumeric(value));
+    }
+
+    @NonNull
+    protected String getCallbackPrefix() {
+        return "";
+    }
 
     private void updateFields() {
         if (resolver == null) {
@@ -75,7 +84,7 @@ public abstract class GenericDbCallback extends HeaRTCallback implements Callbac
 
         //Update map instead of separate fields
         for (String dbColumn : dbColumns){
-            dbValues.put(dbColumn, values.getDouble(values.getColumnIndex(dbColumn)));
+            dbValues.put(dbColumn, getADoubleFromDb(values, dbColumn));
         }
     }
 

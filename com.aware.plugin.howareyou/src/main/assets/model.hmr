@@ -1449,12 +1449,36 @@ xattr [name: howareyou_settings_photo_notification,
     abbrev: haysno
     ].
 
+xattr [name: application_facebook,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.Application_Facebook',
+    abbrev: apface
+    ].
+
+xattr [name: application_google_maps,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.Application_GoogleMaps',
+    abbrev: apgmap
+    ].
+
+xattr [name: application_youtube,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.Application_YouTube',
+    abbrev: apyout
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
 %! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
 %! Position: 500,0
-xschm howareyouAction: [watching_screen,howareyou_settings_question_emoji] ==> [howareyou_action].
+xschm howareyouAction: [watching_screen,application_youtube] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1487,7 +1511,7 @@ xrule 'WatchingScreen'/1:
 xrule howareyouAction/0:
     [
         watching_screen eq true,
-        howareyou_settings_question_emoji eq true
+        application_youtube eq true
     ]
     ==>
     [
@@ -1501,7 +1525,7 @@ xrule howareyouAction/0:
 xrule howareyouAction/1:
     [
         watching_screen eq true,
-        howareyou_settings_question_emoji eq any
+        application_youtube eq any
     ]
     ==>
     [
@@ -1515,7 +1539,7 @@ xrule howareyouAction/1:
 xrule howareyouAction/2:
     [
         watching_screen eq false,
-        howareyou_settings_question_emoji eq any
+        application_youtube eq any
     ]
     ==>
     [
