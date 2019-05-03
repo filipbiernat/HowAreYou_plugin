@@ -1513,10 +1513,10 @@ xattr [name: howareyou_latest_action,
 
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: -14,0
+%! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
-%! Position: -23,250
-xschm howareyouAction: [howareyou_latest_action,howareyou_photo_timeout,is_calling,howareyou_emotion_timeout,howareyou_emotion_dropped,howareyou_settings_photo] ==> [howareyou_action].
+%! Position: 500,0
+xschm howareyouAction: [watching_screen,howareyou_latest_action] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1527,6 +1527,9 @@ xrule 'WatchingScreen'/0:
     ==>
     [
         watching_screen set true
+    ]
+    :[
+        howareyouAction
     ].
     #1
 
@@ -1537,21 +1540,20 @@ xrule 'WatchingScreen'/1:
     ==>
     [
         watching_screen set false
+    ]
+    :[
+        howareyouAction
     ].
     #1
 
 xrule howareyouAction/0:
     [
-        howareyou_latest_action eq action_on_finished_photo_emotion_recognition,
-        howareyou_photo_timeout lt 3,
-        is_calling eq any,
-        howareyou_emotion_timeout eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_settings_photo eq any
+        watching_screen eq true,
+        howareyou_latest_action eq action_on_finished_question_color
     ]
     ==>
     [
-        howareyou_action set startQuestionColor
+        howareyou_action set startQuestionEmoji
     ]**>
         [
             'agh.heart.actions.HowAreYou_StartQuestionEmoji'
@@ -1560,16 +1562,12 @@ xrule howareyouAction/0:
 
 xrule howareyouAction/1:
     [
-        howareyou_latest_action eq action_on_finished_photo_emotion_recognition,
-        howareyou_photo_timeout lt 3,
-        is_calling eq any,
-        howareyou_emotion_timeout eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_settings_photo eq any
+        watching_screen eq true,
+        howareyou_latest_action eq any
     ]
     ==>
     [
-        howareyou_action set startQuestionEmoji
+        howareyou_action set startQuestionColor
     ]**>
         [
             'agh.heart.actions.HowAreYou_StartQuestionColor'
@@ -1578,65 +1576,16 @@ xrule howareyouAction/1:
 
 xrule howareyouAction/2:
     [
-        howareyou_latest_action eq action_on_finished_question_emoji,
-        howareyou_photo_timeout gte 0,
-        is_calling eq any,
-        howareyou_emotion_timeout lt 3,
-        howareyou_emotion_dropped eq false,
-        howareyou_settings_photo eq false
-    ]
-    ==>
-    [
-        howareyou_action set startQuestionColor
-    ]**>
-        [
-            'agh.heart.actions.HowAreYou_NoAction'
-        ].
-    #1
-
-xrule howareyouAction/3:
-    [
-        howareyou_latest_action eq any,
-        howareyou_photo_timeout gte 0,
-        is_calling eq any,
-        howareyou_emotion_timeout eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_settings_photo eq any
-    ]
-    ==>
-    [
-        howareyou_action set startPhotoEmotionRecognition
-    ].
-    #1
-
-xrule howareyouAction/4:
-    [
-        howareyou_latest_action eq any,
-        howareyou_photo_timeout gte 0,
-        is_calling eq any,
-        howareyou_emotion_timeout eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_settings_photo eq any
-    ]
-    ==>
-    [
-        howareyou_action set startQuestionEmoji
-    ].
-    #1
-
-xrule howareyouAction/5:
-    [
-        howareyou_latest_action eq any,
-        howareyou_photo_timeout gte 0,
-        is_calling eq any,
-        howareyou_emotion_timeout eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_settings_photo eq any
+        watching_screen eq false,
+        howareyou_latest_action eq any
     ]
     ==>
     [
         howareyou_action set noAction
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_NoAction'
+        ].
     #1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
+import com.aware.plugin.howareyou.plugin.DbInitializer;
 import com.aware.plugin.howareyou.plugin.HeaRTAwareObserverManager;
 import com.aware.plugin.howareyou.plugin.SensorsManager;
 import com.aware.utils.Aware_Plugin;
@@ -19,6 +20,7 @@ public class Plugin extends Aware_Plugin {
 
     private HeaRTAwareObserverManager observerManager = new HeaRTAwareObserverManager();
     private SensorsManager sensorsManager = new SensorsManager();
+    private DbInitializer dbInitializer = new DbInitializer();
 
     @Override
     public void onCreate() {
@@ -39,6 +41,8 @@ public class Plugin extends Aware_Plugin {
             }
         };
 
+        //heart-aware: If database empty, add one dummy record as a starting point for reasoning.
+        dbInitializer.initialize(this);
         //heart-aware: Create and register observers
         observerManager.create(getApplicationContext());
 
