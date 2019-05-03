@@ -1489,12 +1489,20 @@ xattr [name: howareyou_is_moving_timeout,
     abbrev: haymot
     ].
 
+xattr [name: is_calling,
+    type: bool,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.Communication',
+    abbrev: iscal
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
 %! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
 %! Position: 500,0
-xschm howareyouAction: [watching_screen,howareyou_is_moving] ==> [howareyou_action].
+xschm howareyouAction: [watching_screen,is_calling] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1527,7 +1535,7 @@ xrule 'WatchingScreen'/1:
 xrule howareyouAction/0:
     [
         watching_screen eq true,
-        howareyou_is_moving eq true
+        is_calling eq true
     ]
     ==>
     [
@@ -1541,7 +1549,7 @@ xrule howareyouAction/0:
 xrule howareyouAction/1:
     [
         watching_screen eq true,
-        howareyou_is_moving eq any
+        is_calling eq any
     ]
     ==>
     [
@@ -1555,7 +1563,7 @@ xrule howareyouAction/1:
 xrule howareyouAction/2:
     [
         watching_screen eq false,
-        howareyou_is_moving eq any
+        is_calling eq any
     ]
     ==>
     [

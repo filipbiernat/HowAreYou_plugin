@@ -1,18 +1,16 @@
 package com.aware.plugin.howareyou;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
-import com.aware.Screen;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
+import com.aware.plugin.howareyou.utils.HeaRTAwareObserverManager;
+import com.aware.plugin.howareyou.utils.SensorsManager;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {

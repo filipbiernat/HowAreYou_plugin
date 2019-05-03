@@ -1,4 +1,4 @@
-package com.aware.plugin.howareyou;
+package com.aware.plugin.howareyou.utils;
 
 import android.Manifest;
 import android.content.ContentValues;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import com.aware.Accelerometer;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
+import com.aware.Communication;
+import com.aware.plugin.howareyou.HowAreYouApp;
 import com.aware.utils.Aware_Plugin;
 
 public class SensorsManager {
@@ -92,5 +94,6 @@ public class SensorsManager {
         Aware.startCommunication(context);
         Aware.setSetting(context, Aware_Preferences.STATUS_CALLS, true);
         Aware.setSetting(context, Aware_Preferences.STATUS_MESSAGES, true);
+        Communication.setSensorObserver(HowAreYouApp.getCommunicationObserver());
     }
 }
