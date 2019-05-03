@@ -12,19 +12,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import agh.heart.model.ModelWrapper;
+import agh.heart.observers.Observer;
 
 
 public class HeaRTService extends JobService {
     private AsyncTask<JobParameters, Void, JobParameters> modelExecutor = new ModelExecutor();
+    private boolean isJobRunning = false;
 
     @Override
     public boolean onStartJob(JobParameters job) {
-        modelExecutor.execute(job);
+        if (!isJobRunning){
+            isJobRunning = true;
+            Log.d(Observer.TAG, "Job executed.");
+            modelExecutor.execute(job);
+        } else {
+            Log.d(Observer.TAG, "Job dropped as another is already job running.");
+        }
+
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters job) {
+        isJobRunning = false;
         return false;
     }
 

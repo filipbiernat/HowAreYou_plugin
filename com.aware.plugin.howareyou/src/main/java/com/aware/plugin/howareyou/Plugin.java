@@ -46,9 +46,7 @@ public class Plugin extends Aware_Plugin {
 
         //Add permissions you need (Android M+).
         //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
-        REQUIRED_PERMISSIONS.add(Manifest.permission.INTERNET);
-        REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
-        REQUIRED_PERMISSIONS.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        sensorsManager.addPermissions(this);
     }
 
     /**

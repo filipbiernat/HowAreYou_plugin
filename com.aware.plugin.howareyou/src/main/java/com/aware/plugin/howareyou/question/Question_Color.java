@@ -172,7 +172,7 @@ public class Question_Color extends SlidableActivity {
                 }
             }
             logDebug("Activity timer has expired. Timeout: " + expiresInSeconds + " sec.");
-            saveResponse();
+            closeDialog();
             return null;
         }
 

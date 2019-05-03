@@ -19,7 +19,7 @@ import agh.heart.HeaRTService;
 
 public abstract class Observer extends BroadcastReceiver {
 
-    private static final String TAG = "AWARE::HowAreYou::HeaRT";
+    public static final String TAG = "AWARE::HowAreYou::HeaRT";
     private static final int MAX_JOB_TIMEOUT = 10;
 
     FirebaseJobDispatcher dispatcher = null;
