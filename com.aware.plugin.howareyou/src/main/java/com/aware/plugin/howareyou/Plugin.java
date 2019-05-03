@@ -9,8 +9,8 @@ import android.util.Log;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
-import com.aware.plugin.howareyou.utils.HeaRTAwareObserverManager;
-import com.aware.plugin.howareyou.utils.SensorsManager;
+import com.aware.plugin.howareyou.plugin.HeaRTAwareObserverManager;
+import com.aware.plugin.howareyou.plugin.SensorsManager;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {

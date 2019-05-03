@@ -1,4 +1,4 @@
-package com.aware.plugin.howareyou.utils;
+package com.aware.plugin.howareyou.plugin;
 
 import android.content.Context;
 import android.util.Log;

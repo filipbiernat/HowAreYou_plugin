@@ -9,5 +9,5 @@ public class PluginActions {
     public static final String ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION = "ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION";
 
 
-    //Pro tip: Don't forget to add also to the Manifest!
+    //Pro tip: Don't forget to add also to the Manifest!z
 }

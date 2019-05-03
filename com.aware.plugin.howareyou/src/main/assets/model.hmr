@@ -159,6 +159,12 @@ xtype [name: howareyou_action_type,
     base: symbolic
     ].
 
+xtype [name: howareyou_latest_action_type,
+    domain: [action_start_question_color/0,action_on_finished_question_color/1,action_start_question_emoji/2,action_on_finished_question_emoji/3,action_start_photo_emotion_recognition/4,action_on_finished_photo_emotion_recognition/5],
+    ordered: yes,
+    base: symbolic
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%%% ATTRIBUTES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 xattr [name: latitude,
@@ -1497,12 +1503,20 @@ xattr [name: is_calling,
     abbrev: iscal
     ].
 
+xattr [name: howareyou_latest_action,
+    type: howareyou_latest_action_type,
+    class: simple,
+    comm: in,
+    callback: 'agh.heart.callbacks.HowAreYou_LatestAction',
+    abbrev: haylaac
+    ].
+
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
 %! Position: 0,0
 xschm 'WatchingScreen': [screen_status] ==> [watching_screen].
 %! Position: 500,0
-xschm howareyouAction: [watching_screen,is_calling] ==> [howareyou_action].
+xschm howareyouAction: [watching_screen,howareyou_latest_action] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1535,7 +1549,7 @@ xrule 'WatchingScreen'/1:
 xrule howareyouAction/0:
     [
         watching_screen eq true,
-        is_calling eq true
+        howareyou_latest_action eq action_on_finished_question_color
     ]
     ==>
     [
@@ -1549,7 +1563,7 @@ xrule howareyouAction/0:
 xrule howareyouAction/1:
     [
         watching_screen eq true,
-        is_calling eq any
+        howareyou_latest_action eq any
     ]
     ==>
     [
@@ -1563,7 +1577,7 @@ xrule howareyouAction/1:
 xrule howareyouAction/2:
     [
         watching_screen eq false,
-        is_calling eq any
+        howareyou_latest_action eq any
     ]
     ==>
     [

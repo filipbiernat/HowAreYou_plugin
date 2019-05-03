@@ -18,6 +18,7 @@ public class PluginManager extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        HowAreYouApp.getLatestPluginAction().setAction(action);//store value for callback
         Log.d(Plugin.TAG, "PluginManager: " + action);
 
         switch (action) {
