@@ -1733,7 +1733,7 @@ xrule howareyouAction/0:
         howareyou_action set startQuestionColor
     ]**>
         [
-            'agh.heart.actions.HowAreYou_StartQuestionEmoji'
+            'agh.heart.actions.HowAreYou_StartQuestionColor'
         ].
     #1
 
@@ -1752,7 +1752,7 @@ xrule howareyouAction/1:
         howareyou_action set startQuestionEmoji
     ]**>
         [
-            'agh.heart.actions.HowAreYou_StartQuestionColor'
+            'agh.heart.actions.HowAreYou_StartQuestionEmoji'
         ].
     #1
 
@@ -1771,7 +1771,7 @@ xrule howareyouAction/2:
         howareyou_action set startQuestionColor
     ]**>
         [
-            'agh.heart.actions.HowAreYou_NoAction'
+            'agh.heart.actions.HowAreYou_StartQuestionColor'
         ].
     #1
 
@@ -1788,7 +1788,10 @@ xrule howareyouAction/3:
     ==>
     [
         howareyou_action set startPhotoEmotionRecognition
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_StartPhotoEmotionRecognition'
+        ].
     #1
 
 xrule howareyouAction/4:
@@ -1804,7 +1807,10 @@ xrule howareyouAction/4:
     ==>
     [
         howareyou_action set startQuestionEmoji
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_StartQuestionEmoji'
+        ].
     #1
 
 xrule howareyouAction/5:
@@ -1820,7 +1826,10 @@ xrule howareyouAction/5:
     ==>
     [
         howareyou_action set noAction
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_NoAction'
+        ].
     #1
 
 xrule 'QuestionPhotoPossible'/14:
