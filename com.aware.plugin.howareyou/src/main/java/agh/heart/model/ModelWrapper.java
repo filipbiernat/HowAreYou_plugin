@@ -40,7 +40,7 @@ public class ModelWrapper {
                     .build();
             HeaRT.goalDrivenInference(
                     model,
-                    new String[]{"wantsBlueTooth", "howareyouAction"},
+                    new String[]{"howareyouAction", "QuestionEmojiPossible", "QuestionColorPossible"},
                     build);
         } catch (BuilderException | NotInTheDomainException | AttributeNotRegisteredException e) {
             e.printStackTrace();

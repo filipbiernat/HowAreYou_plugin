@@ -1499,7 +1499,7 @@ xattr [name: is_calling,
     type: bool,
     class: simple,
     comm: in,
-    callback: 'C14',
+    callback: 'agh.heart.callbacks.Communication',
     abbrev: iscal
     ].
 
@@ -1555,26 +1555,22 @@ xattr [name: photo_possible,
 
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: 900,-200
+%! Position: -58,-67
 xschm 'PhotoSuccessful': [howareyou_double_anger,howareyou_double_contempt,howareyou_double_disgust,howareyou_double_fear,howareyou_double_happiness,howareyou_double_sadness,howareyou_double_surprise] ==> [photo_successful].
-%! Position: 2600,400
-xschm howareyouAction: [howareyou_latest_action,howareyou_photo_timeout,photo_successful,howareyou_emotion_timeout,howareyou_emotion_dropped,howareyou_settings_photo,question_color_possible,question_emotion_possible,photo_possible] ==> [howareyou_action].
-%! Position: -400,500
+%! Position: 2557,516
+xschm howareyouAction: [howareyou_latest_action,howareyou_photo_timeout,photo_successful,howareyou_emotion_timeout,howareyou_emotion_dropped,howareyou_settings_photo,question_color_possible] ==> [howareyou_action].
+%! Position: -65,340
 xschm 'QuestionPhotoPossible': [screen_status,application_google_maps,is_calling] ==> [question_photo_possible].
-%! Position: 1400,500
+%! Position: 1498,525
 xschm 'QuestionColorPossible': [question_possible,howareyou_settings_question_color,howareyou_color_dropped,howareyou_color_timeout] ==> [question_color_possible].
-%! Position: 500,500
+%! Position: 686,521
 xschm 'QuestionPossible': [question_photo_possible,howareyou_is_moving,application_youtube] ==> [question_possible].
-%! Position: 1400,800
-xschm 'QuestionEmojiPossible': [question_possible,howareyou_settings_question_emoji,howareyou_emotion_dropped,howareyou_emotion_timeout] ==> [question_emotion_possible].
-%! Position: 500,300
-xschm 'PhotoPossible': [question_photo_possible,howareyou_settings_photo,howareyou_photo_timeout] ==> [photo_possible].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 xrule 'PhotoSuccessful'/0:
     [
-        howareyou_double_anger gte 0.5,
+        howareyou_double_anger gte 0.6,
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
@@ -1594,7 +1590,7 @@ xrule 'PhotoSuccessful'/0:
 xrule 'PhotoSuccessful'/1:
     [
         howareyou_double_anger gte 0,
-        howareyou_double_contempt gte 0.5,
+        howareyou_double_contempt gte 0.6,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
@@ -1614,7 +1610,7 @@ xrule 'PhotoSuccessful'/6:
     [
         howareyou_double_anger gte 0,
         howareyou_double_contempt gte 0,
-        howareyou_double_disgust gte 0.5,
+        howareyou_double_disgust gte 0.6,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
@@ -1634,7 +1630,7 @@ xrule 'PhotoSuccessful'/7:
         howareyou_double_anger gte 0,
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
-        howareyou_double_fear gte 0.5,
+        howareyou_double_fear gte 0.6,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
         howareyou_double_surprise gte 0
@@ -1654,7 +1650,7 @@ xrule 'PhotoSuccessful'/8:
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
-        howareyou_double_happiness gte 0.5,
+        howareyou_double_happiness gte 0.6,
         howareyou_double_sadness gte 0,
         howareyou_double_surprise gte 0
     ]
@@ -1674,7 +1670,7 @@ xrule 'PhotoSuccessful'/9:
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
-        howareyou_double_sadness gte 0.5,
+        howareyou_double_sadness gte 0.6,
         howareyou_double_surprise gte 0
     ]
     ==>
@@ -1694,7 +1690,7 @@ xrule 'PhotoSuccessful'/10:
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
-        howareyou_double_surprise gte 0.5
+        howareyou_double_surprise gte 0.6
     ]
     ==>
     [
@@ -1732,9 +1728,7 @@ xrule howareyouAction/0:
         howareyou_emotion_timeout eq any,
         howareyou_emotion_dropped eq any,
         howareyou_settings_photo eq any,
-        question_color_possible eq true,
-        question_emotion_possible eq any,
-        photo_possible eq any
+        question_color_possible eq true
     ]
     ==>
     [
@@ -1753,9 +1747,7 @@ xrule howareyouAction/1:
         howareyou_emotion_timeout eq any,
         howareyou_emotion_dropped eq any,
         howareyou_settings_photo eq any,
-        question_color_possible eq any,
-        question_emotion_possible eq true,
-        photo_possible eq any
+        question_color_possible eq any
     ]
     ==>
     [
@@ -1774,9 +1766,7 @@ xrule howareyouAction/2:
         howareyou_emotion_timeout lt 3,
         howareyou_emotion_dropped eq false,
         howareyou_settings_photo eq false,
-        question_color_possible eq true,
-        question_emotion_possible eq any,
-        photo_possible eq any
+        question_color_possible eq true
     ]
     ==>
     [
@@ -1795,9 +1785,7 @@ xrule howareyouAction/3:
         howareyou_emotion_timeout eq any,
         howareyou_emotion_dropped eq any,
         howareyou_settings_photo eq any,
-        question_color_possible eq any,
-        question_emotion_possible eq any,
-        photo_possible eq true
+        question_color_possible eq any
     ]
     ==>
     [
@@ -1816,9 +1804,7 @@ xrule howareyouAction/4:
         howareyou_emotion_timeout eq any,
         howareyou_emotion_dropped eq any,
         howareyou_settings_photo eq any,
-        question_color_possible eq any,
-        question_emotion_possible eq true,
-        photo_possible eq any
+        question_color_possible eq any
     ]
     ==>
     [
@@ -1837,9 +1823,7 @@ xrule howareyouAction/5:
         howareyou_emotion_timeout eq any,
         howareyou_emotion_dropped eq any,
         howareyou_settings_photo eq any,
-        question_color_possible eq any,
-        question_emotion_possible eq any,
-        photo_possible eq any
+        question_color_possible eq any
     ]
     ==>
     [
@@ -1861,8 +1845,7 @@ xrule 'QuestionPhotoPossible'/14:
         question_photo_possible set true
     ]
     :[
-        'QuestionPossible',
-        'PhotoPossible'
+        'QuestionPossible'
     ].
     #1
 
@@ -1877,8 +1860,8 @@ xrule 'QuestionPhotoPossible'/15:
         question_photo_possible set false
     ]
     :[
-        'QuestionPossible',
-        'PhotoPossible'
+        'QuestionColorPossible',
+        'QuestionPossible'
     ].
     #1
 
@@ -1902,7 +1885,7 @@ xrule 'QuestionColorPossible'/17:
     [
         question_possible eq true,
         howareyou_settings_question_color eq true,
-        howareyou_color_dropped eq 0,
+        howareyou_color_dropped eq 1,
         howareyou_color_timeout gte 30
     ]
     ==>
@@ -1941,8 +1924,7 @@ xrule 'QuestionPossible'/18:
         question_possible set true
     ]
     :[
-        'QuestionColorPossible',
-        'QuestionEmojiPossible'
+        'QuestionColorPossible'
     ].
     #1
 
@@ -1957,86 +1939,7 @@ xrule 'QuestionPossible'/19:
         question_possible set false
     ]
     :[
-        'QuestionColorPossible',
-        'QuestionEmojiPossible'
-    ].
-    #1
-
-xrule 'QuestionEmojiPossible'/21:
-    [
-        question_possible eq true,
-        howareyou_settings_question_emoji eq true,
-        howareyou_emotion_dropped eq true,
-        howareyou_emotion_timeout gte 120
-    ]
-    ==>
-    [
-        question_emotion_possible set true
-    ]
-    :[
-        howareyouAction
-    ].
-    #1
-
-xrule 'QuestionEmojiPossible'/22:
-    [
-        question_possible eq true,
-        howareyou_settings_question_emoji eq true,
-        howareyou_emotion_dropped eq false,
-        howareyou_emotion_timeout gte 30
-    ]
-    ==>
-    [
-        question_emotion_possible set true
-    ]
-    :[
-        howareyouAction
-    ].
-    #1
-
-xrule 'QuestionEmojiPossible'/23:
-    [
-        question_possible eq any,
-        howareyou_settings_question_emoji eq any,
-        howareyou_emotion_dropped eq any,
-        howareyou_emotion_timeout gte 0
-    ]
-    ==>
-    [
-        question_emotion_possible set false
-    ]
-    :[
-        howareyouAction
-    ].
-    #1
-
-xrule 'PhotoPossible'/24:
-    [
-        question_photo_possible eq true,
-        howareyou_settings_photo eq true,
-        howareyou_photo_timeout gte 60
-    ]
-    ==>
-    [
-        photo_possible set true
-    ]
-    :[
-        howareyouAction
-    ].
-    #1
-
-xrule 'PhotoPossible'/25:
-    [
-        question_photo_possible eq any,
-        howareyou_settings_photo eq any,
-        howareyou_photo_timeout gte 0
-    ]
-    ==>
-    [
-        photo_possible set false
-    ]
-    :[
-        howareyouAction
+        'QuestionColorPossible'
     ].
     #1
 
