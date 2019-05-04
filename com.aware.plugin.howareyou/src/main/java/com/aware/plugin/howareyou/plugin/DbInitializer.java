@@ -6,17 +6,26 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.aware.Aware;
-import com.aware.Aware_Preferences;
-import com.aware.plugin.howareyou.Provider;
-
 public class DbInitializer {
+
+    private static final Uri[] URIS_TO_INITIALIZE = new Uri[]{
+            com.aware.plugin.howareyou.Provider.Table_Photo_Data.CONTENT_URI,
+            com.aware.plugin.howareyou.Provider.Table_Color_Data.CONTENT_URI,
+            com.aware.plugin.howareyou.Provider.Table_Emotion_Data.CONTENT_URI,
+            com.aware.providers.Accelerometer_Provider.Accelerometer_Data.CONTENT_URI,
+            com.aware.providers.Gyroscope_Provider.Gyroscope_Data.CONTENT_URI,
+            com.aware.providers.Significant_Provider.Significant_Data.CONTENT_URI,
+            com.aware.providers.Locations_Provider.Locations_Data.CONTENT_URI,
+            com.aware.providers.Screen_Provider.Screen_Data.CONTENT_URI
+    };
+
     public void initialize(Context context) {
-        //TODO make below generic
-        initializeTable(context, Provider.Table_Photo_Data.CONTENT_URI);
+        for (Uri uri : URIS_TO_INITIALIZE){
+            initializeTable(context, uri);
+        }
     }
 
-    protected void initializeTable(Context context, Uri uri){
+    private void initializeTable(Context context, Uri uri){
         if (isTableEmpty(context, uri)){
             context.getContentResolver().insert(uri, new ContentValues());
         }
