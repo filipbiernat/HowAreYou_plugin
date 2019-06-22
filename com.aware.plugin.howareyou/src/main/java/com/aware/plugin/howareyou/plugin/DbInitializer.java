@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 public class DbInitializer {
 
@@ -21,6 +22,7 @@ public class DbInitializer {
 
     public void initialize(Context context) {
         for (Uri uri : URIS_TO_INITIALIZE){
+            Log.d("AWARE::HowAreYou:DbInit", "Initializing table " + uri.toString());
             initializeTable(context, uri);
         }
     }
@@ -34,19 +36,24 @@ public class DbInitializer {
     private boolean isTableEmpty(Context context, Uri uri){
         int numRecords = 0;
 
-        Cursor counter = context.getContentResolver().query(uri,
-                new String[]{"count(*) as entries"},
-                null,
-                null,
-                "_id ASC");
-        if (counter != null && counter.moveToFirst()) {
-                numRecords = counter.getInt(0);
+        try {
+            Cursor counter = context.getContentResolver().query(uri,
+                    null,
+                    null,
+                    null,
+                    "_id ASC");
+            if (counter != null && counter.moveToFirst()) {
+                numRecords = counter.getCount();
                 counter.close();
-        }
-        if (counter != null && !counter.isClosed()) {
-            counter.close();
-        }
+            }
+            if (counter != null && !counter.isClosed()) {
+                counter.close();
+            }
 
-        return numRecords == 0;
+            return numRecords == 0;
+        }
+        catch(Exception e){
+            return true;
+        }
     }
 }

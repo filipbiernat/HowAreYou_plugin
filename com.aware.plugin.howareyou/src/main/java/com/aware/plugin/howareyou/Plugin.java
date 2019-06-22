@@ -2,6 +2,7 @@ package com.aware.plugin.howareyou;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,14 +42,24 @@ public class Plugin extends Aware_Plugin {
             }
         };
 
-        //heart-aware: If database empty, add one dummy record as a starting point for reasoning.
-        dbInitializer.initialize(this);
-        //heart-aware: Create and register observers
-        observerManager.create(getApplicationContext());
-
         //Add permissions you need (Android M+).
         //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
-        sensorsManager.addPermissions(this);
+        boolean permissionsOk = sensorsManager.addPermissions(this);
+
+        if (permissionsOk) {
+            //heart-aware: If database empty, add one dummy record as a starting point for reasoning.
+            dbInitializer.initialize(this);
+            //heart-aware: Create and register observers
+            observerManager.create(getApplicationContext());
+
+            //Make picture - uncomment to debug
+            //final Intent intent = new Intent();
+            //intent.setAction(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+            //Context appContext = HowAreYouApp.getAppContext();
+            //appContext.sendBroadcast(intent);
+        } else {
+            Log.d(TAG, "Permissions not granted. Skipping initialization.");
+        }
     }
 
     /**

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.content.PermissionChecker;
 
 import com.aware.Accelerometer;
 import com.aware.Aware;
@@ -27,10 +29,21 @@ public class SensorsManager {
             //Note! Add here and also to the manifest (section uses-permission)
     };
 
-    public void addPermissions(Aware_Plugin plugin) {
+    public boolean addPermissions(Aware_Plugin plugin) {
         for (String permission : SENSORS_PERMISSIONS){
             plugin.REQUIRED_PERMISSIONS.add(permission);
         }
+
+        boolean PERMISSIONS_OK = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            for (String p : SENSORS_PERMISSIONS) {
+                if (PermissionChecker.checkSelfPermission(plugin, p) != PermissionChecker.PERMISSION_GRANTED) {
+                    PERMISSIONS_OK = false;
+                    break;
+                }
+            }
+        }
+        return PERMISSIONS_OK;
     }
 
     public void initialiseSensors(final Context context) {
