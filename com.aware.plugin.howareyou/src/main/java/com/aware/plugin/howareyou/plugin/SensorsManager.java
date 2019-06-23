@@ -54,7 +54,6 @@ public class SensorsManager {
     }
 
     public void initialiseSensorsNecessaryForCallbacksAndObservers(final Context context) {
-        startAccelerometer(context);
         startApplications(context);
         startCommunication(context);
 
@@ -64,6 +63,7 @@ public class SensorsManager {
     }
 
     public void initialiseSensorsNotNecessaryForCallbacksAndObservers(final Context context){
+        Aware.startAccelerometer(context);
         Aware.startKeyboard(context);
         Aware.startInstallations(context);
         Aware.startLinearAccelerometer(context);
@@ -87,16 +87,6 @@ public class SensorsManager {
         //Aware.startESM(context);
         //Aware.startMQTT(context);
         //Aware.startTemperature(context); Not supported
-    }
-
-    private void startAccelerometer(final Context context) {
-        Aware.startAccelerometer(context);
-        Accelerometer.setSensorObserver(new Accelerometer.AWARESensorObserver() {
-            @Override
-            public void onAccelerometerChanged(ContentValues contentValues) {
-                context.sendBroadcast(new Intent("ACCELEROMETER_DATA").putExtra("data", contentValues));
-            }
-        });
     }
 
     private void startApplications(Context context) {

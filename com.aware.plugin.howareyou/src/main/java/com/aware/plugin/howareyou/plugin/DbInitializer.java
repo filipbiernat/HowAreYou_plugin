@@ -13,10 +13,10 @@ public class DbInitializer {
             com.aware.plugin.howareyou.Provider.Table_Photo_Data.CONTENT_URI,
             com.aware.plugin.howareyou.Provider.Table_Color_Data.CONTENT_URI,
             com.aware.plugin.howareyou.Provider.Table_Emotion_Data.CONTENT_URI,
-            com.aware.providers.Accelerometer_Provider.Accelerometer_Data.CONTENT_URI,
-            com.aware.providers.Gyroscope_Provider.Gyroscope_Data.CONTENT_URI,
+            //com.aware.providers.Accelerometer_Provider.Accelerometer_Data.CONTENT_URI,
+            //com.aware.providers.Gyroscope_Provider.Gyroscope_Data.CONTENT_URI,
             com.aware.providers.Significant_Provider.Significant_Data.CONTENT_URI,
-            com.aware.providers.Locations_Provider.Locations_Data.CONTENT_URI,
+            //com.aware.providers.Locations_Provider.Locations_Data.CONTENT_URI,
             com.aware.providers.Screen_Provider.Screen_Data.CONTENT_URI,
             com.aware.providers.Applications_Provider.Applications_Foreground.CONTENT_URI
     };

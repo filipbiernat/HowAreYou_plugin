@@ -1,2 +1,6 @@
 include ':com.aware.plugin.howareyou'
 //, ':com.aware.plugin.howareyou.lib'
+
+//To debug core remember to uncomment below.
+//include ':aware-core'
+//project(':aware-core').projectDir = new File('D:\\pracaM2019\\aware-client', 'aware-core')

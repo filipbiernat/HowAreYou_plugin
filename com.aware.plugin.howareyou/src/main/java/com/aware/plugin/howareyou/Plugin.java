@@ -13,6 +13,7 @@ import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.plugin.howareyou.plugin.DbInitializer;
 import com.aware.plugin.howareyou.plugin.HeaRTAwareObserverManager;
 import com.aware.plugin.howareyou.plugin.SensorsManager;
+import com.aware.providers.Aware_Provider;
 import com.aware.utils.Aware_Plugin;
 
 public class Plugin extends Aware_Plugin {
@@ -148,6 +149,10 @@ public class Plugin extends Aware_Plugin {
             //Launch photo notification if necessary
             Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
             startService(serviceIntent);
+
+            //Uncomment to force sync
+            //Intent broadcastIntent = new Intent(Aware.ACTION_AWARE_SYNC_DATA);
+            //sendBroadcast(broadcastIntent);
         }
 
         return START_STICKY;

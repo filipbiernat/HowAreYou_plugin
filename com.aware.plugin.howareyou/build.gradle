@@ -55,6 +55,7 @@ dependencies {
     implementation "com.android.support:gridlayout-v7:$support_libs"
 
     api "com.github.denzilferreira:aware-client:$aware_libs"
+    //To debug core replace with below. Remember to uncomment in settings.gradle
     //implementation project(':aware-core')
 
     //Android Face Detection
