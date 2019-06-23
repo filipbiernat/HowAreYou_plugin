@@ -82,17 +82,52 @@ public class Plugin extends Aware_Plugin {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+
+        //FIXME FB todo
+        //Add permissions you need (Android M+).
+        //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
+        boolean permissionsOk = sensorsManager.addPermissions(this);
+
+        if (permissionsOk) {
+            //heart-aware: If database empty, add one dummy record as a starting point for reasoning.
+            dbInitializer.initialize(this);
+            //heart-aware: Create and register observers
+            observerManager.create(getApplicationContext());
+
+            //Make picture - uncomment to debug
+            //final Intent intent = new Intent();
+            //intent.setAction(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+            //Context appContext = HowAreYouApp.getAppContext();
+            //appContext.sendBroadcast(intent);
+        } else {
+            Log.d(TAG, "Permissions not granted. Skipping initialization.");
+        }
+
+
+
         if (PERMISSIONS_OK) {
+
             Log.d(TAG, "Plugin started.");
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
 
             //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU, true);
+            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,   true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO,              true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,     true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,     true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION, false);
 
-            sensorsManager.initialiseSensors(this);
+            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE, 1);//FIXME FB 30
 
-            //Enable our plugin's sync-adapter to upload the data to the server if part of a study
-            if (Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE).length() >= 0 && !Aware.isSyncEnabled(this, Provider.getAuthority(this)) && Aware.isStudy(this) && getApplicationContext().getPackageName().equalsIgnoreCase("com.aware.phone") || getApplicationContext().getResources().getBoolean(R.bool.standalone)) {
+            if (!Aware.isStudy(this)) {
+                Log.d(TAG, "Joining study.");
+                String studyUrl = "https://api.awareframework.com/index.php/webservice/index/2415/4a13qF3BHs8y";
+                Aware.joinStudy(this, studyUrl);
+                //Enable our plugin's sync-adapter to upload the data to the server if part of a study
+                //if (Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE).length() >= 0 &&
+                //        !Aware.isSyncEnabled(this, Provider.getAuthority(this)) &&
+                //        Aware.isStudy(this) && getApplicationContext().getPackageName().equalsIgnoreCase("com.aware.phone") ||
+                //        getApplicationContext().getResources().getBoolean(R.bool.standalone)) {
                 ContentResolver.setIsSyncable(Aware.getAWAREAccount(this), Provider.getAuthority(this), 1);
                 ContentResolver.addPeriodicSync(
                         Aware.getAWAREAccount(this),
@@ -100,7 +135,12 @@ public class Plugin extends Aware_Plugin {
                         Bundle.EMPTY,
                         Long.parseLong(Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE)) * 60
                 );
+                //}
+            } else {
+                Log.d(TAG, "Already a member of study. Skipping.");
             }
+
+            sensorsManager.initialiseSensors(this);
 
             //Initialise AWARE instance in plugin
             Aware.startAWARE(this);

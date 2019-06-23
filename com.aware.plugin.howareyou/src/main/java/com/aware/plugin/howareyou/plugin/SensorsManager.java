@@ -48,7 +48,7 @@ public class SensorsManager {
 
     public void initialiseSensors(final Context context) {
         initialiseSensorsNecessaryForCallbacksAndObservers(context);
-        //uncomment below when needed
+        //TODO uncomment below when needed
         //make sure there are no problems with permissions
         //initialiseSensorsNotNecessaryForCallbacksAndObservers(context);
     }

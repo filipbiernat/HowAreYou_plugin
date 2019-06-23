@@ -17,7 +17,8 @@ public class DbInitializer {
             com.aware.providers.Gyroscope_Provider.Gyroscope_Data.CONTENT_URI,
             com.aware.providers.Significant_Provider.Significant_Data.CONTENT_URI,
             com.aware.providers.Locations_Provider.Locations_Data.CONTENT_URI,
-            com.aware.providers.Screen_Provider.Screen_Data.CONTENT_URI
+            com.aware.providers.Screen_Provider.Screen_Data.CONTENT_URI,
+            com.aware.providers.Applications_Provider.Applications_Foreground.CONTENT_URI
     };
 
     public void initialize(Context context) {

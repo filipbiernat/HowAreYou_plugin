@@ -48,7 +48,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         resumeCheckBoxPreference(SETTINGS_PHOTO, true);
         resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI, true);
         resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR, true);
-        resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, true);
+        resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, false);
     }
 
     private void resumeCheckBoxPreference(String preference, boolean defValue) {
