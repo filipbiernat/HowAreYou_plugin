@@ -16,9 +16,13 @@ public class HeaRTAwareObserverManager  {
     private List<Observer> observers = new ArrayList<>();
 
     public void create(Context context) {
-        Log.d(TAG, "Creating observers.");
-        createObservers();
-        registerObservers(context);
+        if (observers.size() == 0) {
+            Log.d(TAG, "Creating observers.");
+            createObservers();
+            registerObservers(context);
+        } else {
+            Log.d(TAG, "Observers already created.");
+        }
     }
 
     private void createObservers() {
