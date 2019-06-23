@@ -112,23 +112,20 @@ public class Plugin extends Aware_Plugin {
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
 
             //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,   true);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO,              true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,     true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,     true);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION, false);
-
-            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE, 1);//FIXME FB 30
+            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,         true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
+            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
+            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
+            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
+            Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
 
             if (!Aware.isStudy(this)) {
                 Log.d(TAG, "Joining study.");
                 String studyUrl = "https://api.awareframework.com/index.php/webservice/index/2415/4a13qF3BHs8y";
                 Aware.joinStudy(this, studyUrl);
-                //Enable our plugin's sync-adapter to upload the data to the server if part of a study
-                //if (Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE).length() >= 0 &&
-                //        !Aware.isSyncEnabled(this, Provider.getAuthority(this)) &&
-                //        Aware.isStudy(this) && getApplicationContext().getPackageName().equalsIgnoreCase("com.aware.phone") ||
-                //        getApplicationContext().getResources().getBoolean(R.bool.standalone)) {
                 ContentResolver.setIsSyncable(Aware.getAWAREAccount(this), Provider.getAuthority(this), 1);
                 ContentResolver.addPeriodicSync(
                         Aware.getAWAREAccount(this),
@@ -136,7 +133,6 @@ public class Plugin extends Aware_Plugin {
                         Bundle.EMPTY,
                         Long.parseLong(Aware.getSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE)) * 60
                 );
-                //}
             } else {
                 Log.d(TAG, "Already a member of study. Skipping.");
             }
