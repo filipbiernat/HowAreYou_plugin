@@ -231,7 +231,8 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
                 cursor.moveToFirst();
                 long timestamp = cursor.getLong(cursor.getColumnIndex(column));
                 Date date = (new Date(timestamp));
-                message = date.toString();
+                int count = cursor.getCount();
+                message = date.toString() + " (Total: " + count + ")";
             }
             return message;
         }
