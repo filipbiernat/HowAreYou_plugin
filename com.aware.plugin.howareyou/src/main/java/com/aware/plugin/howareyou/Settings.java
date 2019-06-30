@@ -148,7 +148,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         public boolean onPreferenceClick(Preference preference) {
             StringBuilder stringBuilder = LogsUtil.readLogs();
             Intent intent = new Intent(Settings.this, DebugDialog.class);
-            intent.putExtra("MESSAGE_CONTENT", stringBuilder.toString());
+            intent.putExtra("MESSAGE_CONTENT", "Latest heartdroid reasoning log:\n\n" + stringBuilder.toString());
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;
