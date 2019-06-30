@@ -26,5 +26,6 @@
     <string name="settings_force_sync">settings_force_sync</string>
     <string name="settings_force_reasoning_log">settings_force_reasoning_log</string>
     <string name="settings_force_action_log">settings_force_action_log</string>
+    <string name="settings_force_application_log">settings_force_application_log</string>
 
 </resources>

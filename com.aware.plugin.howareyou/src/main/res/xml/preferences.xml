@@ -47,6 +47,9 @@
             android:key="@string/settings_force_reasoning_log"
             android:summary="Otwórz log z ostatniego wnioskowania."/>
         <Preference
+            android:key="@string/settings_force_application_log"
+            android:summary="Otwórz log aplikacji."/>
+        <Preference
             android:key="@string/settings_force_action_log"
             android:summary="Otwórz log ostatnich akcji."/>
     </PreferenceCategory>

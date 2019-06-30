@@ -6,8 +6,9 @@ import java.io.InputStreamReader;
 
 
 public class LogsUtil {
+    private static final int MAX_LOGCAT_ENTRIES = 200;
 
-    public static StringBuilder readLogs() {
+    public static StringBuilder readReasoningLogs() {
         StringBuilder logBuilder = new StringBuilder();
         try {
             Process process = Runtime.getRuntime().exec("logcat -d");
@@ -47,5 +48,34 @@ public class LogsUtil {
         } catch (IOException e) {
         }
         return logBuilder;
+    }
+
+    public static StringBuilder readApplicationLogs() {
+        StringBuilder logBuilder = new StringBuilder();
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                logBuilder.append(line + "\n");
+            }
+        } catch (IOException e) {
+        }
+
+        String fullLog = logBuilder.toString();
+        String[] logTable = fullLog.split("\\r?\\n");;
+        StringBuilder logBuilder2 = new StringBuilder();
+
+        int cnt = 0;
+        for (int i = logTable.length - 1; i >= 0; i--) {
+            logBuilder2.append(logTable[i]).append("\n\n");
+            ++cnt;
+            if (cnt > MAX_LOGCAT_ENTRIES){
+                break;
+            }
+        }
+        return logBuilder2;
     }
 }
