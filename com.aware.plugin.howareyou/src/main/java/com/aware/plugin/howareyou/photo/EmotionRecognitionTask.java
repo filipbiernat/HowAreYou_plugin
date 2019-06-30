@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.aware.plugin.howareyou.R;
 import com.microsoft.projectoxford.face.FaceServiceClient;
@@ -39,6 +40,7 @@ class EmotionRecognitionTask extends AsyncTask<InputStream, String, Face[]> {
                     });
         } catch (Exception e) {
             publishProgress(e.getMessage());
+            Log.d("FILIP", "exception" + e.getMessage());
             emotionRecognitionPhotoProcessor.onFailedEmotionRecognition();
             return null;
         }
@@ -55,6 +57,10 @@ class EmotionRecognitionTask extends AsyncTask<InputStream, String, Face[]> {
     @Override
     protected void onPostExecute(Face[] result) {
         if (result == null || result.length != 1){
+            if (result == null)
+                Log.d("FILIP", "result == null");
+            else if (result.length != 1)
+                Log.d("FILIP", "result.length != 1; result.length=" + result.length);
             emotionRecognitionPhotoProcessor.onFailedEmotionRecognition();
         } else {
             emotionRecognitionPhotoProcessor.onSuccessfulEmotionDetection(result[0].faceAttributes.emotion);

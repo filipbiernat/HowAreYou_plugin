@@ -39,6 +39,8 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         addPreferencesFromResource(R.xml.preferences);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
+
+        registerButtonListeners();
     }
 
     @Override
@@ -94,6 +96,33 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             //Launch photo notification if necessary
             Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
             startService(serviceIntent);
+        }
+    }
+
+    private void registerButtonListeners() {
+        registerButtonListener(R.string.settings_force_photo_emotion_recognition, PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
+        registerButtonListener(R.string.settings_force_question_color,            PluginActions.ACTION_START_QUESTION_COLOR);
+        registerButtonListener(R.string.settings_force_question_emoji,            PluginActions.ACTION_START_QUESTION_EMOJI);
+        registerButtonListener(R.string.settings_force_sync,                      Aware.ACTION_AWARE_SYNC_DATA);
+    }
+
+    private void registerButtonListener(int resId, String action) {
+        Preference button = findPreference(getString(resId));
+        Intent intent = new Intent(action);
+        button.setOnPreferenceClickListener(new HowareyouOnPreferenceClickListener(intent));
+    }
+
+    class HowareyouOnPreferenceClickListener implements Preference.OnPreferenceClickListener {
+        private Intent intent;
+
+        public HowareyouOnPreferenceClickListener(Intent intent) {
+            this.intent = intent;
+        }
+
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            sendBroadcast(intent);
+            return true;
         }
     }
 }

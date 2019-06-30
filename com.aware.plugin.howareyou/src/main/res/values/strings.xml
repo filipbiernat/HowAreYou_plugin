@@ -19,5 +19,9 @@
     <string name="photo_notification_text_line1">HowAreYou: Aktywne gromadzenie danych</string>
     <string name="photo_notification_text_line2">z użyciem aparatu Twojego urządzenia</string>
     <string name="photo_notification_text_action">Wyłącz na 10 minut</string>
+    <string name="settings_force_photo_emotion_recognition">settings_force_photo_emotion_recognition</string>
+    <string name="settings_force_question_color">settings_force_question_color</string>
+    <string name="settings_force_question_emoji">settings_force_question_emoji</string>
+    <string name="settings_force_sync">settings_force_sync</string>
 
 </resources>
