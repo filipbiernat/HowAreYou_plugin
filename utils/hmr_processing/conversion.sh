@@ -10,6 +10,7 @@ declare -a input_array=(
 "A1"
 "A2"
 "A3"
+"A4"
 "agh.heart.callbacks.Location"
 "agh.heart.callbacks.Gyroscope"
 "agh.heart.callbacks.Screen"
@@ -26,6 +27,7 @@ declare -a input_array=(
 "agh.heart.callbacks.Communication"
 "agh.heart.actions.HowAreYou_StartQuestionColor"
 "agh.heart.actions.HowAreYou_StartQuestionEmoji"
+"agh.heart.actions.HowAreYou_StartPhotoEmotionRecognition"
 "agh.heart.actions.HowAreYou_NoAction"
 )
 
@@ -33,6 +35,7 @@ declare -a output_array=(
 ",A,1,"
 ",A,2,"
 ",A,3,"
+",A,4,"
 "C01"
 "C02"
 "C03"
@@ -50,6 +53,7 @@ declare -a output_array=(
 "A1"
 "A2"
 "A3"
+"A4"
 )
 ###### INPUT END ######
 

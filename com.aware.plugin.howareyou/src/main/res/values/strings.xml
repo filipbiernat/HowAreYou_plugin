@@ -28,5 +28,6 @@
     <string name="settings_force_action_log">settings_force_action_log</string>
     <string name="settings_force_application_log">settings_force_application_log</string>
     <string name="settings_sync_wifi_only">settings_sync_wifi_only</string>
+    <string name="settings_use_basic_model">settings_use_basic_model</string>
 
 </resources>

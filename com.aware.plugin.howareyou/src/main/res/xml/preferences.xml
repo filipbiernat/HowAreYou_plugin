@@ -40,6 +40,11 @@
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Synchronizuj dane tylko poprzez wifi." />
+        <CheckBoxPreference
+            android:key="@string/settings_use_basic_model"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Wykorzystuj model B." />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia dewelopera">

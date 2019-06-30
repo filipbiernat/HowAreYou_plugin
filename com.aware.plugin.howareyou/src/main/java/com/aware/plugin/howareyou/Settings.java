@@ -17,14 +17,19 @@ import com.aware.plugin.howareyou.plugin.LogsUtil;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    //TODO hardcode true for basic model
+    private static final boolean USE_BASIC_MODEL = false;
+
     //Plugin settings in XML @xml/preferences
     public static final String SETTINGS_PLUGIN_HOWAREYOU = "settings_plugin_howareyou";
     public static final String SETTINGS_PHOTO = "settings_photo";
     public static final String SETTINGS_QUESTION_EMOJI = "settings_question_emoji";
     public static final String SETTINGS_QUESTION_COLOR = "settings_question_color";
+    public static final String SETTINGS_USE_BASIC_MODEL = "settings_use_basic_model";
     public static final String SETTINGS_PHOTO_NOTIFICATION = "settings_photo_notification";
     public static final String SETTINGS_DEBUG_MODE = "settings_debug_mode";
     public static final String SETTINGS_SYNC_WIFI_ONLY = "settings_sync_wifi_only";
+
 
     //Pro tip: Don't forget to add also to the preferences.xml! Also insert to SETTINGS_ARRAY below!
 
@@ -33,8 +38,10 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             SETTINGS_PHOTO,
             SETTINGS_QUESTION_EMOJI,
             SETTINGS_QUESTION_COLOR,
+            //SETTINGS_USE_BASIC_MODEL  <- Commented out as not used by reasoning engine
             SETTINGS_PHOTO_NOTIFICATION
-            //SETTINGS_DEBUG_MODE <- Commented out as not used by reasoning engine
+            //SETTINGS_DEBUG_MODE       <- Commented out as not used by reasoning engine
+            //SETTINGS_SYNC_WIFI_ONLY   <- Commented out as not used by reasoning engine
     };
 
     //Plugin settings UI elements
@@ -58,6 +65,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         resumeCheckBoxPreference(SETTINGS_PHOTO,              true);
         resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI,     true);
         resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR,     true);
+        resumeCheckBoxPreference(SETTINGS_USE_BASIC_MODEL,    true);
         resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, false);
         resumeCheckBoxPreference(SETTINGS_SYNC_WIFI_ONLY    , true);
         resumeCheckBoxPreference(SETTINGS_DEBUG_MODE,         false);
@@ -98,6 +106,10 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
 
         if( setting.getKey().equals(SETTINGS_QUESTION_COLOR) ) {
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, true));
+        }
+
+        if( setting.getKey().equals(SETTINGS_USE_BASIC_MODEL) ) {
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, USE_BASIC_MODEL));
         }
 
         if( setting.getKey().equals(SETTINGS_PHOTO_NOTIFICATION) ) {

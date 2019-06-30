@@ -15,6 +15,9 @@ import java.io.InputStreamReader;
 import agh.heart.model.ModelWrapper;
 import agh.heart.observers.Observer;
 
+import static com.aware.plugin.howareyou.Settings.SETTINGS_QUESTION_COLOR;
+import static com.aware.plugin.howareyou.Settings.SETTINGS_USE_BASIC_MODEL;
+
 
 public class HeaRTService extends JobService {
     private AsyncTask<JobParameters, Void, JobParameters> modelExecutor = new ModelExecutor();
@@ -69,8 +72,12 @@ public class HeaRTService extends JobService {
     private String readModel()
     {
         try {
+            String modelFilename = Aware.getSetting(getApplicationContext(), SETTINGS_USE_BASIC_MODEL).equals("true") ?
+                    "model_basic.hmr" :
+                    "model.hmr";
+            InputStream is = getApplicationContext().getAssets().open(modelFilename);
+
             StringBuilder sb = new StringBuilder();
-            InputStream is = getApplicationContext().getAssets().open("model.hmr");
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String str;
             while ((str = br.readLine()) != null) {

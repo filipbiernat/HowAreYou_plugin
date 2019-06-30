@@ -1499,7 +1499,7 @@ xattr [name: is_calling,
     type: bool,
     class: simple,
     comm: in,
-    callback: 'C14',
+    callback: 'agh.heart.callbacks.Communication',
     abbrev: iscal
     ].
 
@@ -1789,7 +1789,7 @@ xrule howareyouAction/2:
 
 xrule howareyouAction/3:
     [
-        howareyou_latest_action eq any,
+        howareyou_latest_action notin [action_on_finished_photo_emotion_recognition],
         howareyou_photo_timeout gte 0,
         photo_successful eq any,
         howareyou_emotion_timeout eq any,

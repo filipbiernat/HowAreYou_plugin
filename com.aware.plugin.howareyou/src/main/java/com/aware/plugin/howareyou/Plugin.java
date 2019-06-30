@@ -59,6 +59,8 @@ public class Plugin extends Aware_Plugin {
             Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
             Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
             Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
+            //TODO hardcode true for basic model
+            //Aware.setSetting(this, Settings.SETTINGS_USE_BASIC_MODEL,          false);
             Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
             //Aware.setSetting(this, Settings.SETTINGS_DEBUG_MODE,               false);
             Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
