@@ -1,6 +1,7 @@
 package agh.heart;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 import com.aware.Aware;
@@ -19,12 +20,18 @@ public class HeaRTService extends JobService {
     private AsyncTask<JobParameters, Void, JobParameters> modelExecutor = new ModelExecutor();
     private boolean isJobRunning = false;
 
+    private Handler handler = new Handler();
+    private TaskCanceler taskCanceler;
+
     @Override
     public boolean onStartJob(JobParameters job) {
         if (!isJobRunning){
             isJobRunning = true;
             Log.d(Observer.TAG, "Job executed.");
             modelExecutor.execute(job);
+
+            taskCanceler = new TaskCanceler(modelExecutor);
+            handler.postDelayed(taskCanceler, 5*60*1000/*5 minutes*/);
         } else {
             Log.d(Observer.TAG, "Job dropped as another is already job running.");
         }
@@ -35,6 +42,11 @@ public class HeaRTService extends JobService {
     @Override
     public boolean onStopJob(JobParameters job) {
         isJobRunning = false;
+
+        if(taskCanceler != null && handler != null) {
+            handler.removeCallbacks(taskCanceler);
+        }
+
         return false;
     }
 
@@ -71,6 +83,22 @@ public class HeaRTService extends JobService {
             if (Aware.DEBUG)
                 Log.e(Aware.TAG, e.getMessage());
             return null;
+        }
+    }
+
+    class TaskCanceler implements Runnable{
+        private AsyncTask task;
+
+        public TaskCanceler(AsyncTask task) {
+            this.task = task;
+        }
+
+        @Override
+        public void run() {
+            if (task.getStatus() == AsyncTask.Status.RUNNING ) {
+                task.cancel(true);
+                isJobRunning = false;
+            }
         }
     }
 }

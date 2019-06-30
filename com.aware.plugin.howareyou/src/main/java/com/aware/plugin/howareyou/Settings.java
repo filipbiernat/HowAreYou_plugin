@@ -116,6 +116,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         registerButtonListener(R.string.settings_force_question_emoji,            PluginActions.ACTION_START_QUESTION_EMOJI);
         registerButtonListener(R.string.settings_force_sync,                      Aware.ACTION_AWARE_SYNC_DATA);
         registerButtonListener(R.string.settings_force_reasoning_log,             new HowareyouForceReasoningLogButtonListener());
+        registerButtonListener(R.string.settings_force_action_log,                new HowareyouForceActionLogButtonListener());
     }
 
     private void registerButtonListener(int resId, String action) {
@@ -149,6 +150,18 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             StringBuilder stringBuilder = LogsUtil.readLogs();
             Intent intent = new Intent(Settings.this, DebugDialog.class);
             intent.putExtra("MESSAGE_CONTENT", "Latest heartdroid reasoning log:\n\n" + stringBuilder.toString());
+            intent.putExtra("RUN_ALWAYS", true);
+            startActivity(intent);
+            return true;
+        }
+    }
+
+    class HowareyouForceActionLogButtonListener implements Preference.OnPreferenceClickListener {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            Intent intent = new Intent(Settings.this, DebugDialog.class);
+            intent.putExtra("MESSAGE_CONTENT",
+                    "Latest HowAreYou actions:\n\n" + PluginManager.getActivityLog());
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;
