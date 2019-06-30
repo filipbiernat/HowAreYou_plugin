@@ -26,8 +26,11 @@ import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
+import android.widget.Toast;
 
+import com.aware.Aware;
 import com.aware.plugin.howareyou.PluginActions;
+import com.aware.plugin.howareyou.Settings;
 import com.aware.plugin.howareyou.plugin.DebugDialog;
 import com.google.android.gms.vision.face.FaceDetector;
 
@@ -57,6 +60,7 @@ public class EmotionRecognitionService extends Service {
     protected CaptureRequest.Builder captureRequestBuilder;
     private ImageReader imageReader;
     private Handler mBackgroundHandler;
+    private Handler mToastHandler;
     private HandlerThread mBackgroundThread;
     private SurfaceTexture surfaceTexture;
     private Surface surface;
@@ -79,6 +83,7 @@ public class EmotionRecognitionService extends Service {
         initializeService();
         startBackgroundThread();
         openCamera();
+        mToastHandler = new Handler();
     }
 
     @Override
@@ -347,6 +352,20 @@ public class EmotionRecognitionService extends Service {
     protected void logDebug(String debugString) {
         if (DEBUG) {
             Log.d(TAG, debugString);
+        }
+        if(Aware.getSetting(this, Settings.SETTINGS_DEBUG_MODE).equals("true")) {
+            toastDebug("Photo: " + debugString);
+        }
+    }
+
+    private void toastDebug(final String debugString) {
+        if (mToastHandler != null) {
+            mToastHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(EmotionRecognitionService.this, debugString, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }

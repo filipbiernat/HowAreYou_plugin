@@ -20,29 +20,42 @@ public class LogsUtil {
                 if (line.contains("Job executed")){
                     logBuilder = new StringBuilder();
                 }
-                if (line.contains("System.err: HEART") &&
-                        !line.contains("satisfied with certainty (1.0).") &&
-                        !line.contains("Checking condition ") &&
-                        !line.contains("Checking conditions ")) {
-                    if (logBuilder.length() != 0)
+                if  (line.contains("System.err: HEART") &&
+                     !line.contains("fired.") &&
+                        (line.contains("Processing table ") ||
+                         line.contains("Condition ") ||
+                         line.contains("Finished evaluating ") ||
+                         line.contains("Rule ")
+                        )
+                    )
+                {
+                    if (logBuilder.length()== 0)
                     {
-                        int startIndex = line.lastIndexOf("System.err: HEART: ") + 19;
-                        if (startIndex != -1) {
-                            String prefix = "System.err: HEART: ";
-                            String string = line.substring(line.lastIndexOf(prefix) + prefix.length());
-                            if (string.contains("Finished evaluating rule")){
-                                string += '\n';
-                            }
-                            if (string.contains("Processing table") && string.contains("finished")){
-                                string += '\n';
-                                string += '\n';
-                            }
-                            if (string != null){
-                                logBuilder.append(string + "\n");
-                            }
+                        logBuilder.append("Timestamp: " + line.substring(0, 18) + "\n\n");
+                    }
+
+                    int startIndex = line.lastIndexOf("System.err: HEART: ") + 19;
+                    if (startIndex != -1) {
+                        String prefix = "System.err: HEART: ";
+                        String string = line.substring(line.lastIndexOf(prefix) + prefix.length());
+                        if (string.contains("Finished evaluating rule")){
+                            string += '\n';
                         }
-                    } else {
-                        logBuilder.append(line + "\n");
+                        if (string.contains("Processing table") && string.contains("finished")){
+                            string = "";
+                        }
+                        if (string != null){
+                            string = string.replaceAll(" \\(ID: null\\)|satisfied with certainty |\\. SATISFIED with|certainty\\.|Processing |Finished evaluating |Condition ","");
+                            string = string.replaceAll("rule", "        Rule");
+                            string = string.replaceAll("\\(1.0\\)", "--> TRUE");
+                            string = string.replaceAll("\\(0.0\\)", "--> FALSE");
+                            string = string.replaceAll("(?<!\\d)\\.(?!\\d)", "");
+                            if (string.contains("table")){
+                                string = string.toUpperCase();
+                            }
+
+                            logBuilder.append(string + "\n");
+                        }
                     }
                 }
             }

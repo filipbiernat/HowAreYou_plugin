@@ -44,7 +44,8 @@ class EmotionRecognitionTask extends AsyncTask<InputStream, String, Face[]> {
                     });
         } catch (Exception e) {
             publishProgress(e.getMessage());
-            String message = "Photo emotion recognition failed\n" + e.getMessage();
+            String message = "Photo emotion recognition failed\n" +
+                    "Exception happened when detecting face\n" + e.getMessage();
             emotionRecognitionPhotoProcessor.onFailedEmotionRecognition(message);
             return null;
         }
