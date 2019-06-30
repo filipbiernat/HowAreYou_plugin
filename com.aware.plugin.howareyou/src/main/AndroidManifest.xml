@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application android:name="com.aware.plugin.howareyou.HowAreYouApp"
         android:icon="@mipmap/ic_launcher_round"

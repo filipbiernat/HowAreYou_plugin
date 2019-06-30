@@ -24,5 +24,6 @@
     <string name="settings_force_question_color">settings_force_question_color</string>
     <string name="settings_force_question_emoji">settings_force_question_emoji</string>
     <string name="settings_force_sync">settings_force_sync</string>
+    <string name="settings_force_reasoning_log">settings_force_reasoning_log</string>
 
 </resources>

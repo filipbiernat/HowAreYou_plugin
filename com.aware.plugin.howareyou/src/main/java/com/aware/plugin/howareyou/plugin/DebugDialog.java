@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.aware.Aware;
@@ -18,8 +20,9 @@ public class DebugDialog extends Activity {
         super.onCreate(savedInstanceState);
 
         try{
-            if(Aware.getSetting(this, Settings.SETTINGS_DEBUG_MODE).equals("true")) {
-                Intent intent = getIntent();
+            Intent intent = getIntent();
+            boolean runAlways = intent.getBooleanExtra("RUN_ALWAYS", false);
+            if(Aware.getSetting(this, Settings.SETTINGS_DEBUG_MODE).equals("true") || runAlways) {
                 String message = intent.getStringExtra("MESSAGE_CONTENT");
 
 
@@ -31,6 +34,7 @@ public class DebugDialog extends Activity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                finish();
                             }
                         });
                 alertDialog.show();

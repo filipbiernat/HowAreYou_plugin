@@ -12,6 +12,8 @@ import android.util.Log;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
+import com.aware.plugin.howareyou.plugin.DebugDialog;
+import com.aware.plugin.howareyou.plugin.LogsUtil;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -113,12 +115,18 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         registerButtonListener(R.string.settings_force_question_color,            PluginActions.ACTION_START_QUESTION_COLOR);
         registerButtonListener(R.string.settings_force_question_emoji,            PluginActions.ACTION_START_QUESTION_EMOJI);
         registerButtonListener(R.string.settings_force_sync,                      Aware.ACTION_AWARE_SYNC_DATA);
+        registerButtonListener(R.string.settings_force_reasoning_log,             new HowareyouForceReasoningLogButtonListener());
     }
 
     private void registerButtonListener(int resId, String action) {
         Preference button = findPreference(getString(resId));
         Intent intent = new Intent(action);
         button.setOnPreferenceClickListener(new HowareyouOnPreferenceClickListener(intent));
+    }
+
+    private void registerButtonListener(int resId, Preference.OnPreferenceClickListener listener) {
+        Preference button = findPreference(getString(resId));
+        button.setOnPreferenceClickListener(listener);
     }
 
     class HowareyouOnPreferenceClickListener implements Preference.OnPreferenceClickListener {
@@ -131,6 +139,18 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         @Override
         public boolean onPreferenceClick(Preference preference) {
             sendBroadcast(intent);
+            return true;
+        }
+    }
+
+    class HowareyouForceReasoningLogButtonListener implements Preference.OnPreferenceClickListener {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            StringBuilder stringBuilder = LogsUtil.readLogs();
+            Intent intent = new Intent(Settings.this, DebugDialog.class);
+            intent.putExtra("MESSAGE_CONTENT", stringBuilder.toString());
+            intent.putExtra("RUN_ALWAYS", true);
+            startActivity(intent);
             return true;
         }
     }

@@ -43,6 +43,9 @@
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Uruchom tryb debugowy." />
+        <Preference
+            android:key="@string/settings_force_reasoning_log"
+            android:summary="Otwórz log z ostatniego wnioskowania."/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Plugin HowAreYou: Wymuszanie akcji">
