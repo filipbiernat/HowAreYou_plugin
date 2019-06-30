@@ -1555,7 +1555,7 @@ xattr [name: photo_possible,
 
 %%%%%%%%%%%%%%%%%%%%%%%% TABLE SCHEMAS DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%
 
-%! Position: -233,-13
+%! Position: 0,0
 xschm howareyouAction: [screen_status,howareyou_emotion_timeout] ==> [howareyou_action].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% RULES DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1568,7 +1568,10 @@ xrule howareyouAction/0:
     ==>
     [
         howareyou_action set startQuestionEmoji
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_StartQuestionEmoji'
+        ].
     #1
 
 xrule howareyouAction/1:
@@ -1579,7 +1582,10 @@ xrule howareyouAction/1:
     ==>
     [
         howareyou_action set noAction
-    ].
+    ]**>
+        [
+            'agh.heart.actions.HowAreYou_NoAction'
+        ].
     #1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
