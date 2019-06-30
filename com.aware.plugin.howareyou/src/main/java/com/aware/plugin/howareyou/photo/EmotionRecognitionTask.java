@@ -3,10 +3,14 @@ package com.aware.plugin.howareyou.photo;
 import java.io.InputStream;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.aware.Aware;
 import com.aware.plugin.howareyou.R;
+import com.aware.plugin.howareyou.Settings;
 import com.microsoft.projectoxford.face.FaceServiceClient;
 import com.microsoft.projectoxford.face.FaceServiceRestClient;
 import com.microsoft.projectoxford.face.contract.Face;
@@ -40,8 +44,8 @@ class EmotionRecognitionTask extends AsyncTask<InputStream, String, Face[]> {
                     });
         } catch (Exception e) {
             publishProgress(e.getMessage());
-            Log.d("FILIP", "exception" + e.getMessage());
-            emotionRecognitionPhotoProcessor.onFailedEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" + e.getMessage();
+            emotionRecognitionPhotoProcessor.onFailedEmotionRecognition(message);
             return null;
         }
     }
@@ -56,12 +60,17 @@ class EmotionRecognitionTask extends AsyncTask<InputStream, String, Face[]> {
 
     @Override
     protected void onPostExecute(Face[] result) {
-        if (result == null || result.length != 1){
-            if (result == null)
-                Log.d("FILIP", "result == null");
-            else if (result.length != 1)
-                Log.d("FILIP", "result.length != 1; result.length=" + result.length);
-            emotionRecognitionPhotoProcessor.onFailedEmotionRecognition();
+        if (result == null) {
+            String message = "Photo emotion recognition failed\n" +
+                    "Problems with connection to API\n" +
+                    "result == null";
+            emotionRecognitionPhotoProcessor.onFailedEmotionRecognition(message);
+        }
+        else if (result.length != 1) {
+            String message = "Photo emotion recognition failed\n" +
+                    "Problems with connection to API\n" +
+                    "result.length == " + result.length;
+            emotionRecognitionPhotoProcessor.onFailedEmotionRecognition(message);
         } else {
             emotionRecognitionPhotoProcessor.onSuccessfulEmotionDetection(result[0].faceAttributes.emotion);
         }

@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Environment;
 import android.util.SparseArray;
+import android.widget.EditText;
 
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.PluginActions;
+import com.aware.plugin.howareyou.R;
+import com.aware.plugin.howareyou.plugin.DebugDialog;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -28,7 +30,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
-import static com.aware.plugin.howareyou.PluginActions.ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION;
 import static com.aware.plugin.howareyou.Provider.*;
 
 class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableListener {
@@ -120,6 +121,11 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
     }
 
     public void onSuccessfulEmotionDetection(Emotion emotions) {
+        String message = "Photo emotion recognition succeeded\n" +
+                "Detected emotions: " + getEmotionsString(emotions);
+        Intent intent = new Intent(emotionRecognitionService, DebugDialog.class);
+        intent.putExtra("MESSAGE_CONTENT", message);
+        emotionRecognitionService.startActivity(intent);
         emotionRecognitionService.logDebug("Emotion recognition succeeded.");
         emotionRecognitionService.logDebug("Detected emotions: " + getEmotionsString(emotions));
 
@@ -130,7 +136,11 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         emotionRecognitionService.stopSelf();
     }
 
-    public void onFailedEmotionRecognition() {
+    public void onFailedEmotionRecognition(String message) {
+        Intent intent = new Intent(emotionRecognitionService, DebugDialog.class);
+        intent.putExtra("MESSAGE_CONTENT", message);
+        emotionRecognitionService.startActivity(intent);
+
         emotionRecognitionService.logDebug("Emotion recognition failed.");
         emotionRecognitionService.stopSelf();
     }

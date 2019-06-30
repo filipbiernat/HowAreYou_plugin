@@ -28,6 +28,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 
 import com.aware.plugin.howareyou.PluginActions;
+import com.aware.plugin.howareyou.plugin.DebugDialog;
 import com.google.android.gms.vision.face.FaceDetector;
 
 import java.util.ArrayList;
@@ -121,12 +122,14 @@ public class EmotionRecognitionService extends Service {
 
         @Override
         public void onDisconnected(CameraDevice camera) {
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" + "CameraDevice.StateCallback: Service disconnected";
+            stopPhotoEmotionRecognition(message);
         }
 
         @Override
         public void onError(CameraDevice camera, int error) {
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" + "CameraDevice.StateCallback: onError";
+            stopPhotoEmotionRecognition(message);
         }
     };
 
@@ -144,7 +147,9 @@ public class EmotionRecognitionService extends Service {
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "InterruptedException in stopBackgroundThread\n" + e.getMessage();
+            stopPhotoEmotionRecognition(message);
         }
     }
 
@@ -155,14 +160,18 @@ public class EmotionRecognitionService extends Service {
             public void run() {
                 if (null == cameraDevice) {
                     logDebug("Error when takePictureSeriesDelayed: cameraDevice is null.");
-                    stopPhotoEmotionRecognition();
+                    String message = "Photo emotion recognition failed\n" +
+                            "Error when takePictureSeriesDelayed: cameraDevice is null.";
+                    stopPhotoEmotionRecognition(message);
                     return;
                 }
 
                 --iterationsLeft;
                 if (0 == iterationsLeft) {
                     logDebug("TakePictureSeries. No more retries left.");
-                    stopPhotoEmotionRecognition();
+                    String message = "Photo emotion recognition failed\n" +
+                            "TakePictureSeries. No more retries left.";
+                    stopPhotoEmotionRecognition(message);
                     return;
                 }
 
@@ -220,7 +229,9 @@ public class EmotionRecognitionService extends Service {
                         session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
-                        stopPhotoEmotionRecognition();
+                        String message = "Photo emotion recognition failed\n" +
+                                "CameraAccessException in onConfigured\n" + e.getMessage();
+                        stopPhotoEmotionRecognition(message);
                     }
                 }
 
@@ -230,7 +241,9 @@ public class EmotionRecognitionService extends Service {
             }, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "CameraAccessException in takePictureSeries\n" + e.getMessage();
+            stopPhotoEmotionRecognition(message);
         }
     }
 
@@ -243,7 +256,8 @@ public class EmotionRecognitionService extends Service {
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                     if (null == cameraDevice) {
                         logDebug("Error when createCameraPreview: cameraDevice is null.");
-                        stopPhotoEmotionRecognition();
+                        String message = "Photo emotion recognition failed\n" + "cameraDevice is null";
+                        stopPhotoEmotionRecognition(message);
                         return;
                     }
                     cameraCaptureSessions = cameraCaptureSession;
@@ -256,7 +270,9 @@ public class EmotionRecognitionService extends Service {
             }, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "CameraAccessException in createCameraPreview\n" + e.getMessage();
+            stopPhotoEmotionRecognition(message);
         }
     }
 
@@ -271,21 +287,26 @@ public class EmotionRecognitionService extends Service {
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 logDebug("Error: permissions not granted.");
-                stopPhotoEmotionRecognition();
+                String message = "Photo emotion recognition failed\n" + "Error: permissions not granted.";
+                stopPhotoEmotionRecognition(message);
                 return;
             }
 
             manager.openCamera(cameraId, stateCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "CameraAccessException in openCamera\n" + e.getMessage();
+            stopPhotoEmotionRecognition(message);
         }
     }
 
     protected void updatePreview() {
         if (null == cameraDevice) {
             logDebug("Error when updatePreview: cameraDevice is null.");
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "Error when updatePreview: cameraDevice is null.";
+            stopPhotoEmotionRecognition(message);
             return;
         }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
@@ -293,7 +314,9 @@ public class EmotionRecognitionService extends Service {
             cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            stopPhotoEmotionRecognition();
+            String message = "Photo emotion recognition failed\n" +
+                    "CameraAccessException in updatePreview\n" + e.getMessage();
+            stopPhotoEmotionRecognition(message);
         }
     }
 
@@ -310,7 +333,11 @@ public class EmotionRecognitionService extends Service {
         }
     }
 
-    public void stopPhotoEmotionRecognition() {
+    public void stopPhotoEmotionRecognition(String message) {
+        Intent intent = new Intent(this, DebugDialog.class);
+        intent.putExtra("MESSAGE_CONTENT", message);
+        startActivity(intent);
+
         logDebug("Stopping emotion recognition service.");
         Intent broadcastIntent = new Intent(PluginActions.ACTION_ON_FINISHED_PHOTO_EMOTION_RECOGNITION);
         sendBroadcast(broadcastIntent);

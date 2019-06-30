@@ -11,6 +11,7 @@ import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.plugin.howareyou.plugin.DbInitializer;
+import com.aware.plugin.howareyou.plugin.DebugDialog;
 import com.aware.plugin.howareyou.plugin.HeaRTAwareObserverManager;
 import com.aware.plugin.howareyou.plugin.SensorsManager;
 import com.aware.providers.Aware_Provider;
@@ -53,11 +54,21 @@ public class Plugin extends Aware_Plugin {
             //heart-aware: Create and register observers
             observerManager.create(getApplicationContext());
 
-            //Make picture - uncomment to debug
-            //final Intent intent = new Intent();
-            //intent.setAction(PluginActions.ACTION_START_PHOTO_EMOTION_RECOGNITION);
-            //Context appContext = HowAreYouApp.getAppContext();
-            //appContext.sendBroadcast(intent);
+            //Initialize our plugin's settings
+            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,         true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
+            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
+            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
+            //Aware.setSetting(this, Settings.SETTINGS_DEBUG_MODE,               false);
+            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
+            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
+            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
+            Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
+
+            Intent intent = new Intent(this, DebugDialog.class);
+            intent.putExtra("MESSAGE_CONTENT", "Plugin service created.");
+            startActivity(intent);
         } else {
             Log.d(TAG, "Permissions not granted. Skipping initialization.");
         }
@@ -84,7 +95,6 @@ public class Plugin extends Aware_Plugin {
         super.onStartCommand(intent, flags, startId);
 
 
-        //FIXME FB todo
         //Add permissions you need (Android M+).
         //By default, AWARE asks access to the #Manifest.permission.WRITE_EXTERNAL_STORAGE
         boolean permissionsOk = sensorsManager.addPermissions(this);
@@ -106,21 +116,11 @@ public class Plugin extends Aware_Plugin {
 
 
 
+
         if (PERMISSIONS_OK) {
 
             Log.d(TAG, "Plugin started.");
             DEBUG = Aware.getSetting(this, Aware_Preferences.DEBUG_FLAG).equals("true");
-
-            //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,         true);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
-            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
-            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
-            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
-            Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
 
             if (!Aware.isStudy(this)) {
                 Log.d(TAG, "Joining study.");

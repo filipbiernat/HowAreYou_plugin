@@ -7,8 +7,10 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.aware.Aware;
+import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -19,6 +21,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     public static final String SETTINGS_QUESTION_EMOJI = "settings_question_emoji";
     public static final String SETTINGS_QUESTION_COLOR = "settings_question_color";
     public static final String SETTINGS_PHOTO_NOTIFICATION = "settings_photo_notification";
+    public static final String SETTINGS_DEBUG_MODE = "settings_debug_mode";
     //Pro tip: Don't forget to add also to the preferences.xml! Also insert to SETTINGS_ARRAY below!
 
     public static final String[] SETTINGS_ARRAY = new String[]{
@@ -27,6 +30,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             SETTINGS_QUESTION_EMOJI,
             SETTINGS_QUESTION_COLOR,
             SETTINGS_PHOTO_NOTIFICATION
+            //SETTINGS_DEBUG_MODE <- Commented out as not used by reasoning engine
     };
 
     //Plugin settings UI elements
@@ -46,11 +50,12 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     protected void onResume() {
         super.onResume();
-        resumeCheckBoxPreference(SETTINGS_PLUGIN_HOWAREYOU, true);
-        resumeCheckBoxPreference(SETTINGS_PHOTO, true);
-        resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI, true);
-        resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR, true);
+        resumeCheckBoxPreference(SETTINGS_PLUGIN_HOWAREYOU,   true);
+        resumeCheckBoxPreference(SETTINGS_PHOTO,              true);
+        resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI,     true);
+        resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR,     true);
         resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, false);
+        resumeCheckBoxPreference(SETTINGS_DEBUG_MODE,         false);
     }
 
     private void resumeCheckBoxPreference(String preference, boolean defValue) {
@@ -66,7 +71,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         Preference setting = findPreference(key);
 
         if( setting.getKey().equals(SETTINGS_PLUGIN_HOWAREYOU) ) {
-            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, true));
         }
         if (Aware.getSetting(this, SETTINGS_PLUGIN_HOWAREYOU).equals("true")) {
             Aware.startPlugin(getApplicationContext(), "com.aware.plugin.howareyou");
@@ -75,7 +80,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         }
 
         if( setting.getKey().equals(SETTINGS_PHOTO) ) {
-            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, true));
 
             //Launch photo notification if necessary
             Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
@@ -83,11 +88,11 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         }
 
         if( setting.getKey().equals(SETTINGS_QUESTION_EMOJI) ) {
-            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, true));
         }
 
         if( setting.getKey().equals(SETTINGS_QUESTION_COLOR) ) {
-            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, true));
         }
 
         if( setting.getKey().equals(SETTINGS_PHOTO_NOTIFICATION) ) {
@@ -96,6 +101,10 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
             //Launch photo notification if necessary
             Intent serviceIntent = new Intent(this, PhotoNotificationDisplayService.class);
             startService(serviceIntent);
+        }
+
+        if( setting.getKey().equals(SETTINGS_DEBUG_MODE) ) {
+            Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
         }
     }
 

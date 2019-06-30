@@ -37,6 +37,14 @@
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia dewelopera">
+        <CheckBoxPreference
+            android:key="@string/settings_debug_mode"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Uruchom tryb debugowy." />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Plugin HowAreYou: Wymuszanie akcji">
         <Preference
             android:key="@string/settings_force_photo_emotion_recognition"

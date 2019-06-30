@@ -16,6 +16,7 @@
     <string name="settings_question_emoji_key">settings_question_emoji</string>
     <string name="settings_photo_notification_key">settings_photo_notification</string>
     <string name="settings_plugin_howareyou_key">settings_plugin_howareyou</string>
+    <string name="settings_debug_mode">settings_debug_mode</string>
     <string name="photo_notification_text_line1">HowAreYou: Aktywne gromadzenie danych</string>
     <string name="photo_notification_text_line2">z użyciem aparatu Twojego urządzenia</string>
     <string name="photo_notification_text_action">Wyłącz na 10 minut</string>
