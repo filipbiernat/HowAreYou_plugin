@@ -22,7 +22,8 @@ public class LogsUtil {
                 }
                 if (line.contains("System.err: HEART") &&
                         !line.contains("satisfied with certainty (1.0).") &&
-                        !line.contains("Checking condition ")) {
+                        !line.contains("Checking condition ") &&
+                        !line.contains("Checking conditions ")) {
                     if (logBuilder.length() != 0)
                     {
                         int startIndex = line.lastIndexOf("System.err: HEART: ") + 19;

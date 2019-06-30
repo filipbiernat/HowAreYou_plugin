@@ -2,18 +2,21 @@ package com.aware.plugin.howareyou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
+import android.support.annotation.NonNull;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
 import com.aware.plugin.howareyou.plugin.DebugDialog;
 import com.aware.plugin.howareyou.plugin.LogsUtil;
+
+import java.util.Date;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -196,13 +199,41 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     class HowareyouForceActionLogButtonListener implements Preference.OnPreferenceClickListener {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            Intent intent = new Intent(Settings.this, DebugDialog.class);
+            String message = "Latest photo emotion recognition: \n";
+            message += getFromDb(com.aware.plugin.howareyou.Provider.Table_Photo_Data.CONTENT_URI,
+                    com.aware.plugin.howareyou.Provider.Table_Photo_Data.TIMESTAMP);
+
+            message += "\n\nLatest question about emotions: \n";
+            message += getFromDb(com.aware.plugin.howareyou.Provider.Table_Emotion_Data.CONTENT_URI,
+                    com.aware.plugin.howareyou.Provider.Table_Emotion_Data.TIMESTAMP);
+
+            message += "\n\nLatest question about colors: \n";
+            message += getFromDb(com.aware.plugin.howareyou.Provider.Table_Color_Data.CONTENT_URI,
+                    com.aware.plugin.howareyou.Provider.Table_Color_Data.TIMESTAMP);
+
             String logContents = PluginManager.getActivityLog();
-            String message = "Latest HowAreYou actions:\n\n" + (logContents.length()>0 ? logContents : "<No entries>");
+            message += "\n\n---\n\nLatest HowAreYou actions:\n\n" + (logContents.length()>0 ? logContents : "<No entries>");
+
+            Intent intent = new Intent(Settings.this, DebugDialog.class);
             intent.putExtra("MESSAGE_CONTENT", message);
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;
+        }
+
+        @NonNull
+        protected String getFromDb(Uri uri, String column) {
+            String message;
+            Cursor cursor = getContentResolver().query(uri, new String[]{column}, null, null, "timestamp DESC");
+            if (cursor.getCount() == 0) {
+                message = "none";
+            } else {
+                cursor.moveToFirst();
+                long timestamp = cursor.getLong(cursor.getColumnIndex(column));
+                Date date = (new Date(timestamp));
+                message = date.toString();
+            }
+            return message;
         }
     }
 }
