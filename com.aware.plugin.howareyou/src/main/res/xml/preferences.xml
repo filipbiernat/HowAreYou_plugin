@@ -35,6 +35,11 @@
             android:defaultValue="false"
             android:persistent="true"
             android:summary="Pytaj o nastrój z użyciem palety kolorów." />
+        <CheckBoxPreference
+            android:key="@string/settings_sync_wifi_only"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Synchronizuj dane tylko poprzez wifi." />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Plugin HowAreYou: Ustawienia dewelopera">

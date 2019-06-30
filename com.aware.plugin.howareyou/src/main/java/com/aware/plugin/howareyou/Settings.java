@@ -24,6 +24,8 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     public static final String SETTINGS_QUESTION_COLOR = "settings_question_color";
     public static final String SETTINGS_PHOTO_NOTIFICATION = "settings_photo_notification";
     public static final String SETTINGS_DEBUG_MODE = "settings_debug_mode";
+    public static final String SETTINGS_SYNC_WIFI_ONLY = "settings_sync_wifi_only";
+
     //Pro tip: Don't forget to add also to the preferences.xml! Also insert to SETTINGS_ARRAY below!
 
     public static final String[] SETTINGS_ARRAY = new String[]{
@@ -57,6 +59,7 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI,     true);
         resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR,     true);
         resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, false);
+        resumeCheckBoxPreference(SETTINGS_SYNC_WIFI_ONLY    , true);
         resumeCheckBoxPreference(SETTINGS_DEBUG_MODE,         false);
     }
 
@@ -108,6 +111,11 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         if( setting.getKey().equals(SETTINGS_DEBUG_MODE) ) {
             Aware.setSetting(this, key, sharedPreferences.getBoolean(key, false));
         }
+
+        if( setting.getKey().equals(SETTINGS_SYNC_WIFI_ONLY) ) {
+            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,
+                    sharedPreferences.getBoolean(key, true));
+        }
     }
 
     private void registerButtonListeners() {
@@ -150,7 +158,9 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         public boolean onPreferenceClick(Preference preference) {
             StringBuilder stringBuilder = LogsUtil.readReasoningLogs();
             Intent intent = new Intent(Settings.this, DebugDialog.class);
-            intent.putExtra("MESSAGE_CONTENT", "Latest heartdroid reasoning log:\n\n" + stringBuilder.toString());
+            String logContents = stringBuilder.toString();
+            String message = "Latest heartdroid reasoning log:\n\n" + (logContents.length()>0 ? logContents : "<No entries>");
+            intent.putExtra("MESSAGE_CONTENT", message);
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;
@@ -162,7 +172,9 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         public boolean onPreferenceClick(Preference preference) {
             StringBuilder stringBuilder = LogsUtil.readApplicationLogs();
             Intent intent = new Intent(Settings.this, DebugDialog.class);
-            intent.putExtra("MESSAGE_CONTENT", "Latest heartdroid reasoning log:\n\n" + stringBuilder.toString());
+            String logContents = stringBuilder.toString();
+            String message = "Latest application log:\n\n" + (logContents.length()>0 ? logContents : "<No entries>");
+            intent.putExtra("MESSAGE_CONTENT", message);
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;
@@ -173,8 +185,9 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
         @Override
         public boolean onPreferenceClick(Preference preference) {
             Intent intent = new Intent(Settings.this, DebugDialog.class);
-            intent.putExtra("MESSAGE_CONTENT",
-                    "Latest HowAreYou actions:\n\n" + PluginManager.getActivityLog());
+            String logContents = PluginManager.getActivityLog();
+            String message = "Latest HowAreYou actions:\n\n" + (logContents.length()>0 ? logContents : "<No entries>");
+            intent.putExtra("MESSAGE_CONTENT", message);
             intent.putExtra("RUN_ALWAYS", true);
             startActivity(intent);
             return true;

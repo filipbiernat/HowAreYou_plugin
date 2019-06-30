@@ -62,7 +62,7 @@ public class Plugin extends Aware_Plugin {
             Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
             //Aware.setSetting(this, Settings.SETTINGS_DEBUG_MODE,               false);
             Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
-            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
+            //Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
             Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
             Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
 
