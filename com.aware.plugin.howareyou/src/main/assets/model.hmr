@@ -1574,7 +1574,7 @@ xschm 'PhotoPossible': [question_photo_possible,howareyou_settings_photo,howarey
 
 xrule 'PhotoSuccessful'/0:
     [
-        howareyou_double_anger gte 0.5,
+        howareyou_double_anger gte 0.2,
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
@@ -1594,7 +1594,7 @@ xrule 'PhotoSuccessful'/0:
 xrule 'PhotoSuccessful'/1:
     [
         howareyou_double_anger gte 0,
-        howareyou_double_contempt gte 0.5,
+        howareyou_double_contempt gte 0.2,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
@@ -1614,7 +1614,7 @@ xrule 'PhotoSuccessful'/6:
     [
         howareyou_double_anger gte 0,
         howareyou_double_contempt gte 0,
-        howareyou_double_disgust gte 0.5,
+        howareyou_double_disgust gte 0.2,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
@@ -1634,7 +1634,7 @@ xrule 'PhotoSuccessful'/7:
         howareyou_double_anger gte 0,
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
-        howareyou_double_fear gte 0.5,
+        howareyou_double_fear gte 0.2,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
         howareyou_double_surprise gte 0
@@ -1654,7 +1654,7 @@ xrule 'PhotoSuccessful'/8:
         howareyou_double_contempt gte 0,
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
-        howareyou_double_happiness gte 0.5,
+        howareyou_double_happiness gte 0.2,
         howareyou_double_sadness gte 0,
         howareyou_double_surprise gte 0
     ]
@@ -1674,7 +1674,7 @@ xrule 'PhotoSuccessful'/9:
         howareyou_double_disgust gte 0,
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
-        howareyou_double_sadness gte 0.5,
+        howareyou_double_sadness gte 0.2,
         howareyou_double_surprise gte 0
     ]
     ==>
@@ -1694,7 +1694,7 @@ xrule 'PhotoSuccessful'/10:
         howareyou_double_fear gte 0,
         howareyou_double_happiness gte 0,
         howareyou_double_sadness gte 0,
-        howareyou_double_surprise gte 0.5
+        howareyou_double_surprise gte 0.2
     ]
     ==>
     [

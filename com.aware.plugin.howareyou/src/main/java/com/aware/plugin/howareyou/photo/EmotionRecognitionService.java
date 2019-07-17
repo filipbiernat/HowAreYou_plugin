@@ -45,7 +45,7 @@ public class EmotionRecognitionService extends Service {
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int PHOTO_ITERATIONS = 5;
-    private static final int TAKE_PICTURE_DELTA_MS = 1000;
+    private static final int TAKE_PICTURE_DELTA_MS = 5000;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -159,6 +159,7 @@ public class EmotionRecognitionService extends Service {
     }
 
     protected void takePictureSeriesDelayed() {
+        toastDebug("HowAreYou: Taking photo in 5 seconds");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

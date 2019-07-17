@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.SparseArray;
 import android.widget.EditText;
 
@@ -141,8 +142,18 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         intent.putExtra("MESSAGE_CONTENT", message);
         emotionRecognitionService.startActivity(intent);
 
-        emotionRecognitionService.logDebug("Emotion recognition failed.");
-        emotionRecognitionService.stopSelf();
+
+        //emotionRecognitionService.logDebug("Emotion recognition failed.");
+        emotionRecognitionService.logDebug("Emotion recognition failed. Retrying.");
+        //emotionRecognitionService.stopSelf();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                emotionRecognitionService.takePictureSeriesDelayed();
+            }
+        }, 10*1000);
     }
 
     private String getEmotionsString(Emotion emotions)
