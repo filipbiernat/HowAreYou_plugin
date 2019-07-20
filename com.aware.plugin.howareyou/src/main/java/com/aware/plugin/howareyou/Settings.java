@@ -231,8 +231,13 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
                 cursor.moveToFirst();
                 long timestamp = cursor.getLong(cursor.getColumnIndex(column));
                 Date date = (new Date(timestamp));
-                int count = cursor.getCount();
-                message = date.toString() + " (Total: " + count + ")";
+                int totalCount = cursor.getCount();
+
+                long timeOneDayAgo = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+                cursor = getContentResolver().query(uri, new String[]{column}, column + ">=" + timeOneDayAgo, null, "timestamp DESC");
+                int todayCount = cursor.getCount();
+
+                message = date.toString() + " (Total: " + totalCount + ", Today: " + todayCount + ")";
             }
             return message;
         }
