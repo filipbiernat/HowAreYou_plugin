@@ -54,20 +54,23 @@ public class Plugin extends Aware_Plugin {
             //heart-aware: Create and register observers
             observerManager.create(getApplicationContext());
 
-            //Initialize our plugin's settings
-            Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,         true);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
-            Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
-            //TODO hardcode true for basic model
-            //Aware.setSetting(this, Settings.SETTINGS_USE_BASIC_MODEL,          false);
-            Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
-            //Aware.setSetting(this, Settings.SETTINGS_DEBUG_MODE,               false);
-            Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
-            //Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
-            Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
-            Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
+            //Initialize our plugin's settings if first run
+            if (Aware.getSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU).equals("")) {
+                Log.d(TAG, "Configuring AWARE and plugin settings as this is the first run.");
 
+                Aware.setSetting(this, Settings.SETTINGS_PLUGIN_HOWAREYOU,         true);
+                Aware.setSetting(this, Settings.SETTINGS_PHOTO,                    true);
+                Aware.setSetting(this, Settings.SETTINGS_QUESTION_EMOJI,           true);
+                Aware.setSetting(this, Settings.SETTINGS_QUESTION_COLOR,           true);
+                //TODO hardcode true for basic model
+                Aware.setSetting(this, Settings.SETTINGS_USE_BASIC_MODEL,          false);
+                Aware.setSetting(this, Settings.SETTINGS_PHOTO_NOTIFICATION,       false);
+                Aware.setSetting(this, Settings.SETTINGS_DEBUG_MODE,               false);
+                Aware.setSetting(this, Aware_Preferences.FREQUENCY_WEBSERVICE,     60);
+                Aware.setSetting(this, Aware_Preferences.WEBSERVICE_WIFI_ONLY,     true);
+                Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
+                Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
+            }
             //Intent intent = new Intent(this, DebugDialog.class);
             //intent.putExtra("MESSAGE_CONTENT", "Plugin service created.");
             //startActivity(intent);
