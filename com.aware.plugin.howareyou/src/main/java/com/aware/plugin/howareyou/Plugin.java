@@ -68,9 +68,9 @@ public class Plugin extends Aware_Plugin {
             Aware.setSetting(this, Aware_Preferences.WEBSERVICE_SILENT,        true);
             Aware.setSetting(this, Aware_Preferences.FREQUENCY_CLEAN_OLD_DATA, 1 /*weekly*/);
 
-            Intent intent = new Intent(this, DebugDialog.class);
-            intent.putExtra("MESSAGE_CONTENT", "Plugin service created.");
-            startActivity(intent);
+            //Intent intent = new Intent(this, DebugDialog.class);
+            //intent.putExtra("MESSAGE_CONTENT", "Plugin service created.");
+            //startActivity(intent);
         } else {
             Log.d(TAG, "Permissions not granted. Skipping initialization.");
         }

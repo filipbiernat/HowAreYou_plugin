@@ -33,7 +33,7 @@ public class DebugDialog extends Activity {
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                //dialog.dismiss();
                                 finish();
                             }
                         });
@@ -43,6 +43,8 @@ public class DebugDialog extends Activity {
                 if(textView != null) {
                     textView.setTextSize(12);
                 }
+            } else {
+                finish();
             }
         } catch (Exception e) {
             e.printStackTrace();
