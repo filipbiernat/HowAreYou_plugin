@@ -20,6 +20,7 @@ import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -160,6 +161,9 @@ public class EmotionRecognitionService extends Service {
 
     protected void takePictureSeriesDelayed() {
         toastDebug("HowAreYou: Taking photo in 5 seconds");
+        if (Looper.myLooper() == null){
+            Looper.prepare();
+        }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -201,6 +205,9 @@ public class EmotionRecognitionService extends Service {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
             }
+            final int MAX_IMG_DIMENSION = 1200;
+            if (width>MAX_IMG_DIMENSION)  width =  MAX_IMG_DIMENSION;
+            if (height>MAX_IMG_DIMENSION) height = MAX_IMG_DIMENSION;
 
             if (imageReader != null) {
                 imageReader.close();

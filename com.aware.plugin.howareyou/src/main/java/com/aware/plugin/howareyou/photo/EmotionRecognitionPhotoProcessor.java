@@ -9,6 +9,8 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.EditText;
 
@@ -105,7 +107,6 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
         for (int i = 0; i < 4; ++i) {
             bitmap = rotateImage(bitmap, 90 * i);
             Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-
             SparseArray<Face> faces = faceDetector.detect(frame);
             if (faces.size() == 1){
                 return bitmap;
@@ -144,16 +145,28 @@ class EmotionRecognitionPhotoProcessor implements ImageReader.OnImageAvailableLi
 
 
         //emotionRecognitionService.logDebug("Emotion recognition failed.");
+        emotionRecognitionService.logDebug(message);
         emotionRecognitionService.logDebug("Emotion recognition failed. Retrying.");
         //emotionRecognitionService.stopSelf();
 
+        if (Looper.myLooper() == null){
+            Looper.prepare();
+        }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 emotionRecognitionService.takePictureSeriesDelayed();
             }
-        }, 10*1000);
+        }, 15*1000);
+/*
+        try {
+            Thread.sleep(15000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            emotionRecognitionService.takePictureSeriesDelayed();
+        }*/
     }
 
     private String getEmotionsString(Emotion emotions)

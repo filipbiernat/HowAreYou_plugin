@@ -15,6 +15,7 @@ import com.aware.plugin.howareyou.R;
 import com.aware.plugin.howareyou.Settings;
 
 public class DebugDialog extends Activity {
+    private AlertDialog alertDialog = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class DebugDialog extends Activity {
                 String message = intent.getStringExtra("MESSAGE_CONTENT");
 
 
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("HowAreYou Debug");
                 alertDialog.setIcon(R.drawable.ic_launcher);
                 alertDialog.setMessage(message);
@@ -48,6 +49,15 @@ public class DebugDialog extends Activity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (alertDialog != null){
+            alertDialog.dismiss();
         }
     }
 }
