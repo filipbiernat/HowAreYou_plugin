@@ -10,6 +10,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
 import com.aware.plugin.howareyou.photo.PhotoNotificationDisplayService;
@@ -64,18 +66,18 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     protected void onResume() {
         super.onResume();
-        resumeCheckBoxPreference(SETTINGS_PLUGIN_HOWAREYOU,   true);
-        resumeCheckBoxPreference(SETTINGS_PHOTO,              true);
-        resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI,     true);
-        resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR,     true);
-        resumeCheckBoxPreference(SETTINGS_USE_BASIC_MODEL,    true);
-        resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, false);
-        resumeCheckBoxPreference(SETTINGS_SYNC_WIFI_ONLY    , true);
-        resumeCheckBoxPreference(SETTINGS_DEBUG_MODE,         false);
+        resumeCheckBoxPreference(SETTINGS_PLUGIN_HOWAREYOU,   SETTINGS_PLUGIN_HOWAREYOU,              true);
+        resumeCheckBoxPreference(SETTINGS_PHOTO,              SETTINGS_PHOTO,                         true);
+        resumeCheckBoxPreference(SETTINGS_QUESTION_EMOJI,     SETTINGS_QUESTION_EMOJI,                true);
+        resumeCheckBoxPreference(SETTINGS_QUESTION_COLOR,     SETTINGS_QUESTION_COLOR,                true);
+        resumeCheckBoxPreference(SETTINGS_USE_BASIC_MODEL,    SETTINGS_USE_BASIC_MODEL,               true);
+        resumeCheckBoxPreference(SETTINGS_PHOTO_NOTIFICATION, SETTINGS_PHOTO_NOTIFICATION,            false);
+        resumeCheckBoxPreference(SETTINGS_SYNC_WIFI_ONLY,     Aware_Preferences.WEBSERVICE_WIFI_ONLY, true);
+        resumeCheckBoxPreference(SETTINGS_DEBUG_MODE,         SETTINGS_DEBUG_MODE,                    false);
     }
 
-    private void resumeCheckBoxPreference(String preference, boolean defValue) {
-        status = (CheckBoxPreference) findPreference(preference);
+    private void resumeCheckBoxPreference(String checkBoxPreference, String preference, boolean defValue) {
+        status = (CheckBoxPreference) findPreference(checkBoxPreference);
         if( Aware.getSetting(this, preference).length() == 0 ) {
             Aware.setSetting( this, preference, defValue );
         }
